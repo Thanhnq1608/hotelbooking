@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hotelbooking/views/room_detail/room_overview_view.dart';
+import 'package:hotelbooking/app/room_detail/room_overview_view.dart';
 // import 'package:get/get.dart';
 import 'room_amenties_view.dart';
 

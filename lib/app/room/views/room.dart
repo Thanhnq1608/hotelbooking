@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:hotelbooking/app/room/components/bottom.room.dart';
-import 'package:hotelbooking/app/room/components/images.room.dart';
-import 'package:hotelbooking/app/room/components/main.room.dart';
+import 'package:hotelbooking/app/room/views/bottom.room.dart';
+import 'package:hotelbooking/app/room/views/images.room.dart';
+import 'package:hotelbooking/app/room/views/main.room.dart';
 
 class Room extends StatefulWidget {
   @override

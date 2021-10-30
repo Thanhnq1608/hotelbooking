@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hotelbooking/app/room/components/controller/room_booking_controller.dart';
 
-class BottomRoom extends StatelessWidget {
+class BottomRoom extends GetView<RoomBookingController> {
   const BottomRoom({Key key}) : super(key: key);
 
   @override
@@ -23,17 +25,18 @@ class BottomRoom extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 16),
-            child: Text(
-              '400.000 đ',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  height: 1.2),
-              textAlign: TextAlign.center,
-            ),
-          ),
+              margin: EdgeInsets.only(top: 16),
+              child: Obx(
+                () => Text(
+                  '${400000 * controller.quantilyRoom.value} đ',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      height: 1.2),
+                  textAlign: TextAlign.center,
+                ),
+              )),
           Container(
             margin: EdgeInsets.only(
                 left: MediaQuery.of(context).size.width * 0.1,

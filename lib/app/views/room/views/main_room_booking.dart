@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hotelbooking/app/room/components/controller/room_booking_controller.dart';
+import '../room_booking_controller.dart';
 
 class MainRoom extends GetView<RoomBookingController> {
   Widget _bookingOption(BuildContext context) {

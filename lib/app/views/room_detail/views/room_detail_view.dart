@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hotelbooking/app/room/views/room.dart';
-import 'package:hotelbooking/app/room_detail/components/comtroller/room_detail_controller.dart';
-import 'package:hotelbooking/app/room_detail/views/room_overview_view.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/app/views/room_detail/views/room_overview_view.dart';
+import '../room_detail_controller.dart';
 import 'room_amenties_view.dart';
 
 class RoomDetailView extends GetView<RoomDetailController> {

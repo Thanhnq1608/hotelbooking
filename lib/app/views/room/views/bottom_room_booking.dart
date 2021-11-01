@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hotelbooking/app/room/components/controller/room_booking_controller.dart';
+import '../room_booking_controller.dart';
 
 class BottomRoom extends GetView<RoomBookingController> {
   const BottomRoom({Key key}) : super(key: key);

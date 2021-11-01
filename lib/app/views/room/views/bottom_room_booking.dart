@@ -49,7 +49,9 @@ class BottomRoom extends GetView<RoomBookingController> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  controller.checkTimeBookRoom();
+                },
                 child: Text(
                   'Book Now',
                   style: TextStyle(color: Colors.white),

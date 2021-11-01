@@ -114,8 +114,9 @@ class MainRoom extends GetView<RoomBookingController> {
             () => FlatButton(
               onPressed: () {
                 controller.isActiveHour.value == true
-                    ? controller.selectTimeStartPicker(context)
-                    : controller.selectDateStartPicker(context);
+                    ? controller.selectTimePicker(context, 1)
+                    : controller.selectDatePicker(context, 1);
+                print('${controller.timeStart.value}');
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -156,8 +157,8 @@ class MainRoom extends GetView<RoomBookingController> {
             () => FlatButton(
               onPressed: () {
                 controller.isActiveHour.value == true
-                    ? controller.selectTimeEndPicker(context)
-                    : controller.selectDateEndPicker(context);
+                    ? controller.selectTimePicker(context, 0)
+                    : controller.selectDatePicker(context, 0);
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

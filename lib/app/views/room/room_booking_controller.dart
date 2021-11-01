@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RoomBookingController extends GetxController {
+class RoomBookingController extends GetxController
+    with SingleGetTickerProviderMixin {
   Rx<bool> isActiveHour = false.obs;
   Rx<bool> isActiveOvernight = false.obs;
   Rx<bool> isActiveDaily = false.obs;
@@ -11,47 +14,52 @@ class RoomBookingController extends GetxController {
   Rx<TimeOfDay> timeStart = TimeOfDay.now().obs;
   Rx<TimeOfDay> timeEnd = TimeOfDay.now().obs;
 
-  Future<Null> selectDateStartPicker(BuildContext context) async {
-    final DateTime pickedStart = await showDatePicker(
+  TabController tabController;
+  Rx<int> selectedIndex = 0.obs;
+
+  Future<Null> selectDatePicker(BuildContext context, int status) async {
+    final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: dateStart.value,
+      initialDate: DateTime.now(),
       firstDate: DateTime(2021),
       lastDate: DateTime(2050),
     );
-    if (pickedStart != null && pickedStart != dateStart.value) {
-      dateStart.value = pickedStart;
+    if (picked != null && picked.isAfter(DateTime.now())) {
+      if (status == 1) {
+        dateStart.value = picked;
+      } else {
+        dateEnd.value = picked;
+      }
     }
   }
 
-  Future<Null> selectDateEndPicker(BuildContext context) async {
-    final DateTime pickedEnd = await showDatePicker(
-      context: context,
-      initialDate: dateStart.value,
-      firstDate: DateTime(2021),
-      lastDate: DateTime(2050),
-    );
-    if (pickedEnd != null && pickedEnd != dateStart.value) {
-      dateEnd.value = pickedEnd;
-    }
-  }
-
-  Future<TimeOfDay> selectTimeStartPicker(BuildContext context) async {
-    final TimeOfDay pickeStart = await showTimePicker(
+  Future<TimeOfDay> selectTimePicker(BuildContext context, int status) async {
+    final TimeOfDay picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (pickeStart != null && pickeStart != dateStart.value) {
-      timeStart.value = pickeStart;
+    if (picked != null && picked != TimeOfDay.now()) {
+      if (status == 1) {
+        timeStart.value = picked;
+      } else {
+        timeEnd.value = picked;
+      }
     }
   }
 
-  Future<TimeOfDay> selectTimeEndPicker(BuildContext context) async {
-    final TimeOfDay pickeEnd = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-    if (pickeEnd != null && pickeEnd != dateStart.value) {
-      timeEnd.value = pickeEnd;
+  void checkTimeBookRoom() {
+    if (dateEnd.value.isAfter(dateStart.value)) {
+      Get.snackbar("", 'You have successfully booked your room',
+          snackPosition: SnackPosition.BOTTOM);
+    } else {
+      Get.snackbar("", 'The date you choose must be after the current date',
+          snackPosition: SnackPosition.BOTTOM);
     }
+  }
+
+  @override
+  void onInit() {
+    tabController = TabController(length: 2, vsync: this);
+    super.onInit();
   }
 }

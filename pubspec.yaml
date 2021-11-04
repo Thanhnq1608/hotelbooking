@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  get: ^4.1.4
   flutter:
     sdk: flutter
 
@@ -30,7 +31,6 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
-  get: ^4.1.4
   flutter_test:
     sdk: flutter
 

@@ -47,13 +47,19 @@ class RoomBookingController extends GetxController
     }
   }
 
-  void checkTimeBookRoom() {
+  bool checkTimeBookRoom() {
     if (dateEnd.value.isAfter(dateStart.value)) {
       Get.snackbar("", 'You have successfully booked your room',
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.pink,
+          colorText: Colors.white);
+      return true;
     } else {
       Get.snackbar("", 'The date you choose must be after the current date',
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.pink,
+          colorText: Colors.white);
+      return false;
     }
   }
 

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
 import '../room_booking_controller.dart';
 
 class BottomRoom extends GetView<RoomBookingController> {
-  const BottomRoom({Key key}) : super(key: key);
+  BottomRoom({this.priceRoom});
+  final int priceRoom;
 
   @override
   Widget build(BuildContext context) {
+    // caculatorPayment();
     return new Container(
       height: 100,
       decoration: BoxDecoration(
@@ -28,7 +31,7 @@ class BottomRoom extends GetView<RoomBookingController> {
               margin: EdgeInsets.only(top: 16),
               child: Obx(
                 () => Text(
-                  '${400000 * controller.quantilyRoom.value} đ',
+                  '${priceRoom * controller.quantilyRoom.value} đ',
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
@@ -50,7 +53,13 @@ class BottomRoom extends GetView<RoomBookingController> {
             ),
             child: TextButton(
                 onPressed: () {
-                  controller.checkTimeBookRoom();
+                  if (controller.checkTimeBookRoom() == true) {
+                    postOderRoom(
+                        totalRoomRate: controller.quantilyRoom.value,
+                        totalPayment:
+                            priceRoom * controller.quantilyRoom.value);
+                  } else {}
+                  // controller.checkTimeBookRoom();
                 },
                 child: Text(
                   'Book Now',

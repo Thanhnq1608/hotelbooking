@@ -6,6 +6,12 @@ class RoomDetailController extends GetxController {
   var colorOfButtonFavorite = 'assets/icon/icon_heart_border.png'.obs;
 
   void onClickOnFavoriteButton() {
-    colorOfButtonFavorite.value = 'assets/icon/icon_heart_full.png';
+    if (isCheckFavorite.isTrue) {
+      isCheckFavorite = false.obs;
+      colorOfButtonFavorite.value = 'assets/icon/icon_heart_border.png';
+    } else {
+      isCheckFavorite = true.obs;
+      colorOfButtonFavorite.value = 'assets/icon/icon_heart_full.png';
+    }
   }
 }

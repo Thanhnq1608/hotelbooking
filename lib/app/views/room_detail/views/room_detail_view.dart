@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/app/views/room/room_booking_binding.dart';
+import 'package:hotelbooking/app/views/room/views/room_booking.dart';
+import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
+import 'package:hotelbooking/app/views/room_detail/service/room.service.dart';
 import 'package:hotelbooking/app/views/room_detail/views/room_overview_view.dart';
 import '../controller/room_detail_controller.dart';
 import 'room_amenties_view.dart';
@@ -76,15 +80,33 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                 ScrollController scrollController) {
                               return SingleChildScrollView(
                                 controller: scrollController,
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      RoomTitle(),
-                                      RoomAmentiesView(),
-                                      RoomOverview(),
-                                    ]),
+                                child: FutureBuilder<RoomDetailModel>(
+                                    future: getRoomDetail(
+                                        '6180fadef9818e13db87fd4f'),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError)
+                                        print(snapshot.error);
+                                      return snapshot.hasData
+                                          ? Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                  RoomTitle(
+                                                    roomName:
+                                                        snapshot.data.roomName,
+                                                    priceRoom:
+                                                        snapshot.data.roomPrice,
+                                                  ),
+                                                  RoomAmentiesView(),
+                                                  RoomOverview(),
+                                                ])
+                                          : Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                    }),
                               );
                             }),
                       ),
@@ -107,20 +129,32 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                       offset: Offset(0, 2),
                                       color: Color(0xFFC8CBCC))
                                 ]),
-                            child: InkWell(
-                              highlightColor: Color(0xFFFF6666),
-                              child: Center(
-                                child: Text(
-                                  'Book Now',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                Get.toNamed('/room_detail/room_booking');
-                              },
-                            )),
+                            child: FutureBuilder<RoomDetailModel>(
+                                future:
+                                    getRoomDetail('6180fadef9818e13db87fd4f'),
+                                builder: (context, snapshot) {
+                                  return snapshot.hasData
+                                      ? InkWell(
+                                          highlightColor: Color(0xFFFF6666),
+                                          child: Center(
+                                            child: Text(
+                                              'Book Now',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            Get.to(
+                                                Room(
+                                                  priceRoom:
+                                                      snapshot.data.roomPrice,
+                                                ),
+                                                binding: RoomBookingBinding());
+                                          },
+                                        )
+                                      : Container();
+                                })),
                       ),
                     )
                   ],
@@ -131,6 +165,11 @@ class RoomDetailView extends GetView<RoomDetailController> {
 }
 
 class RoomTitle extends StatelessWidget {
+  final String roomName;
+  final int priceRoom;
+
+  const RoomTitle({Key key, this.roomName, this.priceRoom}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -141,13 +180,15 @@ class RoomTitle extends StatelessWidget {
           height: 10,
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   margin: EdgeInsets.only(left: 24, bottom: 10),
                   child: Text(
-                    'Vintage Room',
+                    '$roomName',
                     style: TextStyle(
                       fontSize: 25,
                       color: Colors.black,
@@ -158,6 +199,7 @@ class RoomTitle extends StatelessWidget {
                 Row(
                   children: [
                     Container(
+                      margin: EdgeInsets.only(left: 25),
                       child: Text(
                         'Kind of room:',
                         style: TextStyle(
@@ -181,8 +223,7 @@ class RoomTitle extends StatelessWidget {
               ],
             ),
             Container(
-              margin: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.35),
+              margin: EdgeInsets.only(right: 20),
               width: 50,
               height: 50,
               child: RawMaterialButton(
@@ -206,7 +247,7 @@ class RoomTitle extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 24),
               child: Text(
-                '600.000',
+                '$priceRoom',
                 style: TextStyle(
                     color: Color(0xFFFF6666),
                     fontSize: 25,

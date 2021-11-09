@@ -196,26 +196,23 @@ class MainRoom extends GetView<RoomBookingController> {
         ),
         Container(
           margin: EdgeInsets.only(left: 64, right: 64),
-          width: double.infinity,
           height: 30,
           decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
                     color: Colors.black45,
-                    blurRadius: 2,
-                    spreadRadius: 4,
-                    offset: Offset(0, 2))
+                    blurRadius: 4,
+                    spreadRadius: 2,
+                    offset: Offset(0, 1))
               ],
-              border: Border.all(color: Colors.black, width: 1),
+              border: Border.all(color: Colors.white, width: 1),
               borderRadius: BorderRadius.circular(10)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 30,
-                height: 30,
                 decoration: BoxDecoration(
                     border: Border(
                         right: BorderSide(
@@ -247,7 +244,6 @@ class MainRoom extends GetView<RoomBookingController> {
                   width: 1.0,
                   style: BorderStyle.solid,
                 ))),
-                width: 30,
                 child: IconButton(
                   icon: Icon(
                     Icons.add,

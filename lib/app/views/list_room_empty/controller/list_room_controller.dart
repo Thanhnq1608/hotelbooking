@@ -7,18 +7,21 @@ class ListRoomController extends GetxController {
   var isSortByPrice = false.obs;
   var isSortByKindOfRoom = false.obs;
   var isSortByNumber = false.obs;
-  var linkImageRoom =
-      'https://i.pinimg.com/564x/5d/41/96/5d41966cb07811e82dc8803b945dee23.jpg'
-          .obs;
+
+  Rx<NetworkImage> imageRoom = NetworkImage(
+          'https://i.pinimg.com/564x/5d/41/96/5d41966cb07811e82dc8803b945dee23.jpg')
+      .obs;
 
   void onClicktoSort() {
     if (isSortByPrice.value) {
       isSortByKindOfRoom.value = false;
       isSortByNumber.value = false;
-    } else if (isSortByKindOfRoom.value) {
+    }
+    if (isSortByKindOfRoom.value) {
       isSortByPrice.value = false;
       isSortByNumber.value = false;
-    } else if (isSortByNumber.value) {
+    }
+    if (isSortByNumber.value) {
       isSortByPrice.value = false;
       isSortByKindOfRoom.value = false;
     }

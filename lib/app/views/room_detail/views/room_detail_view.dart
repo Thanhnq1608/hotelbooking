@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hotelbooking/app/views/room/room_booking_binding.dart';
+import 'package:hotelbooking/app/views/room/bindings/room_booking_binding.dart';
 import 'package:hotelbooking/app/views/room/views/room_booking.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.service.dart';
@@ -82,7 +82,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                 controller: scrollController,
                                 child: FutureBuilder<RoomDetailModel>(
                                     future: getRoomDetail(
-                                        '6180fadef9818e13db87fd4f'),
+                                        '61861edfbf78137a03fc4070'),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasError)
                                         print(snapshot.error);
@@ -131,7 +131,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                 ]),
                             child: FutureBuilder<RoomDetailModel>(
                                 future:
-                                    getRoomDetail('6180fadef9818e13db87fd4f'),
+                                    getRoomDetail('61861edfbf78137a03fc4070'),
                                 builder: (context, snapshot) {
                                   return snapshot.hasData
                                       ? InkWell(

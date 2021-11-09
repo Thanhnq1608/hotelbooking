@@ -22,6 +22,7 @@ class BottomNavigationController extends GetxController {
   }
 
   void onClickProfile() {
+    Get.toNamed('/profile');
     if (isCheckFocusProfile.value == false) {
       isCheckFocusProfile.value = true;
       isCheckFocusBook.value = false;
@@ -29,6 +30,7 @@ class BottomNavigationController extends GetxController {
   }
 
   void onClickBook() {
+    Get.toNamed('/list_room');
     if (isCheckFocusBook.value == false) {
       isCheckFocusProfile.value = false;
       isCheckFocusBook.value = true;

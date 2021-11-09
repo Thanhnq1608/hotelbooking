@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:http/http.dart' as http;
 

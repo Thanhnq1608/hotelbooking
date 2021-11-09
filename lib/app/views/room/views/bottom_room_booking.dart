@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-<<<<<<< HEAD
-import '../controller/room_booking_controller.dart';
-=======
 import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
-import '../room_booking_controller.dart';
->>>>>>> tien
+import '../controller/room_booking_controller.dart';
 
 class BottomRoom extends GetView<RoomBookingController> {
   BottomRoom({this.priceRoom});

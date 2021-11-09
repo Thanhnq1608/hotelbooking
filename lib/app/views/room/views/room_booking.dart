@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
-import 'package:hotelbooking/app/views/room/room_booking_binding.dart';
 import 'bottom_room_booking.dart';
 import 'images_room_booking.dart';
 import 'main_room_booking.dart';

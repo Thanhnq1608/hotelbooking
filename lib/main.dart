@@ -16,7 +16,7 @@ void main() {
     theme: ThemeData(
         backgroundColor: Color(0xFFF8F0F0), primaryColor: Color(0xFFFF6666)),
     debugShowCheckedModeBanner: false,
-    initialRoute: '/list_room',
+    initialRoute: '/profile',
     getPages: [
       GetPage(
           name: '/room_detail',

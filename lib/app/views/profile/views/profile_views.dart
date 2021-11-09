@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/app/views/profile/views/change_language.dart';
 import 'package:hotelbooking/components/bottom_navigation/views/bottom_navigation_view.dart';
 
 import '../controller/profile_controller.dart';
@@ -237,47 +238,50 @@ class ProfileView extends GetView<ProfileController> {
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.05,
                 margin: EdgeInsets.only(top: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.height * 0.025,
-                      height: MediaQuery.of(context).size.height * 0.025,
-                      child: Icon(
-                        Icons.language,
-                        color: Color(0xFF161722),
+                child: InkWell(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.height * 0.025,
+                        height: MediaQuery.of(context).size.height * 0.025,
+                        child: Icon(
+                          Icons.language,
+                          color: Color(0xFF161722),
+                        ),
                       ),
-                    ),
-                    Container(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Language',
+                      Container(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Language',
+                            style: TextStyle(
+                                color: Color(0xFF161722), fontSize: 19),
+                          ),
+                        ),
+                      ),
+                      Obx(
+                        () => Text(
+                          controller.changeLanguage().value,
                           style:
                               TextStyle(color: Color(0xFF161722), fontSize: 19),
                         ),
                       ),
-                    ),
-                    Obx(
-                      () => Text(
-                        controller.language.value,
-                        style:
-                            TextStyle(color: Color(0xFF161722), fontSize: 19),
+                      Container(
+                        width: MediaQuery.of(context).size.height * 0.025,
+                        height: MediaQuery.of(context).size.height * 0.025,
+                        child: Icon(
+                          Icons.keyboard_arrow_right_rounded,
+                          color: Color(0xFF161722),
+                        ),
                       ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.height * 0.025,
-                      height: MediaQuery.of(context).size.height * 0.025,
-                      child: Icon(
-                        Icons.keyboard_arrow_right_rounded,
-                        color: Color(0xFF161722),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  onTap: () => Get.bottomSheet(ChangeLangage()),
                 ),
               ),
               Container(

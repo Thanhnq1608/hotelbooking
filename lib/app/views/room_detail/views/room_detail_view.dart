@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -224,47 +225,61 @@ class RoomTitle extends StatelessWidget {
                 )
               ],
             ),
-            Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(right: 20),
-                  width: 50,
-                  height: 50,
-                  child: RawMaterialButton(
-                      shape: CircleBorder(),
-                      elevation: 5.0,
-                      fillColor: Color(0xFFFF6666),
-                      child: Icon(
-                        Icons.phone,
-                        color: Colors.white,
-                      ),
-                      onPressed: () async {
-                        String link = "tel:0981725836";
-                        if (link != null &&
-                            await canLaunch(link.replaceAll(' ', ''))) {
-                          launch('$link');
-                        }
-                      }),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 20, top: 20),
-                  width: 50,
-                  height: 50,
-                  child: RawMaterialButton(
-                      shape: CircleBorder(),
-                      elevation: 5.0,
-                      fillColor: Color(0xFFFF6666),
-                      child: Image.asset('assets/images/messenger.png'),
-                      onPressed: () async {
-                        String link = "http://m.me/fpt.poly";
-                        if (link != null &&
-                            await canLaunch(link.replaceAll(' ', ''))) {
-                          launch('$link');
-                        }
-                      }),
-                ),
-              ],
-            )
+            FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection('configs')
+                    .doc('contacts')
+                    .get(),
+                builder: (context, snapshot) {
+                  Map<String, dynamic> data =
+                      snapshot.data.data() as Map<String, dynamic>;
+                  return snapshot.connectionState == ConnectionState.done
+                      ? Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 20),
+                              width: 50,
+                              height: 50,
+                              child: RawMaterialButton(
+                                  shape: CircleBorder(),
+                                  elevation: 5.0,
+                                  fillColor: Color(0xFFFF6666),
+                                  child: Icon(
+                                    Icons.phone,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () async {
+                                    String link = "tel:${data['hotLine']}";
+                                    if (link != null &&
+                                        await canLaunch(
+                                            link.replaceAll(' ', ''))) {
+                                      launch('$link');
+                                    }
+                                  }),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(right: 20, top: 20),
+                              width: 50,
+                              height: 50,
+                              child: RawMaterialButton(
+                                  shape: CircleBorder(),
+                                  elevation: 5.0,
+                                  fillColor: Color(0xFFFF6666),
+                                  child: Image.asset(
+                                      'assets/images/messenger.png'),
+                                  onPressed: () async {
+                                    String link = "${data['linkMessenger']}";
+                                    if (link != null &&
+                                        await canLaunch(
+                                            link.replaceAll(' ', ''))) {
+                                      launch('$link');
+                                    }
+                                  }),
+                            ),
+                          ],
+                        )
+                      : Container();
+                })
           ],
         ),
         Container(

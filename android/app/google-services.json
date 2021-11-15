@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "19211460116",
+    "project_id": "hotelbooking-7b3fc",
+    "storage_bucket": "hotelbooking-7b3fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19211460116:android:8092ccadac474d2a701101",
+        "android_client_info": {
+          "package_name": "com.fpoly.hotelbooking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19211460116-oj7gofd79am052elib2jf4mntd6sfova.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRr7g2FGHjRuaz2zW7HlygEtZowdNtiLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19211460116-oj7gofd79am052elib2jf4mntd6sfova.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

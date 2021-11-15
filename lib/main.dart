@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/views/list_room_empty/bindings/list_room_bindings.dart';
@@ -11,7 +12,9 @@ import 'app/views/room_detail/bindings/room_detail_binding.dart';
 import 'app/views/room_detail/views/room_detail_view.dart';
 import 'components/bottom_navigation/bottom_navigation_binding.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(GetMaterialApp(
     theme: ThemeData(
         backgroundColor: Color(0xFFF8F0F0), primaryColor: Color(0xFFFF6666)),

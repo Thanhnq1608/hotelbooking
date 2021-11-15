@@ -231,54 +231,60 @@ class RoomTitle extends StatelessWidget {
                     .doc('contacts')
                     .get(),
                 builder: (context, snapshot) {
-                  Map<String, dynamic> data =
-                      snapshot.data.data() as Map<String, dynamic>;
-                  return snapshot.connectionState == ConnectionState.done
-                      ? Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 20),
-                              width: 50,
-                              height: 50,
-                              child: RawMaterialButton(
-                                  shape: CircleBorder(),
-                                  elevation: 5.0,
-                                  fillColor: Color(0xFFFF6666),
-                                  child: Icon(
-                                    Icons.phone,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () async {
-                                    String link = "tel:${data['hotLine']}";
-                                    if (link != null &&
-                                        await canLaunch(
-                                            link.replaceAll(' ', ''))) {
-                                      launch('$link');
-                                    }
-                                  }),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: 20, top: 20),
-                              width: 50,
-                              height: 50,
-                              child: RawMaterialButton(
-                                  shape: CircleBorder(),
-                                  elevation: 5.0,
-                                  fillColor: Color(0xFFFF6666),
-                                  child: Image.asset(
-                                      'assets/images/messenger.png'),
-                                  onPressed: () async {
-                                    String link = "${data['linkMessenger']}";
-                                    if (link != null &&
-                                        await canLaunch(
-                                            link.replaceAll(' ', ''))) {
-                                      launch('$link');
-                                    }
-                                  }),
-                            ),
-                          ],
-                        )
-                      : Container();
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    Map<String, dynamic> data =
+                        snapshot.data.data() as Map<String, dynamic>;
+                    return Column(
+                      children: [
+                        data['hotLine'] == null || data['hotLIne'] == ''
+                            ? Container()
+                            : Container(
+                                margin: EdgeInsets.only(right: 20),
+                                width: 50,
+                                height: 50,
+                                child: RawMaterialButton(
+                                    shape: CircleBorder(),
+                                    elevation: 5.0,
+                                    fillColor: Color(0xFFFF6666),
+                                    child: Icon(
+                                      Icons.phone,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () async {
+                                      String link = "tel:${data['hotLine']}";
+                                      if (link != null &&
+                                          await canLaunch(
+                                              link.replaceAll(' ', ''))) {
+                                        launch('$link');
+                                      }
+                                    }),
+                              ),
+                        data['linkMessenger'] == null ||
+                                data['linkMessenger'] == ''
+                            ? Container()
+                            : Container(
+                                margin: EdgeInsets.only(right: 20, top: 20),
+                                width: 50,
+                                height: 50,
+                                child: RawMaterialButton(
+                                    shape: CircleBorder(),
+                                    elevation: 5.0,
+                                    fillColor: Color(0xFFFF6666),
+                                    child: Image.asset(
+                                        'assets/images/messenger.png'),
+                                    onPressed: () async {
+                                      String link = "${data['linkMessenger']}";
+                                      if (link != null &&
+                                          await canLaunch(
+                                              link.replaceAll(' ', ''))) {
+                                        launch('$link');
+                                      }
+                                    }),
+                              ),
+                      ],
+                    );
+                  }
+                  return Container();
                 })
           ],
         ),

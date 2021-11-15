@@ -6,6 +6,7 @@ import 'package:hotelbooking/components/bottom_navigation/views/bottom_navigatio
 
 class ListRoomView extends GetView<ListRoomController> {
   var _textEditingController = TextEditingController();
+
   Widget _appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).primaryColor,
@@ -112,10 +113,9 @@ class ListRoomView extends GetView<ListRoomController> {
         children: [
           Expanded(
             child: Container(
-              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(top: 10),
               alignment: Alignment.topCenter,
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 children: [
                   Row(
@@ -159,7 +159,7 @@ class ListRoomView extends GetView<ListRoomController> {
                       ),
                       Padding(padding: EdgeInsets.all(5)),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.1,
+                        width: 40,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Colors.white,
@@ -179,28 +179,29 @@ class ListRoomView extends GetView<ListRoomController> {
                     ],
                   ),
                   Expanded(
-                      flex: 1,
                       child: ListView.builder(
                           itemCount: 4,
                           itemBuilder: (context, index) {
                             return Container(
+                              height: 300,
                               padding: EdgeInsets.zero,
-                              margin: EdgeInsets.only(top: 20),
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              height: MediaQuery.of(context).size.height * 0.4,
+                              margin: EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
-                                  border: Border.all(
-                                      width: 1.0,
-                                      color: Colors.black54,
-                                      style: BorderStyle.solid)),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black45,
+                                      blurRadius: 5,
+                                      offset: Offset(2, 2),
+                                      spreadRadius: 2)
+                                ],
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
                               child: InkWell(
                                 child: Column(
                                   children: [
                                     Expanded(
-                                      flex: 1,
                                       child: Container(
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
@@ -213,11 +214,9 @@ class ListRoomView extends GetView<ListRoomController> {
                                       ),
                                     ),
                                     Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.1,
+                                      height: 100,
                                       padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
+                                          EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                                       child: Row(
                                         children: [
                                           Column(

@@ -16,10 +16,11 @@ Future<OrderRoomBooked> postOderRoom({
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, dynamic>{
-      "fullName": "Nguyen viet tien0000",
+      "fullName": "Nguyenviettien",
       "phone": 0123456789,
       "totalRoomRate": totalRoomRate,
-      'totalPayment': totalPayment,
+      // 'totalPayment': totalPayment,
+      "timeBooking": "30"
     }),
   );
 

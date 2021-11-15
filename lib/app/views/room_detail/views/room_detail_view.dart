@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,10 +7,14 @@ import 'package:hotelbooking/app/views/room/views/room_booking.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.service.dart';
 import 'package:hotelbooking/app/views/room_detail/views/room_overview_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../controller/room_detail_controller.dart';
 import 'room_amenties_view.dart';
 
 class RoomDetailView extends GetView<RoomDetailController> {
+  final String idRoom;
+  final String nameRoom;
+  RoomDetailView({this.idRoom, this.nameRoom});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +26,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
             ),
             onPressed: null,
           ),
-          title: const Text("RoomDetail"),
+          title: Text("Phòng ${nameRoom}"),
         ),
         body: Stack(children: [
           Align(
@@ -81,8 +86,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
                               return SingleChildScrollView(
                                 controller: scrollController,
                                 child: FutureBuilder<RoomDetailModel>(
-                                    future: getRoomDetail(
-                                        '61861edfbf78137a03fc4070'),
+                                    future: getRoomDetail(idRoom),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasError)
                                         print(snapshot.error);
@@ -130,8 +134,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                       color: Color(0xFFC8CBCC))
                                 ]),
                             child: FutureBuilder<RoomDetailModel>(
-                                future:
-                                    getRoomDetail('61861edfbf78137a03fc4070'),
+                                future: getRoomDetail(idRoom),
                                 builder: (context, snapshot) {
                                   return snapshot.hasData
                                       ? InkWell(
@@ -222,20 +225,67 @@ class RoomTitle extends StatelessWidget {
                 )
               ],
             ),
-            Container(
-              margin: EdgeInsets.only(right: 20),
-              width: 50,
-              height: 50,
-              child: RawMaterialButton(
-                  shape: CircleBorder(),
-                  elevation: 5.0,
-                  fillColor: Color(0xFFFF6666),
-                  child: Icon(
-                    Icons.phone,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {}),
-            )
+            FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection('configs')
+                    .doc('contacts')
+                    .get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    Map<String, dynamic> data =
+                        snapshot.data.data() as Map<String, dynamic>;
+                    return Column(
+                      children: [
+                        data['hotLine'] == null || data['hotLIne'] == ''
+                            ? Container()
+                            : Container(
+                                margin: EdgeInsets.only(right: 20),
+                                width: 50,
+                                height: 50,
+                                child: RawMaterialButton(
+                                    shape: CircleBorder(),
+                                    elevation: 5.0,
+                                    fillColor: Color(0xFFFF6666),
+                                    child: Icon(
+                                      Icons.phone,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () async {
+                                      String link = "tel:${data['hotLine']}";
+                                      if (link != null &&
+                                          await canLaunch(
+                                              link.replaceAll(' ', ''))) {
+                                        launch('$link');
+                                      }
+                                    }),
+                              ),
+                        data['linkMessenger'] == null ||
+                                data['linkMessenger'] == ''
+                            ? Container()
+                            : Container(
+                                margin: EdgeInsets.only(right: 20, top: 20),
+                                width: 50,
+                                height: 50,
+                                child: RawMaterialButton(
+                                    shape: CircleBorder(),
+                                    elevation: 5.0,
+                                    fillColor: Color(0xFFFF6666),
+                                    child: Image.asset(
+                                        'assets/images/messenger.png'),
+                                    onPressed: () async {
+                                      String link = "${data['linkMessenger']}";
+                                      if (link != null &&
+                                          await canLaunch(
+                                              link.replaceAll(' ', ''))) {
+                                        launch('$link');
+                                      }
+                                    }),
+                              ),
+                      ],
+                    );
+                  }
+                  return Container();
+                })
           ],
         ),
         Container(

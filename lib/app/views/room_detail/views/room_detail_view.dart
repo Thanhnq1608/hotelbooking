@@ -10,6 +10,9 @@ import '../controller/room_detail_controller.dart';
 import 'room_amenties_view.dart';
 
 class RoomDetailView extends GetView<RoomDetailController> {
+  final String idRoom;
+
+  RoomDetailView({this.idRoom});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,8 +84,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
                               return SingleChildScrollView(
                                 controller: scrollController,
                                 child: FutureBuilder<RoomDetailModel>(
-                                    future: getRoomDetail(
-                                        '61861edfbf78137a03fc4070'),
+                                    future: getRoomDetail(idRoom),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasError)
                                         print(snapshot.error);

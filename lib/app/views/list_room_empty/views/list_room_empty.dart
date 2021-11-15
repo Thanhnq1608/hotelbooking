@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/views/list_room_empty/controller/list_room_controller.dart';
+import 'package:hotelbooking/app/views/list_room_empty/service/list_room_service.dart';
+import 'package:hotelbooking/app/views/room_detail/bindings/room_detail_binding.dart';
+import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
+import 'package:hotelbooking/app/views/room_detail/views/room_detail_view.dart';
 import 'package:hotelbooking/components/bottom_navigation/views/bottom_navigation_view.dart';
 
 class ListRoomView extends GetView<ListRoomController> {
@@ -18,7 +22,7 @@ class ListRoomView extends GetView<ListRoomController> {
         onPressed: () => Get.back(),
       ),
       title: const Text(
-        'Room',
+        'Phòng',
         style: TextStyle(color: Colors.white),
       ),
     );
@@ -179,89 +183,126 @@ class ListRoomView extends GetView<ListRoomController> {
                     ],
                   ),
                   Expanded(
-                      child: ListView.builder(
-                          itemCount: 4,
-                          itemBuilder: (context, index) {
+                      child: FutureBuilder<List<RoomDetailModel>>(
+                          future: getListRoom(),
+                          builder: (context, snapshot) {
                             return Container(
-                              height: 300,
-                              padding: EdgeInsets.zero,
-                              margin: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black45,
-                                      blurRadius: 5,
-                                      offset: Offset(2, 2),
-                                      spreadRadius: 2)
-                                ],
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                              ),
-                              child: InkWell(
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20),
-                                                topRight: Radius.circular(20)),
-                                            image: DecorationImage(
-                                                image:
-                                                    controller.imageRoom.value,
-                                                fit: BoxFit.fill)),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 100,
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Text(
-                                                'Vintage Room',
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Icon(Icons.person),
-                                                  Text(' 2 người/phòng')
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Icon(Icons
-                                                      .airline_seat_flat_sharp),
-                                                  Text(' 1 giường cỡ lớn')
-                                                ],
-                                              )
+                              child: snapshot.hasData
+                                  ? ListView.builder(
+                                      itemCount: 4,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          height: 300,
+                                          padding: EdgeInsets.zero,
+                                          margin: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black45,
+                                                  blurRadius: 5,
+                                                  offset: Offset(2, 2),
+                                                  spreadRadius: 2)
                                             ],
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20)),
                                           ),
-                                          Container(
-                                            margin: EdgeInsets.only(left: 20),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              '600.000 VNĐ',
-                                              style: TextStyle(
-                                                  fontSize: 25,
-                                                  fontWeight: FontWeight.bold),
+                                          child: InkWell(
+                                            child: Column(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                topLeft:
+                                                                    Radius
+                                                                        .circular(
+                                                                            20),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        20)),
+                                                        image:
+                                                            DecorationImage(
+                                                                image: controller
+                                                                    .imageRoom
+                                                                    .value,
+                                                                fit: BoxFit
+                                                                    .fill)),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 100,
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 10),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            '${snapshot.data[index].roomName}',
+                                                            style: TextStyle(
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                  Icons.person),
+                                                              Text(
+                                                                  ' ${snapshot.data[index].maximumNumberOfPeople} người/phòng')
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(Icons
+                                                                  .airline_seat_flat_sharp),
+                                                              Text(
+                                                                  ' 1 giường cỡ lớn')
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 20),
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          '${snapshot.data[index].roomPrice} VNĐ',
+                                                          style: TextStyle(
+                                                              fontSize: 25,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                onTap: () {
-                                  Get.toNamed('/room_detail');
-                                },
-                              ),
+                                            onTap: () {
+                                              Get.to(
+                                                  RoomDetailView(
+                                                    idRoom:
+                                                        snapshot.data[index].id,
+                                                  ),
+                                                  binding: RoomDetailBinding());
+                                            },
+                                          ),
+                                        );
+                                      })
+                                  : Center(child: CircularProgressIndicator()),
                             );
                           })),
                 ],

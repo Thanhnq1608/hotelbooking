@@ -296,6 +296,8 @@ class ListRoomView extends GetView<ListRoomController> {
                                                   RoomDetailView(
                                                     idRoom:
                                                         snapshot.data[index].id,
+                                                    nameRoom: snapshot
+                                                        .data[index].roomName,
                                                   ),
                                                   binding: RoomDetailBinding());
                                             },

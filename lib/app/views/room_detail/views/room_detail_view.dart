@@ -6,13 +6,14 @@ import 'package:hotelbooking/app/views/room/views/room_booking.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.service.dart';
 import 'package:hotelbooking/app/views/room_detail/views/room_overview_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../controller/room_detail_controller.dart';
 import 'room_amenties_view.dart';
 
 class RoomDetailView extends GetView<RoomDetailController> {
   final String idRoom;
-
-  RoomDetailView({this.idRoom});
+  final String nameRoom;
+  RoomDetailView({this.idRoom, this.nameRoom});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +25,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
             ),
             onPressed: null,
           ),
-          title: const Text("RoomDetail"),
+          title: Text("Phòng ${nameRoom}"),
         ),
         body: Stack(children: [
           Align(
@@ -132,8 +133,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                       color: Color(0xFFC8CBCC))
                                 ]),
                             child: FutureBuilder<RoomDetailModel>(
-                                future:
-                                    getRoomDetail('61861edfbf78137a03fc4070'),
+                                future: getRoomDetail(idRoom),
                                 builder: (context, snapshot) {
                                   return snapshot.hasData
                                       ? InkWell(
@@ -224,19 +224,46 @@ class RoomTitle extends StatelessWidget {
                 )
               ],
             ),
-            Container(
-              margin: EdgeInsets.only(right: 20),
-              width: 50,
-              height: 50,
-              child: RawMaterialButton(
-                  shape: CircleBorder(),
-                  elevation: 5.0,
-                  fillColor: Color(0xFFFF6666),
-                  child: Icon(
-                    Icons.phone,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {}),
+            Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(right: 20),
+                  width: 50,
+                  height: 50,
+                  child: RawMaterialButton(
+                      shape: CircleBorder(),
+                      elevation: 5.0,
+                      fillColor: Color(0xFFFF6666),
+                      child: Icon(
+                        Icons.phone,
+                        color: Colors.white,
+                      ),
+                      onPressed: () async {
+                        String link = "tel:0981725836";
+                        if (link != null &&
+                            await canLaunch(link.replaceAll(' ', ''))) {
+                          launch('$link');
+                        }
+                      }),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 20, top: 20),
+                  width: 50,
+                  height: 50,
+                  child: RawMaterialButton(
+                      shape: CircleBorder(),
+                      elevation: 5.0,
+                      fillColor: Color(0xFFFF6666),
+                      child: Image.asset('assets/images/messenger.png'),
+                      onPressed: () async {
+                        String link = "http://m.me/fpt.poly";
+                        if (link != null &&
+                            await canLaunch(link.replaceAll(' ', ''))) {
+                          launch('$link');
+                        }
+                      }),
+                ),
+              ],
             )
           ],
         ),

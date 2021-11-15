@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hotelbooking/app/views/profile/views/change_language.dart';
-import 'package:hotelbooking/components/bottom_navigation/views/bottom_navigation_view.dart';
-
-import '../controller/profile_controller.dart';
+import 'package:hotelbooking/routes/app_routes.dart';
+import 'package:hotelbooking/tools/bottom_navigation/bottom_navigation_view.dart';
+import 'package:hotelbooking/tools/change_language_picker.dart';
+import 'profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   Widget _topProfile(BuildContext context) {
@@ -94,7 +94,15 @@ class ProfileView extends GetView<ProfileController> {
                 height: MediaQuery.of(context).size.height * 0.05,
                 margin: EdgeInsets.only(top: 10),
                 child: InkWell(
-                  onTap: () => Get.toNamed('/profile/manage_profile'),
+                  onTap: () {
+                    Map map = {
+                      'username': controller.username.value,
+                      'fullname': controller.fullname.value,
+                      'dateOfBirth': controller.dateOfBirrth.value,
+                      'address': controller.address
+                    };
+                    Get.toNamed(AppRoute.manageProfile, arguments: map);
+                  },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -266,7 +274,7 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                       Obx(
                         () => Text(
-                          controller.changeLanguage().value,
+                          controller.language.value,
                           style:
                               TextStyle(color: Color(0xFF161722), fontSize: 19),
                         ),
@@ -281,7 +289,10 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ],
                   ),
-                  onTap: () => Get.bottomSheet(ChangeLangage()),
+                  onTap: () async {
+                    var result = await Get.bottomSheet(ChangeLanguagePicker());
+                    controller.language.value = result;
+                  },
                 ),
               ),
               Container(

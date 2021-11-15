@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../bottom_navigation_controller.dart';
+import 'package:hotelbooking/routes/app_routes.dart';
 
-class BottomNavigationView extends GetView<BottomNavigationController> {
+import 'bottom_navigation_controller.dart';
+
+class BottomNavigationView extends StatelessWidget {
+  final controller = Get.put(BottomNavigationController());
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -28,17 +31,19 @@ class BottomNavigationView extends GetView<BottomNavigationController> {
                         child: Container(
                           width: MediaQuery.of(context).size.height * 0.075,
                           height: MediaQuery.of(context).size.height * 0.075,
-                          child: Obx(
-                            () => IconButton(
-                              icon: Icon(
-                                Icons.library_books_rounded,
-                                color: controller.iconColorBook(),
-                              ),
-                              iconSize: 40,
-                              onPressed: () {
-                                controller.onClickBook();
-                              },
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: Icon(
+                              Icons.library_books_rounded,
+                              color: controller.isCheck.value
+                                  ? Color(0xFFFF6666)
+                                  : Colors.black54,
                             ),
+                            iconSize: 30,
+                            onPressed: () {
+                              controller.isCheck.value = true;
+                              Get.toNamed(AppRoute.listRoomEmpty);
+                            },
                           ),
                         ),
                       )),
@@ -49,15 +54,17 @@ class BottomNavigationView extends GetView<BottomNavigationController> {
                         child: Container(
                           width: MediaQuery.of(context).size.height * 0.075,
                           height: MediaQuery.of(context).size.height * 0.075,
-                          child: Obx(
-                            () => IconButton(
-                              icon: Icon(Icons.person,
-                                  color: controller.iconColorProfile()),
-                              iconSize: 40,
-                              onPressed: () {
-                                controller.onClickProfile();
-                              },
-                            ),
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: Icon(Icons.person,
+                                color: controller.isCheck.value
+                                    ? Colors.black54
+                                    : Color(0xFFFF6666)),
+                            iconSize: 30,
+                            onPressed: () {
+                              controller.isCheck.value = false;
+                              Get.toNamed(AppRoute.profile);
+                            },
                           ),
                         ),
                       ))
@@ -65,7 +72,6 @@ class BottomNavigationView extends GetView<BottomNavigationController> {
               ),
             )),
         Positioned(
-          // top: MediaQuery.of(context).size.height * 0.05,
           left: MediaQuery.of(context).size.width * 0.4,
           child: Container(
             width: MediaQuery.of(context).size.height * 0.09,

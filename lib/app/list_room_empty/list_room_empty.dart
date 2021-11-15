@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:hotelbooking/app/views/list_room_empty/controller/list_room_controller.dart';
-import 'package:hotelbooking/components/bottom_navigation/views/bottom_navigation_view.dart';
+import 'package:hotelbooking/routes/app_routes.dart';
+import 'package:hotelbooking/tools/bottom_navigation/bottom_navigation_view.dart';
+import 'list_room_controller.dart';
 
 class ListRoomView extends GetView<ListRoomController> {
   var _textEditingController = TextEditingController();
@@ -215,8 +215,8 @@ class ListRoomView extends GetView<ListRoomController> {
                                     ),
                                     Container(
                                       height: 100,
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
                                       child: Row(
                                         children: [
                                           Column(
@@ -259,7 +259,7 @@ class ListRoomView extends GetView<ListRoomController> {
                                   ],
                                 ),
                                 onTap: () {
-                                  Get.toNamed('/room_detail');
+                                  Get.toNamed(AppRoute.roomDetail);
                                 },
                               ),
                             );

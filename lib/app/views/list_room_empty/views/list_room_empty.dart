@@ -186,126 +186,120 @@ class ListRoomView extends GetView<ListRoomController> {
                       child: FutureBuilder<List<RoomDetailModel>>(
                           future: getListRoom(),
                           builder: (context, snapshot) {
-                            return Container(
-                              child: snapshot.hasData
-                                  ? ListView.builder(
-                                      itemCount: 4,
-                                      itemBuilder: (context, index) {
-                                        return Container(
-                                          height: 300,
-                                          padding: EdgeInsets.zero,
-                                          margin: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.black45,
-                                                  blurRadius: 5,
-                                                  offset: Offset(2, 2),
-                                                  spreadRadius: 2)
-                                            ],
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20)),
-                                          ),
-                                          child: InkWell(
-                                            child: Column(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                                topLeft:
-                                                                    Radius
-                                                                        .circular(
-                                                                            20),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        20)),
-                                                        image:
-                                                            DecorationImage(
-                                                                image: controller
-                                                                    .imageRoom
-                                                                    .value,
-                                                                fit: BoxFit
-                                                                    .fill)),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  height: 100,
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 10),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                            if (snapshot.hasData) {
+                              List<RoomDetailModel> listRoomEmptys = snapshot
+                                  .data
+                                  .where((element) => element.roomStatus == 1)
+                                  .toList();
+                              return ListView.builder(
+                                  itemCount: listRoomEmptys.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      height: 300,
+                                      padding: EdgeInsets.zero,
+                                      margin: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black45,
+                                              blurRadius: 5,
+                                              offset: Offset(2, 2),
+                                              spreadRadius: 2)
+                                        ],
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                      ),
+                                      child: InkWell(
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topLeft: Radius
+                                                                .circular(20),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    20)),
+                                                    image: DecorationImage(
+                                                        image: controller
+                                                            .imageRoom.value,
+                                                        fit: BoxFit.fill)),
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 100,
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10, vertical: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                      Text(
+                                                        '${listRoomEmptys[index].roomName}',
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Row(
                                                         children: [
+                                                          Icon(Icons.person),
                                                           Text(
-                                                            '${snapshot.data[index].roomName}',
-                                                            style: TextStyle(
-                                                                fontSize: 20,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                  Icons.person),
-                                                              Text(
-                                                                  ' ${snapshot.data[index].maximumNumberOfPeople} người/phòng')
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Icon(Icons
-                                                                  .airline_seat_flat_sharp),
-                                                              Text(
-                                                                  ' 1 giường cỡ lớn')
-                                                            ],
-                                                          )
+                                                              ' ${listRoomEmptys[index].maximumNumberOfPeople} người/phòng')
                                                         ],
                                                       ),
-                                                      Container(
-                                                        margin: EdgeInsets.only(
-                                                            left: 20),
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Text(
-                                                          '${snapshot.data[index].roomPrice} VNĐ',
-                                                          style: TextStyle(
-                                                              fontSize: 25,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
+                                                      Row(
+                                                        children: [
+                                                          Icon(Icons
+                                                              .airline_seat_flat_sharp),
+                                                          Text(
+                                                              ' 1 giường cỡ lớn')
+                                                        ],
                                                       )
                                                     ],
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                            onTap: () {
-                                              Get.to(
-                                                  RoomDetailView(
-                                                    idRoom:
-                                                        snapshot.data[index].id,
-                                                    nameRoom: snapshot
-                                                        .data[index].roomName,
-                                                  ),
-                                                  binding: RoomDetailBinding());
-                                            },
-                                          ),
-                                        );
-                                      })
-                                  : Center(child: CircularProgressIndicator()),
-                            );
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 20),
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      '${listRoomEmptys[index].roomPrice} VNĐ',
+                                                      style: TextStyle(
+                                                          fontSize: 25,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        onTap: () {
+                                          Get.to(
+                                              RoomDetailView(
+                                                idRoom:
+                                                    listRoomEmptys[index].id,
+                                                nameRoom: listRoomEmptys[index]
+                                                    .roomName,
+                                              ),
+                                              binding: RoomDetailBinding());
+                                        },
+                                      ),
+                                    );
+                                  });
+                            }
+                            return Container();
                           })),
                 ],
               ),

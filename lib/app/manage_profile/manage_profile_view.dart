@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/manage_profile/manage_profile_controller.dart';
 import 'package:hotelbooking/app/profile/profile_controller.dart';
+import 'package:intl/intl.dart';
 
 class ManageProfileView extends StatelessWidget {
   final controller = Get.put(ManageProfileController(user: Get.arguments));
@@ -43,11 +44,17 @@ class ManageProfileView extends StatelessWidget {
                         decoration: InputDecoration(labelText: 'Date of birth'),
                         controller: controller.dateOfBirthController,
                         onTap: () {
-                          var result = Get.bottomSheet(CupertinoDatePicker(
+                          Get.bottomSheet(CupertinoDatePicker(
                             backgroundColor: Colors.white,
                             initialDateTime: DateTime.now(),
                             mode: CupertinoDatePickerMode.date,
-                            onDateTimeChanged: (val) {},
+                            onDateTimeChanged: (value) {
+                              controller.user.update((val) {
+                                val.dateOfBirth = value;
+                                controller.dateOfBirthController.text =
+                                    DateFormat('dd/MM/yyyy').format(value);
+                              });
+                            },
                           ));
                         },
                       ),

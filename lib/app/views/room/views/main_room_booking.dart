@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/tools/bottom_date_picker.dart';
 import '../controller/room_booking_controller.dart';
 
 class MainRoom extends GetView<RoomBookingController> {
@@ -92,39 +93,39 @@ class MainRoom extends GetView<RoomBookingController> {
     return new Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Container(
-          width: 132,
-          height: 67,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
+        InkWell(
+          onTap: () async {
+            var result = await Get.bottomSheet(BottomDatePicker());
+            if (result != null) {
+              controller.dateStart.value = result;
+            }
+          },
+          child: Container(
+            width: 132,
+            height: 67,
+            decoration: BoxDecoration(
               color: Colors.white,
-              width: 1,
-            ),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 7,
-                offset: Offset(0, 5), // changes position of shadow
+              border: Border.all(
+                color: Colors.white,
+                width: 1,
               ),
-            ],
-          ),
-          child: Obx(
-            () => FlatButton(
-              onPressed: () {
-                controller.isActiveHour.value == true
-                    ? controller.selectTimePicker(context, 1)
-                    : controller.selectDatePicker(context, 1);
-                print('${controller.timeStart.value}');
-              },
-              child: Column(
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 7,
+                  offset: Offset(0, 5), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Obx(
+              () => Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     margin: EdgeInsets.only(bottom: 8),
                     child: Text(
-                        '${controller.timeStart.value.hour}:${controller.timeStart.value.minute}'),
+                        '${controller.dateStart.value.hour}:${controller.dateStart.value.minute}'),
                   ),
                   Container(
                     child: Text(
@@ -135,38 +136,41 @@ class MainRoom extends GetView<RoomBookingController> {
             ),
           ),
         ),
-        Container(
-          width: 132,
-          height: 67,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
+        InkWell(
+          onTap: () async {
+            var result = await Get.bottomSheet(BottomDatePicker(
+              initialDate: controller.dateStart.value,
+            ));
+            if (result != null) {
+              controller.dateEnd.value = result;
+            }
+          },
+          child: Container(
+            width: 132,
+            height: 67,
+            decoration: BoxDecoration(
               color: Colors.white,
-              width: 1,
-            ),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 7,
-                offset: Offset(0, 5), // changes position of shadow
+              border: Border.all(
+                color: Colors.white,
+                width: 1,
               ),
-            ],
-          ),
-          child: Obx(
-            () => FlatButton(
-              onPressed: () {
-                controller.isActiveHour.value == true
-                    ? controller.selectTimePicker(context, 0)
-                    : controller.selectDatePicker(context, 0);
-              },
-              child: Column(
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 7,
+                  offset: Offset(0, 5), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Obx(
+              () => Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     margin: EdgeInsets.only(bottom: 8),
                     child: Text(
-                        '${controller.timeEnd.value.hour}:${controller.timeEnd.value.minute}'),
+                        '${controller.dateEnd.value.hour}:${controller.dateEnd.value.minute}'),
                   ),
                   Container(
                     child: Text(
@@ -183,32 +187,31 @@ class MainRoom extends GetView<RoomBookingController> {
 
   Widget _quantiltRoom() {
     return Container(
-      width: 250,
+      width: 320,
       height: 200,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 16),
+            margin: EdgeInsets.only(bottom: 10),
             alignment: Alignment.center,
             child: Text(
-              'The number of rooms you want to book',
+              'Number of rooms you want',
               style: TextStyle(
                   fontWeight: FontWeight.w700, fontSize: 14, height: 1.3),
             ),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    border: Border(
-                        right: BorderSide(
-                  color: Color(0xFF000000),
-                  style: BorderStyle.solid,
-                ))),
-                child: IconButton(
+          Container(
+            width: 150,
+            height: 30,
+            padding: EdgeInsets.zero,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                border: Border.all(
+                    color: Colors.black, width: 1, style: BorderStyle.solid)),
+            child: Row(
+              children: [
+                IconButton(
                   padding: EdgeInsets.zero,
                   icon: Icon(
                     Icons.remove,
@@ -220,18 +223,23 @@ class MainRoom extends GetView<RoomBookingController> {
                     }
                   },
                 ),
-              ),
-              Expanded(child: Text('${controller.quantilyRoom.value}')),
-              Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    border: Border(
-                        left: BorderSide(
-                  color: Color(0xFF000000),
-                  width: 1.0,
-                  style: BorderStyle.solid,
-                ))),
-                child: IconButton(
+                Expanded(
+                  child: Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.zero,
+                      decoration: BoxDecoration(
+                          border: Border(
+                              left: BorderSide(
+                                  color: Colors.black,
+                                  width: 1,
+                                  style: BorderStyle.solid),
+                              right: BorderSide(
+                                  color: Colors.black,
+                                  width: 1,
+                                  style: BorderStyle.solid))),
+                      child: Text('${controller.quantilyRoom.value}')),
+                ),
+                IconButton(
                   padding: EdgeInsets.zero,
                   icon: Icon(
                     Icons.add,
@@ -241,8 +249,8 @@ class MainRoom extends GetView<RoomBookingController> {
                     controller.quantilyRoom.value++;
                   },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

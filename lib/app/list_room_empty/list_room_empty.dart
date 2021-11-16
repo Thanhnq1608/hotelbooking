@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/list_room_empty/list_room_controller.dart';
-import 'package:hotelbooking/app/views/list_room_empty/service/list_room_service.dart';
+import 'package:hotelbooking/app/list_room_empty/list_room_service.dart';
 import 'package:hotelbooking/app/views/room_detail/bindings/room_detail_binding.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:hotelbooking/app/views/room_detail/views/room_detail_view.dart';

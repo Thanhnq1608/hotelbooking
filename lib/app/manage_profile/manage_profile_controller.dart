@@ -6,7 +6,7 @@ class ManageProfileController extends GetxController {
   ManageProfileController({User user}) : user = Rx<User>(user);
   Rx<User> user;
 
-  var fullnameController,
+  TextEditingController fullnameController,
       phoneNumberController,
       emailController,
       dateOfBirthController,

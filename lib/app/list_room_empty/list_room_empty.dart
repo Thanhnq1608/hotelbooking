@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-<<<<<<< HEAD:lib/app/list_room_empty/list_room_empty.dart
-import 'package:hotelbooking/routes/app_routes.dart';
-import 'package:hotelbooking/tools/bottom_navigation/bottom_navigation_view.dart';
-import 'list_room_controller.dart';
-=======
-import 'package:hotelbooking/app/views/list_room_empty/controller/list_room_controller.dart';
+import 'package:hotelbooking/app/list_room_empty/list_room_controller.dart';
 import 'package:hotelbooking/app/views/list_room_empty/service/list_room_service.dart';
 import 'package:hotelbooking/app/views/room_detail/bindings/room_detail_binding.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:hotelbooking/app/views/room_detail/views/room_detail_view.dart';
-import 'package:hotelbooking/components/bottom_navigation/views/bottom_navigation_view.dart';
->>>>>>> viettien:lib/app/views/list_room_empty/views/list_room_empty.dart
+import 'package:hotelbooking/tools/bottom_navigation/bottom_navigation_view.dart';
 
 class ListRoomView extends GetView<ListRoomController> {
   var _textEditingController = TextEditingController();
@@ -215,23 +209,6 @@ class ListRoomView extends GetView<ListRoomController> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20)),
                                       ),
-<<<<<<< HEAD:lib/app/list_room_empty/list_room_empty.dart
-                                    ),
-                                    Container(
-                                      height: 100,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 10),
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Text(
-                                                'Vintage Room',
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-=======
                                       child: InkWell(
                                         child: Column(
                                           children: [
@@ -249,7 +226,6 @@ class ListRoomView extends GetView<ListRoomController> {
                                                         image: controller
                                                             .imageRoom.value,
                                                         fit: BoxFit.fill)),
->>>>>>> viettien:lib/app/views/list_room_empty/views/list_room_empty.dart
                                               ),
                                             ),
                                             Container(
@@ -319,21 +295,10 @@ class ListRoomView extends GetView<ListRoomController> {
                                               binding: RoomDetailBinding());
                                         },
                                       ),
-<<<<<<< HEAD:lib/app/list_room_empty/list_room_empty.dart
-                                    )
-                                  ],
-                                ),
-                                onTap: () {
-                                  Get.toNamed(AppRoute.roomDetail);
-                                },
-                              ),
-                            );
-=======
                                     );
                                   });
                             }
                             return Container();
->>>>>>> viettien:lib/app/views/list_room_empty/views/list_room_empty.dart
                           })),
                 ],
               ),

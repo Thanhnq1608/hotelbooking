@@ -7,6 +7,7 @@ import 'package:hotelbooking/app/views/room/views/room_booking.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.service.dart';
 import 'package:hotelbooking/app/views/room_detail/views/room_overview_view.dart';
+import 'package:hotelbooking/routes/app_routes.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controller/room_detail_controller.dart';
 import 'room_amenties_view.dart';
@@ -148,12 +149,9 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                             ),
                                           ),
                                           onTap: () {
-                                            Get.to(
-                                                Room(
-                                                  priceRoom:
-                                                      snapshot.data.roomPrice,
-                                                ),
-                                                binding: RoomBookingBinding());
+                                            Get.toNamed(AppRoute.booking,
+                                                arguments:
+                                                    snapshot.data.roomPrice);
                                           },
                                         )
                                       : Container();

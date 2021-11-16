@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/model/user.dart';
 import 'package:hotelbooking/routes/app_routes.dart';
 import 'package:hotelbooking/tools/bottom_navigation/bottom_navigation_view.dart';
 import 'package:hotelbooking/tools/change_language_picker.dart';
@@ -45,7 +46,8 @@ class ProfileView extends GetView<ProfileController> {
                             ],
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: controller.networkImage.value,
+                                image:
+                                    NetworkImage(controller.networkImage.value),
                                 fit: BoxFit.fill)),
                       ),
                       Text(
@@ -95,13 +97,15 @@ class ProfileView extends GetView<ProfileController> {
                 margin: EdgeInsets.only(top: 10),
                 child: InkWell(
                   onTap: () {
-                    Map map = {
-                      'username': controller.username.value,
-                      'fullname': controller.fullname.value,
-                      'dateOfBirth': controller.dateOfBirrth.value,
-                      'address': controller.address
-                    };
-                    Get.toNamed(AppRoute.manageProfile, arguments: map);
+                    var user = User(
+                        username: controller.username.value,
+                        email: controller.username.value,
+                        fullname: controller.fullname.value,
+                        phone: '0332751701',
+                        dateOfBirth: controller.dateOfBirrth.value,
+                        address: controller.address,
+                        avatarURL: controller.networkImage.value);
+                    Get.toNamed(AppRoute.manageProfile, arguments: user);
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

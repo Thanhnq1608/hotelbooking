@@ -182,33 +182,22 @@ class MainRoom extends GetView<RoomBookingController> {
   }
 
   Widget _quantiltRoom() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          margin: EdgeInsets.only(bottom: 16),
-          alignment: Alignment.center,
-          child: Text(
-            'The number of rooms you want to book',
-            style: TextStyle(
-                fontWeight: FontWeight.w700, fontSize: 14, height: 1.3),
+    return Container(
+      width: 250,
+      height: 200,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 16),
+            alignment: Alignment.center,
+            child: Text(
+              'The number of rooms you want to book',
+              style: TextStyle(
+                  fontWeight: FontWeight.w700, fontSize: 14, height: 1.3),
+            ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 64, right: 64),
-          height: 30,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black45,
-                    blurRadius: 4,
-                    spreadRadius: 2,
-                    offset: Offset(0, 1))
-              ],
-              border: Border.all(color: Colors.white, width: 1),
-              borderRadius: BorderRadius.circular(10)),
-          child: Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -220,6 +209,7 @@ class MainRoom extends GetView<RoomBookingController> {
                   style: BorderStyle.solid,
                 ))),
                 child: IconButton(
+                  padding: EdgeInsets.zero,
                   icon: Icon(
                     Icons.remove,
                     size: 15,
@@ -231,10 +221,7 @@ class MainRoom extends GetView<RoomBookingController> {
                   },
                 ),
               ),
-              Container(
-                  width: 40,
-                  alignment: Alignment.center,
-                  child: Text('${controller.quantilyRoom.value}')),
+              Expanded(child: Text('${controller.quantilyRoom.value}')),
               Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
@@ -245,6 +232,7 @@ class MainRoom extends GetView<RoomBookingController> {
                   style: BorderStyle.solid,
                 ))),
                 child: IconButton(
+                  padding: EdgeInsets.zero,
                   icon: Icon(
                     Icons.add,
                     size: 15,
@@ -256,8 +244,8 @@ class MainRoom extends GetView<RoomBookingController> {
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

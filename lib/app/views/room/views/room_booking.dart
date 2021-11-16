@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'bottom_room_booking.dart';
 import 'images_room_booking.dart';
 import 'main_room_booking.dart';
 
 class Room extends StatefulWidget {
-  final int priceRoom;
-
-  const Room({Key key, this.priceRoom}) : super(key: key);
+  const Room({Key key}) : super(key: key);
   @override
   _RoomState createState() => _RoomState();
 }
@@ -29,7 +28,7 @@ class _RoomState extends State<Room> {
         ),
       ),
       bottomNavigationBar: BottomRoom(
-        priceRoom: widget.priceRoom,
+        priceRoom: Get.arguments,
       ),
     );
   }

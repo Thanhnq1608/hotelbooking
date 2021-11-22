@@ -6,7 +6,8 @@ import 'images_room_booking.dart';
 import 'main_room_booking.dart';
 
 class Room extends StatefulWidget {
-  const Room({Key key}) : super(key: key);
+  final int priceRoom;
+  const Room({Key key, this.priceRoom}) : super(key: key);
   @override
   _RoomState createState() => _RoomState();
 }
@@ -24,11 +25,14 @@ class _RoomState extends State<Room> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [ImagesRoom(), MainRoom()],
+          children: [
+            ImagesRoom(),
+            MainRoom(),
+          ],
         ),
       ),
       bottomNavigationBar: BottomRoom(
-        priceRoom: Get.arguments,
+        priceRoom: widget.priceRoom,
       ),
     );
   }

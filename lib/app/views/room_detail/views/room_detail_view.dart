@@ -107,10 +107,9 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                                   RoomAmentiesView(),
                                                   RoomOverview(),
                                                 ])
-                                          :  Center(
-                                                  child: Image.asset(
-                                                      'assets/images/loading.gif'));
-                                            
+                                          : Center(
+                                              child: Image.asset(
+                                                  'assets/images/loading.gif'));
                                     }),
                               );
                             }),
@@ -149,9 +148,10 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                             ),
                                           ),
                                           onTap: () {
-                                            Get.toNamed(AppRoute.booking,
-                                                arguments:
-                                                    snapshot.data.roomPrice);
+                                            Get.to(Room(
+                                              priceRoom:
+                                                  snapshot.data.roomPrice,
+                                            ));
                                           },
                                         )
                                       : Container();

@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:hotelbooking/tools/bottom_date_picker.dart';
 import '../controller/room_booking_controller.dart';
 
-class MainRoom extends GetView<RoomBookingController> {
+class MainRoom extends StatelessWidget {
+  var controller = Get.put(RoomBookingController());
   Widget _bookingOption(BuildContext context) {
     return new Container(
       child: Row(
@@ -187,8 +188,6 @@ class MainRoom extends GetView<RoomBookingController> {
 
   Widget _quantiltRoom() {
     return Container(
-      width: 320,
-      height: 200,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -260,7 +259,7 @@ class MainRoom extends GetView<RoomBookingController> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      margin: EdgeInsets.only(left: 16, right: 16, top: 32),
+      margin: EdgeInsets.all(32),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -270,14 +269,13 @@ class MainRoom extends GetView<RoomBookingController> {
       child: Column(
         children: [
           Container(
-              margin: EdgeInsets.only(top: 8, left: 8, right: 8),
+              margin: EdgeInsets.all(32),
               child: _bookingOption(context)),
           Container(
-            margin: EdgeInsets.only(top: 24),
             child: _timePicker(context),
           ),
           Container(
-              margin: EdgeInsets.only(top: 60, bottom: 16, left: 60, right: 60),
+              margin: EdgeInsets.all(32),
               child: Obx(() => _quantiltRoom()))
         ],
       ),

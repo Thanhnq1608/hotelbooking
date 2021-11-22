@@ -1,12 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
 import '../controller/room_booking_controller.dart';
 
-class BottomRoom extends GetView<RoomBookingController> {
-  BottomRoom({this.priceRoom});
+class BottomRoom extends StatelessWidget {
+  var controller = Get.put(RoomBookingController());
   final int priceRoom;
-
+  BottomRoom({this.priceRoom});
+  final textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // caculatorPayment();
@@ -52,13 +54,103 @@ class BottomRoom extends GetView<RoomBookingController> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: TextButton(
-                onPressed: () {
-                  if (controller.checkTimeBookRoom() == true) {
-                    postOderRoom(
-                        totalRoomRate: controller.quantilyRoom.value,
-                        totalPayment:
-                            priceRoom * controller.quantilyRoom.value);
-                  } else {}
+                onPressed: () async {
+                  // if (controller.checkTimeBookRoom() == true) {
+
+                  return showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            content: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100)),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('Tiền đặt cọc'),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 16),
+                                    child: TextField(
+                                      controller: textController,
+                                      decoration: InputDecoration(
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(30))),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(30))),
+                                          hintText:
+                                              'Nhập số tiền bạn muốn đặt cọc'),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 8),
+                                    child: Row(
+                                      children: [
+                                        TextButton(
+                                            onPressed: () => Get.back(),
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 32, vertical: 16),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.red,
+                                                  border: Border.all(
+                                                      color: Colors.red,
+                                                      width: 1,
+                                                      style: BorderStyle.solid),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          60)),
+                                              child: Text(
+                                                'Hủy',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            )),
+                                        TextButton(
+                                            onPressed: () {
+                                              var payload = {
+                                                "fullName": 'tientest',
+                                                'phone': '011345678',
+                                                'timeBookingStart':
+                                                    controller.dateStart,
+                                                'timeBookingEnd':
+                                                    controller.dateEnd,
+                                                "totalRoomRate": priceRoom *
+                                                    controller
+                                                        .quantilyRoom.value,
+                                                'email': 'test@gmail.com',
+                                                'advanceDeposit':
+                                                    textController.text,
+                                                'bookingStatus': '0'
+                                              };
+                                              postOderRoom(payload);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 32, vertical: 16),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.green,
+                                                  border: Border.all(
+                                                      color: Colors.green,
+                                                      width: 1,
+                                                      style: BorderStyle.solid),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          60)),
+                                              child: Text(
+                                                'Đồng Ý',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            )),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ));
+                  // } else {}
                   // controller.checkTimeBookRoom();
                 },
                 child: Text(

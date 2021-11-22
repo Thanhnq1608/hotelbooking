@@ -1,33 +1,22 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:hotelbooking/app/views/room/service/orderroom.model.dart';
+import 'package:dio/dio.dart';
+import 'package:async/async.dart';
 
-Future<OrderRoomBooked> postOderRoom({
-  String name,
-  int phone,
-  int totalRoomRate,
-  int totalPayment,
-}) async {
-  final url = 'https://datphongkhachsan.herokuapp.com/orderRoomBooked/create';
-  final http.Client client = http.Client();
-  final response = await client.post(
-    Uri.parse(url),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, dynamic>{
-      "fullName": "Nguyenviettien",
-      "phone": 0123456789,
-      "totalRoomRate": totalRoomRate,
-      // 'totalPayment': totalPayment,
-      "timeBooking": "30"
-    }),
-  );
-
+Future<Result<OrderRoomBooked>> postOderRoom(payload) async {
   try {
-    if ((response.statusCode - 200) < 100) {
-      print(response.body);
-      return OrderRoomBooked.fromJson(jsonDecode(response.body));
-    }
-  } catch (e) {}
+    final url = 'https://datphongkhachsan.herokuapp.com/orderRoomBooked/create';
+    // final response = await Dio().post(url, data: payload);
+    print(payload);
+    // if (response.statusCode - 200 < 100) {
+    //   var data =
+    //       response.data is Map ? response.data : json.decode(response.data);
+    //   return Result.value(OrderRoomBooked.fromJson(data));
+    // } else if (response.statusCode == 400) {
+    //   return Result.error('Lỗi không xác định. Vui lòng thử lại!');
+    // }
+  } on DioError catch (e) {
+    return Result.error('Lỗi không xác định. Vui lòng thử lại!');
+  }
 }

@@ -11,7 +11,7 @@ import 'package:hotelbooking/app/views/room_detail/views/room_detail_view.dart';
 import 'app_routes.dart';
 
 class AppPage {
-  static final initial = AppRoute.listRoomEmpty;
+  static final initial = "/";
 
   static final pages = [
     GetPage(

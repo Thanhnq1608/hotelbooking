@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/app/history/history.dart';
 import 'package:hotelbooking/model/user.dart';
 import 'package:hotelbooking/routes/app_routes.dart';
 import 'package:hotelbooking/tools/bottom_navigation/bottom_navigation_view.dart';
 import 'package:hotelbooking/tools/change_language_picker.dart';
 import 'profile_controller.dart';
-
-class ProfileView extends GetView<ProfileController> {
+import 'package:get/get.dart';
+class ProfileView extends StatelessWidget {
+  var controller=Get.put(ProfileController());
   Widget _topProfile(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.3,
+      height: 225,
       margin: EdgeInsets.only(bottom: 10),
       child: Center(
         child: Stack(
@@ -26,44 +27,52 @@ class ProfileView extends GetView<ProfileController> {
                   fit: BoxFit.fill,
                 )),
             Positioned(
-                top: MediaQuery.of(context).size.height * 0.05,
-                left: MediaQuery.of(context).size.width * 0.25,
                 child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 225,
                     child: Obx(
-                  () => Column(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.width * 0.25,
-                        margin: EdgeInsets.only(bottom: 5),
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black45,
-                                  blurRadius: 10,
-                                  offset: Offset(0, 2),
-                                  spreadRadius: 1)
-                            ],
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image:
-                                    NetworkImage(controller.networkImage.value),
-                                fit: BoxFit.fill)),
+                      () => Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black45,
+                                      blurRadius: 10,
+                                      offset: Offset(0, 2),
+                                      spreadRadius: 1)
+                                ],
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        controller.networkImage.value),
+                                    fit: BoxFit.fill)),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 8),
+                            child: Text(
+                              controller.fullname.value,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              controller.username.value,
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 15),
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        controller.username.value,
-                        style: TextStyle(color: Colors.black54, fontSize: 15),
-                      ),
-                      Container(
-                        height: 5,
-                      ),
-                      Text(
-                        controller.fullname.value,
-                        style: TextStyle(color: Colors.black, fontSize: 20),
-                      ),
-                    ],
-                  ),
-                )))
+                    )))
           ],
         ),
       ),
@@ -188,40 +197,43 @@ class ProfileView extends GetView<ProfileController> {
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.05,
                 margin: EdgeInsets.only(top: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.height * 0.025,
-                      height: MediaQuery.of(context).size.height * 0.025,
-                      child: Icon(
-                        Icons.history,
-                        color: Color(0xFF161722),
-                      ),
-                    ),
-                    Container(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'History',
-                          style:
-                              TextStyle(color: Color(0xFF161722), fontSize: 19),
+                child: InkWell(
+                  onTap: () => Get.to(History()),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.height * 0.025,
+                        height: MediaQuery.of(context).size.height * 0.025,
+                        child: Icon(
+                          Icons.history,
+                          color: Color(0xFF161722),
                         ),
                       ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.height * 0.025,
-                      height: MediaQuery.of(context).size.height * 0.025,
-                      child: Icon(
-                        Icons.keyboard_arrow_right_rounded,
-                        color: Color(0xFF161722),
+                      Container(
+                        width: 20,
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'History',
+                            style: TextStyle(
+                                color: Color(0xFF161722), fontSize: 19),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.height * 0.025,
+                        height: MediaQuery.of(context).size.height * 0.025,
+                        child: Icon(
+                          Icons.keyboard_arrow_right_rounded,
+                          color: Color(0xFF161722),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -352,13 +364,6 @@ class ProfileView extends GetView<ProfileController> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () => Get.back(),
-        ),
         title: const Text(
           'Profile',
           style: TextStyle(color: Colors.white),
@@ -379,14 +384,7 @@ class ProfileView extends GetView<ProfileController> {
                       child: _bodyProfileScreen(context),
                     );
                   })),
-          Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.13,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              child: BottomNavigationView())
+          
         ],
       ),
     );

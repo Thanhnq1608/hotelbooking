@@ -7,7 +7,8 @@ import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dar
 import 'package:hotelbooking/app/views/room_detail/views/room_detail_view.dart';
 import 'package:hotelbooking/tools/bottom_navigation/bottom_navigation_view.dart';
 
-class ListRoomView extends GetView<ListRoomController> {
+class ListRoomView extends StatelessWidget {
+  var controller = Get.put(ListRoomController());
   var _textEditingController = TextEditingController();
 
   Widget _appBar(BuildContext context) {
@@ -298,17 +299,15 @@ class ListRoomView extends GetView<ListRoomController> {
                                     );
                                   });
                             }
-                            return Container();
+                            return Container(
+                                child: Center(
+                                    child: Image.asset(
+                                        'assets/images/loading.gif')));
                           })),
                 ],
               ),
             ),
           ),
-          Container(
-              width: MediaQuery.of(context).size.width,
-              height: 100,
-              color: Colors.transparent,
-              child: BottomNavigationView())
         ],
       ),
     );

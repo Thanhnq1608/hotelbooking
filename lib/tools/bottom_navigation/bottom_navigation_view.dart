@@ -9,7 +9,6 @@ class BottomNavigationView extends StatelessWidget {
   final controller = Get.put(BottomNavigationController());
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Stack(
       children: [
         Positioned(
@@ -71,27 +70,25 @@ class BottomNavigationView extends StatelessWidget {
                 ],
               ),
             )),
-        Positioned(
-          left: MediaQuery.of(context).size.width * 0.4,
-          child: Container(
-            width: MediaQuery.of(context).size.height * 0.09,
-            height: MediaQuery.of(context).size.height * 0.09,
-            decoration: BoxDecoration(
+        Positioned.fill(
+          child: Align(
+            child: Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
                 color: Color(0xFFFF6666),
                 borderRadius: BorderRadius.all(Radius.circular(20)),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black45, blurRadius: 10, spreadRadius: 1)
-                ]),
-            child: Center(
-              child: IconButton(
-                icon: Icon(
-                  Icons.add_sharp,
-                  color: Colors.white,
+              ),
+              child: Center(
+                child: IconButton(
+                  icon: Icon(
+                    Icons.add_sharp,
+                    color: Colors.white,
+                  ),
+                  iconSize: 50,
+                  alignment: Alignment.center,
+                  onPressed: () {},
                 ),
-                iconSize: 50,
-                alignment: Alignment.center,
-                onPressed: () {},
               ),
             ),
           ),

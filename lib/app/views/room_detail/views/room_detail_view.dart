@@ -107,10 +107,10 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                                   RoomAmentiesView(),
                                                   RoomOverview(),
                                                 ])
-                                          : Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
+                                          :  Center(
+                                                  child: Image.asset(
+                                                      'assets/images/loading.gif'));
+                                            
                                     }),
                               );
                             }),
@@ -234,7 +234,7 @@ class RoomTitle extends StatelessWidget {
                         snapshot.data.data() as Map<String, dynamic>;
                     return Column(
                       children: [
-                        data['hotLine'] == null || data['hotLIne'] == ''
+                        data['hotLine'] == null || data['hotLine'] == ''
                             ? Container()
                             : Container(
                                 margin: EdgeInsets.only(right: 20),

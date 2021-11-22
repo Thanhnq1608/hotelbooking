@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
+import 'package:hotelbooking/tools/format.dart';
 import '../controller/room_booking_controller.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 
 class BottomRoom extends StatelessWidget {
   var controller = Get.put(RoomBookingController());
@@ -33,7 +35,7 @@ class BottomRoom extends StatelessWidget {
               margin: EdgeInsets.only(top: 16),
               child: Obx(
                 () => Text(
-                  '${priceRoom * controller.quantilyRoom.value} đ',
+                  '${MoneyUtility.formatCurrency(priceRoom * controller.quantilyRoom.value)}',
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
@@ -54,7 +56,7 @@ class BottomRoom extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: TextButton(
-                onPressed: () async {
+                onPressed: () {
                   // if (controller.checkTimeBookRoom() == true) {
 
                   return showDialog(
@@ -70,7 +72,14 @@ class BottomRoom extends StatelessWidget {
                                   Container(
                                     margin: EdgeInsets.only(top: 16),
                                     child: TextField(
+                                      keyboardType: TextInputType.number,
                                       controller: textController,
+                                      inputFormatters: [
+                                        CurrencyTextInputFormatter(
+                                          decimalDigits: 0,
+                                           locale: 'vi',
+                                        )
+                                      ],
                                       decoration: InputDecoration(
                                           enabledBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
@@ -107,9 +116,10 @@ class BottomRoom extends StatelessWidget {
                                               ),
                                             )),
                                         TextButton(
-                                            onPressed: () {
+                                            onPressed: () async {
                                               var payload = {
-                                                "fullName": 'tientest',
+                                                "fullName": 'tien test'
+                                                    .replaceAll(' ', ''),
                                                 'phone': '011345678',
                                                 'timeBookingStart':
                                                     controller.dateStart,
@@ -123,7 +133,7 @@ class BottomRoom extends StatelessWidget {
                                                     textController.text,
                                                 'bookingStatus': '0'
                                               };
-                                              postOderRoom(payload);
+                                              await postOderRoom(payload);
                                             },
                                             child: Container(
                                               padding: EdgeInsets.symmetric(

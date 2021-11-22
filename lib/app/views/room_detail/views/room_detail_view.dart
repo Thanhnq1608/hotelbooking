@@ -8,6 +8,7 @@ import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dar
 import 'package:hotelbooking/app/views/room_detail/service/room.service.dart';
 import 'package:hotelbooking/app/views/room_detail/views/room_overview_view.dart';
 import 'package:hotelbooking/routes/app_routes.dart';
+import 'package:hotelbooking/tools/format.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controller/room_detail_controller.dart';
 import 'room_amenties_view.dart';
@@ -295,20 +296,10 @@ class RoomTitle extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 24),
               child: Text(
-                '$priceRoom',
+                '${MoneyUtility.formatCurrency(priceRoom)}',
                 style: TextStyle(
                     color: Color(0xFFFF6666),
                     fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(
-                'VND',
-                style: TextStyle(
-                    color: Color(0xFFFF6666),
-                    fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
             ),

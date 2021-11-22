@@ -6,6 +6,7 @@ import 'package:hotelbooking/app/views/room_detail/bindings/room_detail_binding.
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:hotelbooking/app/views/room_detail/views/room_detail_view.dart';
 import 'package:hotelbooking/tools/bottom_navigation/bottom_navigation_view.dart';
+import 'package:hotelbooking/tools/format.dart';
 
 class ListRoomView extends StatelessWidget {
   var controller = Get.put(ListRoomController());
@@ -273,7 +274,7 @@ class ListRoomView extends StatelessWidget {
                                                         left: 20),
                                                     alignment: Alignment.center,
                                                     child: Text(
-                                                      '${listRoomEmptys[index].roomPrice} VNĐ',
+                                                      '${MoneyUtility.formatCurrency(listRoomEmptys[index].roomPrice)}',
                                                       style: TextStyle(
                                                           fontSize: 25,
                                                           fontWeight:

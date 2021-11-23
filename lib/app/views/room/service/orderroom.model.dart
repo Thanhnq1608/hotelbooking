@@ -22,7 +22,7 @@ class OrderRoomBooked {
   });
   factory OrderRoomBooked.fromJson(Map<String, dynamic> json) {
     return OrderRoomBooked(
-        id: json['id'],
+        id: json['_id'],
         name: json['fullName'],
         phone: json['phone'],
         bookingStatus: json['bookingStatus'],

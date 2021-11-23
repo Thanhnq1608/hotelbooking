@@ -28,7 +28,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
             ),
             onPressed: null,
           ),
-          title: Text("Phòng ${nameRoom}"),
+          title: Text("${nameRoom}"),
         ),
         body: Stack(children: [
           Align(
@@ -150,6 +150,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                           ),
                                           onTap: () {
                                             Get.to(Room(
+                                              idRoom: snapshot.data.id,
                                               priceRoom:
                                                   snapshot.data.roomPrice,
                                             ));

@@ -2,14 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
+import 'package:hotelbooking/app/views/room/service/orderroom.model.dart';
 import 'package:hotelbooking/tools/format.dart';
 import '../controller/room_booking_controller.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:async/async.dart';
 
 class BottomRoom extends StatelessWidget {
   var controller = Get.put(RoomBookingController());
   final int priceRoom;
-  BottomRoom({this.priceRoom});
+  final String idRoom;
+  BottomRoom({this.priceRoom, this.idRoom});
   final textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -74,12 +77,12 @@ class BottomRoom extends StatelessWidget {
                                     child: TextField(
                                       keyboardType: TextInputType.number,
                                       controller: textController,
-                                      inputFormatters: [
-                                        CurrencyTextInputFormatter(
-                                          decimalDigits: 0,
-                                           locale: 'vi',
-                                        )
-                                      ],
+                                      // inputFormatters: [
+                                      //   CurrencyTextInputFormatter(
+                                      //     decimalDigits: 0,
+                                      //     locale: 'vi',
+                                      //   )
+                                      // ],
                                       decoration: InputDecoration(
                                           enabledBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
@@ -117,23 +120,83 @@ class BottomRoom extends StatelessWidget {
                                             )),
                                         TextButton(
                                             onPressed: () async {
-                                              var payload = {
-                                                "fullName": 'tien test'
-                                                    .replaceAll(' ', ''),
+                                              var payload = <String, String>{
+                                                "fullName": 'tientest23/11',
                                                 'phone': '011345678',
                                                 'timeBookingStart':
-                                                    controller.dateStart,
+                                                    '${controller.dateStart.toString()}',
                                                 'timeBookingEnd':
-                                                    controller.dateEnd,
-                                                "totalRoomRate": priceRoom *
-                                                    controller
-                                                        .quantilyRoom.value,
+                                                    '${controller.dateEnd.toString()}',
+                                                "totalRoomRate":
+                                                    '${priceRoom * controller.quantilyRoom.value}',
                                                 'email': 'test@gmail.com',
                                                 'advanceDeposit':
-                                                    textController.text,
+                                                    '${textController.text}',
                                                 'bookingStatus': '0'
                                               };
-                                              await postOderRoom(payload);
+
+                                              await Get.back();
+                                              Result<OrderRoomBooked> result =
+                                                  await postOderRoom(
+                                                payload,
+                                                timeBookingStart: controller
+                                                    .dateStart
+                                                    .toString(),
+                                                timeBookingEnd: controller
+                                                    .dateEnd
+                                                    .toString(),
+                                                totalRoomRate: priceRoom *
+                                                    controller
+                                                        .quantilyRoom.value,
+                                                advanceDeposit:
+                                                    textController.text,
+                                              );
+                                              var payloadUpdate = {
+                                                "roomStatus": 1,
+                                                "idBooking":
+                                                    '${result.asValue.value.id}',
+                                              };
+                                              if (result.isValue) {
+                                                Get.defaultDialog(
+                                                    title: "Xác nhận",
+                                                    middleText:
+                                                        "Số tiền đặt cọc của bạn: ${textController.text}. Bạn có muốn tiếp tục",
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    titleStyle: TextStyle(
+                                                        color: Colors.pink),
+                                                    middleTextStyle: TextStyle(
+                                                        color: Colors.pink),
+                                                    onCancel: () => Get.back(),
+                                                    onConfirm: () async {
+                                                      Result<bool>
+                                                          resultUpdate =
+                                                          await updateRoomStatus(
+                                                              payloadUpdate,
+                                                              idRoom: idRoom);
+                                                      if (resultUpdate
+                                                          .isValue) {
+                                                        await Get.back();
+                                                        Get.snackbar(
+                                                            "Thành cồng",
+                                                            'Bạn đã đặt phòng thành công',
+                                                            snackPosition:
+                                                                SnackPosition
+                                                                    .TOP,
+                                                            backgroundColor:
+                                                                Colors.green,
+                                                            colorText:
+                                                                Colors.white);
+                                                      }
+                                                    });
+                                              } else if (result.isError) {
+                                                Get.snackbar("",
+                                                    'Đã xảy ra lỗi vui lòng thử lại',
+                                                    snackPosition:
+                                                        SnackPosition.TOP,
+                                                    backgroundColor: Colors.red,
+                                                    colorText: Colors.white);
+                                              }
                                             },
                                             child: Container(
                                               padding: EdgeInsets.symmetric(

@@ -6,8 +6,9 @@ import 'images_room_booking.dart';
 import 'main_room_booking.dart';
 
 class Room extends StatefulWidget {
+  final String idRoom;
   final int priceRoom;
-  const Room({Key key, this.priceRoom}) : super(key: key);
+  const Room({Key key,this.idRoom, this.priceRoom}) : super(key: key);
   @override
   _RoomState createState() => _RoomState();
 }
@@ -32,6 +33,7 @@ class _RoomState extends State<Room> {
         ),
       ),
       bottomNavigationBar: BottomRoom(
+        idRoom: widget.idRoom,
         priceRoom: widget.priceRoom,
       ),
     );

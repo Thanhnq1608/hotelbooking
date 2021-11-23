@@ -190,7 +190,7 @@ class ListRoomView extends StatelessWidget {
                             if (snapshot.hasData) {
                               List<RoomDetailModel> listRoomEmptys = snapshot
                                   .data
-                                  .where((element) => element.roomStatus == 1)
+                                  .where((element) => element.roomStatus == 0)
                                   .toList();
                               return ListView.builder(
                                   itemCount: listRoomEmptys.length,

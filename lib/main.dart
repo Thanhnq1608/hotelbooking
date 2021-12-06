@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hotelbooking/app.dart';
+import 'package:hotelbooking/login_register/login/login_user.dart';
 import 'package:hotelbooking/routes/app_pages.dart';
 
 void main() async {
@@ -9,10 +9,12 @@ void main() async {
   await Firebase.initializeApp();
   runApp(GetMaterialApp(
     theme: ThemeData(
-        backgroundColor: Color(0xFFF8F0F0), primaryColor: Color(0xFFFF6666)),
+      backgroundColor: Color(0xFFF8F0F0),
+      primaryColor: Color(0xFFFF6666),
+    ),
     debugShowCheckedModeBanner: false,
     initialRoute: AppPage.initial,
-    //  getPages: AppPage.pages,
-    home: App(),
+    getPages: AppPage.pages,
+    home: LoginUser(),
   ));
 }

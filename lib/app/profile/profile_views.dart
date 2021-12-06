@@ -2,15 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/history/history.dart';
+import 'package:hotelbooking/login_register/auth_api_service.dart';
+import 'package:hotelbooking/login_register/model_auth/status_success.dart';
 import 'package:hotelbooking/model/user.dart';
 import 'package:hotelbooking/routes/app_routes.dart';
-import 'package:hotelbooking/tools/bottom_navigation/bottom_navigation_view.dart';
 import 'package:hotelbooking/tools/change_language_picker.dart';
 import 'profile_controller.dart';
-import 'package:get/get.dart';
+
 class ProfileView extends StatelessWidget {
-  var controller=Get.put(ProfileController());
-  Widget _topProfile(BuildContext context) {
+  var controller = Get.put(ProfileController());
+  final String id;
+  final String token;
+  ProfileView({this.id, this.token});
+
+  Widget _topProfile(BuildContext context, {StatusSuccessGet snapshot}) {
     return Container(
       height: 225,
       margin: EdgeInsets.only(bottom: 10),
@@ -54,21 +59,25 @@ class ProfileView extends StatelessWidget {
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 8),
-                            child: Text(
-                              controller.fullname.value,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500),
-                            ),
+                            child: (snapshot.data == null)
+                                ? Text('csc')
+                                : Text(
+                                    snapshot.data.customer.name,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                           ),
                           Container(
                             margin: EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              controller.username.value,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 15),
-                            ),
+                            child: (snapshot.data == null)
+                                ? Text('csc')
+                                : Text(
+                                    snapshot.data.customer.email,
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 15),
+                                  ),
                           ),
                         ],
                       ),
@@ -79,7 +88,7 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget _bodyProfileScreen(BuildContext context) {
+  Widget _bodyProfileScreen(BuildContext context, {StatusSuccessGet snashot}) {
     return Column(
       children: [
         Container(
@@ -107,12 +116,13 @@ class ProfileView extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     var user = User(
-                        username: controller.username.value,
-                        email: controller.username.value,
-                        fullname: controller.fullname.value,
-                        phone: '0332751701',
-                        dateOfBirth: controller.dateOfBirrth.value,
-                        address: controller.address,
+                        username: snashot.data.customer.name,
+                        email: snashot.data.customer.email,
+                        fullname: snashot.data.customer.name,
+                        phone: snashot.data.customer.phoneNumber,
+                        dateOfBirth: snashot.data.customer.dateOfBirth
+                            .replaceAll('T00:00:00.000Z', ''),
+                        address: snashot.data.customer.address,
                         avatarURL: controller.networkImage.value);
                     Get.toNamed(AppRoute.manageProfile, arguments: user);
                   },
@@ -365,13 +375,20 @@ class ProfileView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text(
-          'Profile',
+          'Thông tin người dùng',
           style: TextStyle(color: Colors.white),
         ),
       ),
       body: Column(
         children: [
-          Align(alignment: Alignment.topCenter, child: _topProfile(context)),
+          Align(
+              alignment: Alignment.topCenter,
+              child: FutureBuilder(
+                  future: AuthApiService().GetInforUser(id: id, token: token),
+                  builder: (context, snapshot) {
+                    if (snapshot?.hasData == null) Container();
+                    return _topProfile(context, snapshot: snapshot?.data);
+                  })),
           Expanded(
               child: DraggableScrollableSheet(
                   initialChildSize: 1,
@@ -381,10 +398,16 @@ class ProfileView extends StatelessWidget {
                   builder: (context, ScrollController scrollController) {
                     return SingleChildScrollView(
                       controller: scrollController,
-                      child: _bodyProfileScreen(context),
+                      child: FutureBuilder<StatusSuccessGet>(
+                          future: AuthApiService().GetInforUser(),
+                          builder: (context, snapshot) {
+                            return snapshot.hasData
+                                ? _bodyProfileScreen(context,
+                                    snashot: snapshot.data)
+                                : _bodyProfileScreen(context);
+                          }),
                     );
                   })),
-          
         ],
       ),
     );

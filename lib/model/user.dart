@@ -15,7 +15,7 @@ class User {
   String email;
   String phone;
   String password;
-  DateTime dateOfBirth;
+  String dateOfBirth;
   String address;
   String status;
   String avatarURL;

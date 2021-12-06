@@ -50,7 +50,7 @@ class ManageProfileView extends StatelessWidget {
                             mode: CupertinoDatePickerMode.date,
                             onDateTimeChanged: (value) {
                               controller.user.update((val) {
-                                val.dateOfBirth = value;
+                                val.dateOfBirth = value.toString();
                                 controller.dateOfBirthController.text =
                                     DateFormat('dd/MM/yyyy').format(value);
                               });
@@ -123,7 +123,7 @@ class ManageProfileView extends StatelessWidget {
               Icons.arrow_back_ios_rounded,
               color: Colors.white,
             ),
-            onPressed: () => Get.toNamed('/profile'),
+            onPressed: () => Get.back(),
           ),
           title: const Text(
             'Manage Profile',

@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileController extends GetxController {
+  
   var username = 'thanhnq1608@gmail.com'.obs;
   var fullname = 'Quang Thanh'.obs;
   var dateOfBirrth = DateTime.now().obs;
@@ -12,7 +13,6 @@ class ProfileController extends GetxController {
       'https://i.pinimg.com/564x/31/ba/37/31ba3731e1b1f3791ee2ad5860a1098c.jpg'
           .obs;
   Rx<bool> isCheckGender = true.obs;
-
   void setAvaterByGender() {
     if (isCheckGender.value == true) {
       // ignore: await_only_futures

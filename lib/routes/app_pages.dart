@@ -26,7 +26,10 @@ class AppPage {
         name: AppRoute.profile,
         page: () => ProfileView(),
         binding: ProfileBindings()),
-    GetPage(name: AppRoute.manageProfile, page: () => ManageProfileView()),
+    GetPage(
+      name: AppRoute.manageProfile,
+      page: () => ManageProfileView(),
+    ),
     GetPage(
         name: AppRoute.listRoomEmpty,
         page: () => ListRoomView(),

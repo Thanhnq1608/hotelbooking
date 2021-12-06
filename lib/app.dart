@@ -3,27 +3,50 @@ import 'package:hotelbooking/app/list_room_empty/list_room_empty.dart';
 import 'package:hotelbooking/app/profile/profile_views.dart';
 
 class App extends StatefulWidget {
-  const App({Key key}) : super(key: key);
+  final String id;
+  final String token;
+  App({this.id, this.token});
 
   @override
-  State<App> createState() => _MyApp();
+  _MyApp createState() => _MyApp();
 }
 
 class _MyApp extends State<App> {
   int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = <Widget>[
-    ListRoomView(),
-    ProfileView(),
-  ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  // static List<Widget> _widgetOptions = <Widget>[
+  //   ListRoomView(),
+  //   ProfileView(
+  //     id: widget.id,
+  //     token: widget.token,
+  //   ),
+  // ];
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  // }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _widgetOptions = <Widget>[
+      ListRoomView(),
+      ProfileView(
+        id: widget.id,
+        token: widget.token,
+      ),
+    ];
+    void _onItemTapped(int index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+
     return Scaffold(
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
@@ -32,11 +55,11 @@ class _MyApp extends State<App> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: 'Home',
+              label: 'Trang chủ',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'Profile',
+              label: 'Thông tin',
             ),
           ],
           currentIndex: _selectedIndex,

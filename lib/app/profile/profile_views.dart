@@ -400,7 +400,7 @@ class ProfileView extends StatelessWidget {
                     return SingleChildScrollView(
                       controller: scrollController,
                       child: StreamBuilder<StatusSuccessGet>(
-                          stream: AuthApiService().GetInforUser(),
+                          stream: AuthApiService().GetInforUser(id: id, token: token),
                           builder: (context, snapshot) {
                             return snapshot.hasData
                                 ? _bodyProfileScreen(context,

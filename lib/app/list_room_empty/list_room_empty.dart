@@ -8,9 +8,21 @@ import 'package:hotelbooking/app/views/room_detail/views/room_detail_view.dart';
 import 'package:hotelbooking/tools/bottom_navigation/bottom_navigation_view.dart';
 import 'package:hotelbooking/tools/format.dart';
 
-class ListRoomView extends StatelessWidget {
+class ListRoomView extends StatefulWidget {
+  final String type;
+
+  ListRoomView({this.type});
+
+  @override
+  _ListRoomViewState createState() => _ListRoomViewState();
+}
+
+class _ListRoomViewState extends State<ListRoomView> {
   var controller = Get.put(ListRoomController());
+
   var _textEditingController = TextEditingController();
+
+  var color;
 
   Widget _appBar(BuildContext context) {
     return AppBar(
@@ -111,7 +123,6 @@ class ListRoomView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: _appBar(context),
       body: Column(
@@ -207,7 +218,7 @@ class ListRoomView extends StatelessWidget {
                                               offset: Offset(2, 2),
                                               spreadRadius: 2)
                                         ],
-                                        color: Colors.white,
+                                        color: color,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20)),
                                       ),
@@ -287,14 +298,29 @@ class ListRoomView extends StatelessWidget {
                                           ],
                                         ),
                                         onTap: () {
-                                          Get.to(
-                                              RoomDetailView(
-                                                idRoom:
-                                                    listRoomEmptys[index].id,
-                                                nameRoom: listRoomEmptys[index]
-                                                    .roomName,
-                                              ),
-                                              binding: RoomDetailBinding());
+                                          if (widget.type ==
+                                              'book multiple rooms') {
+                                                print(index);
+                                            if (color == Colors.white) {
+                                              setState(() {
+                                                color = Colors.grey;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                color = Colors.white;
+                                              });
+                                            }
+                                          } else {
+                                            Get.to(
+                                                RoomDetailView(
+                                                  idRoom:
+                                                      listRoomEmptys[index].id,
+                                                  nameRoom:
+                                                      listRoomEmptys[index]
+                                                          .roomName,
+                                                ),
+                                                binding: RoomDetailBinding());
+                                          }
                                         },
                                       ),
                                     );

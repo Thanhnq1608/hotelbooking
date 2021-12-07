@@ -5,6 +5,7 @@ import 'package:hotelbooking/login_register/register/tel_pass_register.dart';
 class ProfileRegister extends StatelessWidget {
   final fullNameController;
   final emailUserController;
+  final phoneUserController;
   final passwordUserController;
   final formKeyName;
   final registerState;
@@ -12,6 +13,7 @@ class ProfileRegister extends StatelessWidget {
   ProfileRegister({
     this.formKeyName,
     this.fullNameController,
+    this.phoneUserController,
     this.emailUserController,
     this.passwordUserController,
     this.registerState,
@@ -47,6 +49,7 @@ class ProfileRegister extends StatelessWidget {
             TelPassRegister(
               registerState: registerState,
               emailUserController: emailUserController,
+              phoneUserController: phoneUserController,
               passwordUserController: passwordUserController,
             )
           ],

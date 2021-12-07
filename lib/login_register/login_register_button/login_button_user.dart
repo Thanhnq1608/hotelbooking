@@ -11,6 +11,7 @@ class LoginButtonUser extends StatelessWidget {
   var controllPassword;
   var fromKey;
   final loginBloc;
+
   LoginButtonUser({
     this.fromKey,
     this.controllerEmail,
@@ -22,11 +23,18 @@ class LoginButtonUser extends StatelessWidget {
     return FlatButton(
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () async {
+          // obtain shared preferences
+          final prefs = await SharedPreferences.getInstance();
+
           Result<StatusSuccess> result = await AuthApiService().SignIn(
             email: controllerEmail.text,
             password: controllPassword.text,
           );
           if (result.isValue) {
+            prefs.setString('name', result.asValue.value.data.customer.name);
+            prefs.setString('phone', result.asValue.value.data.customer.phoneNumber);
+            prefs.setString('id', result.asValue.value.data.customer.id);
+            prefs.setString('email', result.asValue.value.data.customer.email);
             Get.to(App(
               id: result.asValue.value.data.customer.id,
               token: result.asValue.value.data.token,

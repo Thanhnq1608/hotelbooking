@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'bottom_room_booking.dart';
+import 'bottom_room_empty.dart';
 import 'images_room_booking.dart';
 import 'main_room_booking.dart';
 
 class Room extends StatefulWidget {
   final String idRoom;
   final int priceRoom;
-  const Room({Key key,this.idRoom, this.priceRoom}) : super(key: key);
+  Room({Key key, this.idRoom, this.priceRoom});
   @override
   _RoomState createState() => _RoomState();
 }
@@ -20,7 +21,7 @@ class _RoomState extends State<Room> {
       appBar: AppBar(
         backgroundColor: Colors.pink,
         title: Text(
-          'Select Dates',
+          'Chọn ngày đặt phòng',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -32,10 +33,12 @@ class _RoomState extends State<Room> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomRoom(
-        idRoom: widget.idRoom,
-        priceRoom: widget.priceRoom,
-      ),
+      bottomNavigationBar: (widget.idRoom != null && widget.priceRoom != null)
+          ? BottomRoom(
+              idRoom: widget.idRoom,
+              priceRoom: widget.priceRoom,
+            )
+          : BottomRoomEmpty(),
     );
   }
 }

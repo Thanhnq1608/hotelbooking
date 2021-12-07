@@ -37,6 +37,7 @@ class AuthApiService {
     String email,
     String password,
     String address,
+    String phone,
   }) async {
     final url = "https://datphongkhachsan.herokuapp.com/api/v1/auth/register";
     final http.Client client = http.Client();
@@ -52,7 +53,7 @@ class AuthApiService {
         'email': email,
         'password': password,
         "fullName": name,
-        "phone": "0123456788",
+        "phone": phone,
         "userName": name,
         "position": "YYY",
         "DateOfBirth": "2001-10-30",
@@ -70,11 +71,11 @@ class AuthApiService {
     }
   }
 
-  Future<StatusSuccessGet> GetInforUser({String id, String token}) async {
+  Stream<StatusSuccessGet> GetInforUser({String id, String token}) async* {
     final url =
         "https://datphongkhachsan.herokuapp.com/api/v1/auth/getUser/$id";
     final http.Client client = http.Client();
-    print(token);
+    print(id);
     final response = await client.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -85,7 +86,7 @@ class AuthApiService {
 
     if (response.statusCode == 200) {
       print('object' + response.body);
-      return StatusSuccessGet.fromJson(jsonDecode(response.body));
+      yield StatusSuccessGet.fromJson(jsonDecode(response.body));
     } else {
       print(response.body);
     }

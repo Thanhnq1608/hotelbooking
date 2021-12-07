@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hotelbooking/app/list_room_empty/list_room_empty.dart';
 import 'package:hotelbooking/app/profile/profile_views.dart';
+
+import 'app/views/room/views/room_booking.dart';
 
 class App extends StatefulWidget {
   final String id;
@@ -13,19 +16,6 @@ class App extends StatefulWidget {
 
 class _MyApp extends State<App> {
   int _selectedIndex = 0;
-
-  // static List<Widget> _widgetOptions = <Widget>[
-  //   ListRoomView(),
-  //   ProfileView(
-  //     id: widget.id,
-  //     token: widget.token,
-  //   ),
-  // ];
-  // void _onItemTapped(int index) {
-  //   setState(() {
-  //     _selectedIndex = index;
-  //   });
-  // }
 
   @override
   void initState() {
@@ -68,7 +58,9 @@ class _MyApp extends State<App> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.to(Room());
+          },
           backgroundColor: Color(0xFFFF6666),
           child: Container(
             child: Icon(Icons.add),

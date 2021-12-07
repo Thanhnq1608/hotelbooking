@@ -4,7 +4,6 @@ import 'package:hotelbooking/login_register/login_register_button/register_butto
 import 'package:hotelbooking/login_register/register/address_register.dart';
 import 'package:hotelbooking/login_register/register/footer_register.dart';
 import 'package:hotelbooking/login_register/register/profile_register.dart';
-import 'package:hotelbooking/login_register/register/referral_code_register.dart';
 
 class Register extends StatefulWidget {
   Register({Key key});
@@ -15,6 +14,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final GlobalKey<FormState> _fromKeyRegisterName = GlobalKey<FormState>();
   final emailUserController = TextEditingController();
+  final phonelUserController = TextEditingController();
   final passwordUserController = TextEditingController();
   final fullNameController = TextEditingController();
   final addressController = TextEditingController();
@@ -56,6 +56,7 @@ class _RegisterState extends State<Register> {
                       formKeyName: _fromKeyRegisterName,
                       fullNameController: fullNameController,
                       emailUserController: emailUserController,
+                      phoneUserController: phonelUserController,
                       passwordUserController: passwordUserController,
                     )),
                     Container(
@@ -89,6 +90,7 @@ class _RegisterState extends State<Register> {
                         addressUserController: addressController,
                         formKeyName: _fromKeyRegisterName,
                         emailUserController: emailUserController,
+                        phoneUserController: phonelUserController,
                         passwordUserController: passwordUserController,
                         fullNameController: fullNameController,
                       ),

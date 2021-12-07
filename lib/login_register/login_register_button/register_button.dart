@@ -6,6 +6,7 @@ import 'package:async/async.dart';
 class RegisterButton extends StatelessWidget {
   var formKeyName;
   final emailUserController;
+  final phoneUserController;
   final passwordUserController;
   final fullNameController;
   final registerBloc;
@@ -13,6 +14,7 @@ class RegisterButton extends StatelessWidget {
   RegisterButton(
       {this.formKeyName,
       this.emailUserController,
+      this.phoneUserController,
       this.passwordUserController,
       this.fullNameController,
       this.addressUserController,
@@ -26,6 +28,7 @@ class RegisterButton extends StatelessWidget {
           Result<bool> result = await AuthApiService().SignUp(
             name: fullNameController.text,
             email: emailUserController.text,
+            phone: phoneUserController.text,
             password: passwordUserController.text,
             address: addressUserController.text,
           );

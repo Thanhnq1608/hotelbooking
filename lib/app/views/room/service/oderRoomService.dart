@@ -12,35 +12,26 @@ Future<Result<OrderRoomBooked>> postOderRoom(
   String advanceDeposit,
 }) async {
   try {
-    final url = 'https://datphongkhachsan.herokuapp.com/orderRoomBooked/create';
+     final url = 'https://datphongkhachsan.herokuapp.com/orderRoomBooked/create';
     print(payload);
-    final response = await http.post(
-      Uri.parse(url),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'fullName': 'tientest2311',
-        'phone': '011345678',
-        'timeBookingStart': timeBookingStart,
-        'timeBookingEnd': timeBookingEnd,
-        'totalRoomRate': totalRoomRate,
-        'email': 'test@gmail.com',
-        'advanceDeposit': advanceDeposit,
-        'bookingStatus': '0'
-      }),
-    );
-    print('object');
-    if (response.statusCode == 200) {
-      print('object0000');
-      var data =
-          response.body is Map ? response.body : json.decode(response.body);
-          print('object ${response.body}');
-      return Result.value(OrderRoomBooked.fromJson(data));
-    } else if (response.statusCode == 400) {
-      print('errr');
-      return Result.error('Lỗi không xác định. Vui lòng thử lại!');
-    }
+    // final response = await http.post(
+    //   Uri.parse(url),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //   },
+    //   body: payload
+    // );
+    // print('object');
+    // if (response.statusCode == 200) {
+    //   print('object0000');
+    //   var data =
+    //       response.body is Map ? response.body : json.decode(response.body);
+    //       print('object ${response.body}');
+    //   return Result.value(OrderRoomBooked.fromJson(data));
+    // } else if (response.statusCode == 400) {
+    //   print('errr');
+    //   return Result.error('Lỗi không xác định. Vui lòng thử lại!');
+    // }
   } on DioError catch (e) {
     print('11111');
     return Result.error('Lỗi không xác định. Vui lòng thử lại!');

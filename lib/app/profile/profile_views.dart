@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/history/history.dart';
 import 'package:hotelbooking/login_register/auth_api_service.dart';
+import 'dart:async';
 import 'package:hotelbooking/login_register/model_auth/status_success.dart';
 import 'package:hotelbooking/model/user.dart';
 import 'package:hotelbooking/routes/app_routes.dart';
@@ -383,10 +384,10 @@ class ProfileView extends StatelessWidget {
         children: [
           Align(
               alignment: Alignment.topCenter,
-              child: FutureBuilder(
-                  future: AuthApiService().GetInforUser(id: id, token: token),
+              child: StreamBuilder(
+                  stream: AuthApiService().GetInforUser(id: id, token: token),
                   builder: (context, snapshot) {
-                    if (snapshot?.hasData == null) Container();
+                    if (snapshot?.hasError != null) Container();
                     return _topProfile(context, snapshot: snapshot?.data);
                   })),
           Expanded(
@@ -398,8 +399,8 @@ class ProfileView extends StatelessWidget {
                   builder: (context, ScrollController scrollController) {
                     return SingleChildScrollView(
                       controller: scrollController,
-                      child: FutureBuilder<StatusSuccessGet>(
-                          future: AuthApiService().GetInforUser(),
+                      child: StreamBuilder<StatusSuccessGet>(
+                          stream: AuthApiService().GetInforUser(),
                           builder: (context, snapshot) {
                             return snapshot.hasData
                                 ? _bodyProfileScreen(context,

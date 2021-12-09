@@ -22,7 +22,7 @@ class _ListRoomViewState extends State<ListRoomView> {
 
   var _textEditingController = TextEditingController();
 
-  var color;
+  var color=Colors.white;
 
   Widget _appBar(BuildContext context) {
     return AppBar(

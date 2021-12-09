@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/list_room_empty/list_room_controller.dart';
 import 'package:hotelbooking/app/list_room_empty/list_room_service.dart';
+import 'package:hotelbooking/app/views/room/views/bottom_room_booking.dart';
 import 'package:hotelbooking/app/views/room_detail/bindings/room_detail_binding.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:hotelbooking/app/views/room_detail/views/room_detail_view.dart';
 import 'package:hotelbooking/tools/bottom_navigation/bottom_navigation_view.dart';
 import 'package:hotelbooking/tools/format.dart';
+
+import 'bottomBook.dart';
 
 class ListRoomView extends StatefulWidget {
   final String type;
@@ -22,8 +25,10 @@ class _ListRoomViewState extends State<ListRoomView> {
 
   var _textEditingController = TextEditingController();
 
-  var color=Colors.white;
-
+  var color = Colors.white;
+  var seclectRoom = false;
+  var listsRoomId = <dynamic>[];
+  final listsRoomPrice = <dynamic>[];
   Widget _appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).primaryColor,
@@ -206,6 +211,8 @@ class _ListRoomViewState extends State<ListRoomView> {
                               return ListView.builder(
                                   itemCount: listRoomEmptys.length,
                                   itemBuilder: (context, index) {
+                                    final alreadySaved = listsRoomId.contains(
+                                        listRoomEmptys[index].id);
                                     return Container(
                                       height: 300,
                                       padding: EdgeInsets.zero,
@@ -218,7 +225,10 @@ class _ListRoomViewState extends State<ListRoomView> {
                                               offset: Offset(2, 2),
                                               spreadRadius: 2)
                                         ],
-                                        color: color,
+                                        color: listsRoomId.contains(
+                                                listRoomEmptys[index].id)
+                                            ? Colors.grey
+                                            : Colors.white,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20)),
                                       ),
@@ -246,29 +256,44 @@ class _ListRoomViewState extends State<ListRoomView> {
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 10, vertical: 10),
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         '${listRoomEmptys[index].roomName}',
                                                         style: TextStyle(
                                                             fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                            fontWeight: FontWeight.bold),
                                                       ),
-                                                      Row(
-                                                        children: [
-                                                          Icon(Icons.person),
-                                                          Text(
-                                                              ' ${listRoomEmptys[index].maximumNumberOfPeople} người/phòng')
-                                                        ],
+                                                      Container(
+                                                        color: Colors.blueGrey,
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.end,
+                                                          children: [
+                                                            Icon(Icons.person),
+                                                            Text(
+                                                                ' ${listRoomEmptys[index].maximumNumberOfPeople} người/phòng'),
+                                                            Container(
+                                                              color: Colors.amber,
+                                                              margin:
+                                                                  EdgeInsets.only(
+                                                                      left: 100),
+                                                              alignment: Alignment
+                                                                  .centerRight,
+                                                              child: Text(
+                                                                '${MoneyUtility.formatCurrency(listRoomEmptys[index].roomPrice)}',
+                                                                style: TextStyle(
+                                                                    fontSize: 25,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            ),
+                                                            
+                                                          ],
+                                                        ),
                                                       ),
                                                       Row(
                                                         children: [
@@ -280,18 +305,6 @@ class _ListRoomViewState extends State<ListRoomView> {
                                                       )
                                                     ],
                                                   ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        left: 20),
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      '${MoneyUtility.formatCurrency(listRoomEmptys[index].roomPrice)}',
-                                                      style: TextStyle(
-                                                          fontSize: 25,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  )
                                                 ],
                                               ),
                                             )
@@ -300,16 +313,27 @@ class _ListRoomViewState extends State<ListRoomView> {
                                         onTap: () {
                                           if (widget.type ==
                                               'book multiple rooms') {
-                                                print(index);
-                                            if (color == Colors.white) {
-                                              setState(() {
-                                                color = Colors.grey;
-                                              });
-                                            } else {
-                                              setState(() {
-                                                color = Colors.white;
-                                              });
-                                            }
+                                            print(index);
+                                            setState(() {
+                                              if (alreadySaved) {
+                                                listsRoomId.remove(
+                                                    listRoomEmptys[index]
+                                                        .id);
+                                                listsRoomPrice.remove(
+                                                    listRoomEmptys[index]
+                                                        .roomPrice
+                                                        .toString());
+                                              } else {
+                                                listsRoomId.add(
+                                                  listRoomEmptys[index]
+                                                      .id,
+                                                );
+                                                listsRoomPrice.add(
+                                                    listRoomEmptys[index]
+                                                        .roomPrice
+                                                        .toString());
+                                              }
+                                            });
                                           } else {
                                             Get.to(
                                                 RoomDetailView(
@@ -337,6 +361,14 @@ class _ListRoomViewState extends State<ListRoomView> {
           ),
         ],
       ),
+      bottomNavigationBar: widget.type == 'book multiple rooms' &&
+              listsRoomPrice.isNotEmpty &&
+              listsRoomId.isNotEmpty
+          ? BottomRoomBook(
+              listsRoom: listsRoomPrice,
+              listsIdRoom: listsRoomId,
+            )
+          : null,
     );
   }
 }

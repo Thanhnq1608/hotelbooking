@@ -12,26 +12,21 @@ Future<Result<OrderRoomBooked>> postOderRoom(
   String advanceDeposit,
 }) async {
   try {
-     final url = 'https://datphongkhachsan.herokuapp.com/orderRoomBooked/create';
+    final url = 'https://datphongkhachsan.herokuapp.com/orderRoomBooked/create';
     print(payload);
-    // final response = await http.post(
-    //   Uri.parse(url),
-    //   headers: <String, String>{
-    //     'Content-Type': 'application/json; charset=UTF-8',
-    //   },
-    //   body: payload
-    // );
-    // print('object');
-    // if (response.statusCode == 200) {
-    //   print('object0000');
-    //   var data =
-    //       response.body is Map ? response.body : json.decode(response.body);
-    //       print('object ${response.body}');
-    //   return Result.value(OrderRoomBooked.fromJson(data));
-    // } else if (response.statusCode == 400) {
-    //   print('errr');
-    //   return Result.error('Lỗi không xác định. Vui lòng thử lại!');
-    // }
+    final response = await http.post(Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(payload));
+    if (response.statusCode == 200) {
+      var data =
+          response.body is Map ? response.body : json.decode(response.body);
+      print('object ${response.body}');
+      return Result.value(OrderRoomBooked.fromJson(data));
+    } else if (response.statusCode == 400) {
+      return Result.error('Lỗi không xác định. Vui lòng thử lại!');
+    }
   } on DioError catch (e) {
     print('11111');
     return Result.error('Lỗi không xác định. Vui lòng thử lại!');
@@ -51,6 +46,28 @@ Future<Result<bool>> updateRoomStatus(payload, {String idRoom}) async {
       return Result.error('Lỗi không xác định. Vui lòng thử lại!');
     }
   } on DioError catch (e) {
+    return Result.error('Lỗi không xác định. Vui lòng thử lại!');
+  }
+}
+
+Future<Result<bool>> updateOderRoom(payload,{String id}) async {
+  try {
+    final url = 'https://datphongkhachsan.herokuapp.com/orderRoomBooked/update/$id';
+    print(payload);
+    print(id);
+    final response = await http.post(Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(payload));
+    if (response.statusCode == 200) {
+      print('object ${response.body}');
+      return Result.value(true);
+    } else if (response.statusCode == 400) {
+      return Result.error('Lỗi không xác định. Vui lòng thử lại!');
+    }
+  } on DioError catch (e) {
+    print('11111');
     return Result.error('Lỗi không xác định. Vui lòng thử lại!');
   }
 }

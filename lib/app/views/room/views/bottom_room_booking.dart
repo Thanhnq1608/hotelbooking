@@ -123,7 +123,7 @@ class BottomRoom extends StatelessWidget {
                                                String email =prefs.getString('email') ?? '';
                                               var payload = <String, String>{
                                                 "fullName": nameUser.replaceAll(' ', ''),
-                                                'phone': '011345678',
+                                                'phone': phoneUser,
                                                 'timeBookingStart':
                                                     '${controller.dateStart.value.hour}:${controller.dateStart.value.minute} ${controller.dateStart.value.day}/${controller.dateStart.value.month}/${controller.dateStart.value.year}',
                                                 'timeBookingEnd':
@@ -150,52 +150,52 @@ class BottomRoom extends StatelessWidget {
                                                 advanceDeposit:
                                                     textController.text,
                                               );
-                                              // var payloadUpdate = {
-                                              //   "roomStatus": 1,
-                                              //   "idBooking":
-                                              //       '${result.asValue.value.id}',
-                                              // };
-                                              // if (result.isValue) {
-                                              //   Get.defaultDialog(
-                                              //       title: "Xác nhận",
-                                              //       middleText:
-                                              //           "Số tiền đặt cọc của bạn: ${textController.text}. Bạn có muốn tiếp tục",
-                                              //       backgroundColor:
-                                              //           Colors.white,
-                                              //       titleStyle: TextStyle(
-                                              //           color: Colors.pink),
-                                              //       middleTextStyle: TextStyle(
-                                              //           color: Colors.pink),
-                                              //       onCancel: () => Get.back(),
-                                              //       onConfirm: () async {
-                                              //         Result<bool>
-                                              //             resultUpdate =
-                                              //             await updateRoomStatus(
-                                              //                 payloadUpdate,
-                                              //                 idRoom: idRoom);
-                                              //         if (resultUpdate
-                                              //             .isValue) {
-                                              //           await Get.back();
-                                              //           Get.snackbar(
-                                              //               "Thành cồng",
-                                              //               'Bạn đã đặt phòng thành công',
-                                              //               snackPosition:
-                                              //                   SnackPosition
-                                              //                       .TOP,
-                                              //               backgroundColor:
-                                              //                   Colors.green,
-                                              //               colorText:
-                                              //                   Colors.white);
-                                              //         }
-                                              //       });
-                                              // } else if (result.isError) {
-                                              //   Get.snackbar("",
-                                              //       'Đã xảy ra lỗi vui lòng thử lại',
-                                              //       snackPosition:
-                                              //           SnackPosition.TOP,
-                                              //       backgroundColor: Colors.red,
-                                              //       colorText: Colors.white);
-                                              // }
+                                              var payloadUpdate = {
+                                                "roomStatus": 1,
+                                                "idBooking":
+                                                    '${result.asValue.value.id}',
+                                              };
+                                              if (result.isValue) {
+                                                Get.defaultDialog(
+                                                    title: "Xác nhận",
+                                                    middleText:
+                                                        "Số tiền đặt cọc của bạn: ${textController.text}. Bạn có muốn tiếp tục",
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    titleStyle: TextStyle(
+                                                        color: Colors.pink),
+                                                    middleTextStyle: TextStyle(
+                                                        color: Colors.pink),
+                                                    onCancel: () => Get.back(),
+                                                    onConfirm: () async {
+                                                      Result<bool>
+                                                          resultUpdate =
+                                                          await updateRoomStatus(
+                                                              payloadUpdate,
+                                                              idRoom: idRoom);
+                                                      if (resultUpdate
+                                                          .isValue) {
+                                                        await Get.back();
+                                                        Get.snackbar(
+                                                            "Thành cồng",
+                                                            'Bạn đã đặt phòng thành công',
+                                                            snackPosition:
+                                                                SnackPosition
+                                                                    .TOP,
+                                                            backgroundColor:
+                                                                Colors.green,
+                                                            colorText:
+                                                                Colors.white);
+                                                      }
+                                                    });
+                                              } else if (result.isError) {
+                                                Get.snackbar("",
+                                                    'Đã xảy ra lỗi vui lòng thử lại',
+                                                    snackPosition:
+                                                        SnackPosition.TOP,
+                                                    backgroundColor: Colors.red,
+                                                    colorText: Colors.white);
+                                              }
                                             },
                                             child: Container(
                                               padding: EdgeInsets.symmetric(

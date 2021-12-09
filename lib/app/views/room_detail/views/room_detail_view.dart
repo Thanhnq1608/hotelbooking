@@ -179,9 +179,6 @@ class RoomTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: 10,
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -197,6 +194,7 @@ class RoomTitle extends StatelessWidget {
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
+                    maxLines: 2,
                   ),
                 ),
                 Row(
@@ -224,6 +222,34 @@ class RoomTitle extends StatelessWidget {
                   ],
                 )
               ],
+            ),
+          ],
+        ),
+        Container(
+          height: 10,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 24),
+              child: Text(
+                '${MoneyUtility.formatCurrency(priceRoom)}',
+                style: TextStyle(
+                    color: Color(0xFFFF6666),
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              child: Text(
+                '/ Per night',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 15,
+                ),
+              ),
             ),
             FutureBuilder<DocumentSnapshot>(
                 future: FirebaseFirestore.instance
@@ -286,33 +312,6 @@ class RoomTitle extends StatelessWidget {
                   }
                   return Container();
                 })
-          ],
-        ),
-        Container(
-          height: 10,
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.only(left: 24),
-              child: Text(
-                '${MoneyUtility.formatCurrency(priceRoom)}',
-                style: TextStyle(
-                    color: Color(0xFFFF6666),
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              child: Text(
-                ' / Per night',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 15,
-                ),
-              ),
-            )
           ],
         ),
         Container(

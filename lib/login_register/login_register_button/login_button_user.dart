@@ -35,7 +35,7 @@ class LoginButtonUser extends StatelessWidget {
             prefs.setString('phone', result.asValue.value.data.customer.phoneNumber);
             prefs.setString('id', result.asValue.value.data.customer.id);
             prefs.setString('email', result.asValue.value.data.customer.email);
-            Get.to(App(
+            Get.off(App(
               id: result.asValue.value.data.customer.id,
               token: result.asValue.value.data.token,
             ));

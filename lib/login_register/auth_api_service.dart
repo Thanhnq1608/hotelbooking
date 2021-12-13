@@ -18,7 +18,7 @@ class AuthApiService {
         'Content-Type': 'application/json; charset=UTF-8'
       },
       body: jsonEncode(<String, String>{
-        'email': email,
+        'phone': email,
         'passWord': password,
       }),
     );

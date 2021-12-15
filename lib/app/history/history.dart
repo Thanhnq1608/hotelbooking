@@ -1,23 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hotelbooking/app/history/history_items.dart';
+import 'package:hotelbooking/app/history/history_service.dart';
+import 'history.model.dart';
 
 class History extends StatelessWidget {
-  const History({Key key}) : super(key: key);
+  final String phone;
+  History({this.phone});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Lịch Sử')),
-      body: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30), color: Colors.white),
-              child: HistoryItems(),
-            );
+      body: FutureBuilder<List<HistoryModel>>(
+          future: getHistoryRoom(phone),
+          builder: (context, snapshot) {
+            return snapshot.hasData
+                ? ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          print('object');
+                        },
+                        child: Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          child:
+                              HistoryItems(historyModel: snapshot.data[index]),
+                        ),
+                      );
+                    })
+                : Center(child: Image.asset('assets/images/loading.gif'));
           }),
     );
   }

@@ -12,7 +12,7 @@ class RoomOverview extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(left: 24, top: 5),
             child: Text(
-              'Overview',
+              'Mô tả',
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
           ),

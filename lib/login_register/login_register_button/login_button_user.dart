@@ -4,6 +4,7 @@ import 'package:hotelbooking/app.dart';
 import 'package:hotelbooking/login_register/auth_api_service.dart';
 import 'package:hotelbooking/login_register/model_auth/status_success.dart';
 import 'package:async/async.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginButtonUser extends StatelessWidget {
@@ -32,7 +33,8 @@ class LoginButtonUser extends StatelessWidget {
           );
           if (result.isValue) {
             prefs.setString('name', result.asValue.value.data.customer.name);
-            prefs.setString('phone', result.asValue.value.data.customer.phoneNumber);
+            prefs.setString(
+                'phone', result.asValue.value.data.customer.phoneNumber);
             prefs.setString('id', result.asValue.value.data.customer.id);
             prefs.setString('email', result.asValue.value.data.customer.email);
             Get.off(App(
@@ -40,7 +42,11 @@ class LoginButtonUser extends StatelessWidget {
               token: result.asValue.value.data.token,
             ));
           } else if (result.isError) {
-            print('cscs' + result.asError.error);
+            Fluttertoast.showToast(
+                msg: result.asError.error,
+                toastLength: Toast.LENGTH_LONG,
+                backgroundColor: Colors.pink,
+                fontSize: 18);
           }
         },
         child: Text(

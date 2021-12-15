@@ -21,7 +21,7 @@ class RoomAmentiesView extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 24, top: 5),
               child: Text(
-                'Amenties',
+                'Tiện Ích',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
             ),

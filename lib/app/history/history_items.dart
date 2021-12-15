@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hotelbooking/tools/format.dart';
+import 'history.model.dart';
 
 class HistoryItems extends StatelessWidget {
-  const HistoryItems({Key key}) : super(key: key);
+  final HistoryModel historyModel;
 
+  HistoryItems({this.historyModel});
   Widget _buildInfor() {
     return Container(
       margin: EdgeInsets.all(16),
@@ -11,8 +15,19 @@ class HistoryItems extends StatelessWidget {
         children: [
           Container(
             child: Text(
-              'PH11445',
-              style: TextStyle(fontSize: 26),
+              historyModel.bookingStatus == 0
+                  ? 'Đang xác nhận'
+                  : historyModel.bookingStatus == 1
+                      ? 'Đã xác nhận'
+                      : historyModel.bookingStatus == 2
+                          ? 'Đã nhận phòng'
+                          : 'Đã trả phòng',
+              style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w500,
+                  color: historyModel.bookingStatus == 0
+                      ? Colors.black
+                      : Colors.white),
             ),
           ),
           Container(
@@ -25,16 +40,29 @@ class HistoryItems extends StatelessWidget {
 
   Widget _buildTimeBooking() {
     return Container(
+      margin: EdgeInsets.only(left: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Icon(Icons.alarm),
+          Icon(Icons.alarm,
+              color: historyModel.bookingStatus == 0
+                  ? Colors.black
+                  : Colors.white),
           Container(
-              child: Text('18:00 20/09/2021', style: TextStyle(fontSize: 13))),
+              child: Text('${historyModel.timeBookingStart}',
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: historyModel.bookingStatus == 0
+                          ? Colors.black
+                          : Colors.white))),
           Icon(Icons.arrow_forward),
           Container(
-              child: Text('18:00 20/09/2021', style: TextStyle(fontSize: 13))),
+              child: Text('${historyModel.timeBookingEnd}',
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: historyModel.bookingStatus == 0
+                          ? Colors.black
+                          : Colors.white))),
         ],
       ),
     );
@@ -43,9 +71,11 @@ class HistoryItems extends StatelessWidget {
   Widget _buildPrice() {
     return Container(
       margin: EdgeInsets.all(16),
-      child: Text('600.0000 đ',
+      child: Text('${MoneyUtility.formatCurrency(historyModel.totalRoomRate)}',
           style: TextStyle(
             fontSize: 25,
+            color:
+                historyModel.bookingStatus == 0 ? Colors.black : Colors.white,
             fontWeight: FontWeight.w700,
           )),
     );
@@ -54,9 +84,31 @@ class HistoryItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        color: historyModel.bookingStatus == 0
+            ? Colors.white
+            : historyModel.bookingStatus == 1
+                ? Colors.greenAccent
+                : historyModel.bookingStatus == 2
+                    ? Color(0xFFFF6666)
+                    : Colors.red,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
-        children: [_buildInfor(), _buildTimeBooking(), _buildPrice()],
+        children: [
+          _buildInfor(),
+          _buildTimeBooking(),
+          _buildPrice(),
+        ],
       ),
     );
   }

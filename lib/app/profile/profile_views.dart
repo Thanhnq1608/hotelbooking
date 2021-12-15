@@ -94,8 +94,7 @@ class ProfileView extends StatelessWidget {
       children: [
         Container(
           width: MediaQuery.of(context).size.width * 0.95,
-          height: MediaQuery.of(context).size.height * 0.25,
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -103,8 +102,7 @@ class ProfileView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(left: 20),
-                child: Text('Settings',
+                child: Text('Cài đặt',
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 25,
@@ -146,7 +144,7 @@ class ProfileView extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Manage my account',
+                            'Tài khoản của bạn',
                             style: TextStyle(
                                 color: Color(0xFF161722), fontSize: 19),
                           ),
@@ -187,7 +185,7 @@ class ProfileView extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Change password',
+                          'Đổi mật khẩu',
                           style:
                               TextStyle(color: Color(0xFF161722), fontSize: 19),
                         ),
@@ -209,7 +207,8 @@ class ProfileView extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.05,
                 margin: EdgeInsets.only(top: 10),
                 child: InkWell(
-                  onTap: () => Get.to(History()),
+                  
+                  onTap: () => Get.to(History(phone: snashot.data.customer.phoneNumber,)),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -229,7 +228,7 @@ class ProfileView extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'History',
+                            'Lịch sử',
                             style: TextStyle(
                                 color: Color(0xFF161722), fontSize: 19),
                           ),
@@ -252,9 +251,8 @@ class ProfileView extends StatelessWidget {
         ),
         Container(
           width: MediaQuery.of(context).size.width * 0.95,
-          height: MediaQuery.of(context).size.height * 0.19,
-          margin: EdgeInsets.only(top: 10),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          margin: EdgeInsets.only(top: 32),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -262,65 +260,11 @@ class ProfileView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(left: 20),
-                child: Text('Others',
+                child: Text('Khác',
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 25,
                         fontWeight: FontWeight.bold)),
-              ),
-              Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.05,
-                margin: EdgeInsets.only(top: 10),
-                child: InkWell(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.height * 0.025,
-                        height: MediaQuery.of(context).size.height * 0.025,
-                        child: Icon(
-                          Icons.language,
-                          color: Color(0xFF161722),
-                        ),
-                      ),
-                      Container(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Language',
-                            style: TextStyle(
-                                color: Color(0xFF161722), fontSize: 19),
-                          ),
-                        ),
-                      ),
-                      Obx(
-                        () => Text(
-                          controller.language.value,
-                          style:
-                              TextStyle(color: Color(0xFF161722), fontSize: 19),
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.height * 0.025,
-                        height: MediaQuery.of(context).size.height * 0.025,
-                        child: Icon(
-                          Icons.keyboard_arrow_right_rounded,
-                          color: Color(0xFF161722),
-                        ),
-                      ),
-                    ],
-                  ),
-                  onTap: () async {
-                    var result = await Get.bottomSheet(ChangeLanguagePicker());
-                    controller.language.value = result;
-                  },
-                ),
               ),
               Container(
                 width: double.infinity,
@@ -345,7 +289,7 @@ class ProfileView extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Logout',
+                          'Đăng xuất',
                           style:
                               TextStyle(color: Color(0xFF161722), fontSize: 19),
                         ),

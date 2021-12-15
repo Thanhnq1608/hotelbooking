@@ -42,25 +42,6 @@ class RoomDetailView extends GetView<RoomDetailController> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.80, top: 20),
-            width: 50,
-            height: 50,
-            child: RawMaterialButton(
-                shape: CircleBorder(),
-                elevation: 5.0,
-                fillColor: Color(0xFFFFFFFF),
-                child: Obx(() => Image.asset(
-                      controller.colorOfButtonFavorite.value,
-                      width: 20,
-                      height: 20,
-                      fit: BoxFit.fill,
-                    )),
-                onPressed: () {
-                  controller.onClickOnFavoriteButton();
-                }),
-          ),
           Positioned.fill(
             top: 300,
             child: Container(
@@ -142,8 +123,10 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                           highlightColor: Color(0xFFFF6666),
                                           child: Center(
                                             child: Text(
-                                              'Book Now',
+                                              'Đặt Phòng Ngay',
                                               style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w700,
                                                 color: Colors.white,
                                               ),
                                             ),
@@ -180,21 +163,22 @@ class RoomTitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 24, bottom: 10),
+                  margin: EdgeInsets.only(left: 16, bottom: 10, top: 20,right: 8),
                   child: Text(
                     '$roomName',
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 22,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
-                    maxLines: 2,
+                    maxLines: 3,
+                    overflow: TextOverflow.visible,
                   ),
                 ),
                 Row(
@@ -202,10 +186,10 @@ class RoomTitle extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(left: 25),
                       child: Text(
-                        'Kind of room:',
+                        'Loại Phòng:',
                         style: TextStyle(
                           color: Colors.black87,
-                          fontSize: 15,
+                          fontSize: 20,
                         ),
                       ),
                     ),
@@ -216,7 +200,7 @@ class RoomTitle extends StatelessWidget {
                       'Vip1',
                       style: TextStyle(
                         color: Colors.black87,
-                        fontSize: 15,
+                        fontSize: 20,
                       ),
                     )
                   ],
@@ -229,27 +213,30 @@ class RoomTitle extends StatelessWidget {
           height: 10,
         ),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 24),
-              child: Text(
-                '${MoneyUtility.formatCurrency(priceRoom)}',
-                style: TextStyle(
-                    color: Color(0xFFFF6666),
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              child: Text(
-                '/ Per night',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 15,
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 24),
+                  child: Text(
+                    '${MoneyUtility.formatCurrency(priceRoom)}',
+                    style: TextStyle(
+                        color: Color(0xFFFF6666),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
+                Container(
+                  child: Text(
+                    '/Đêm',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+              ],
             ),
             FutureBuilder<DocumentSnapshot>(
                 future: FirebaseFirestore.instance
@@ -260,7 +247,7 @@ class RoomTitle extends StatelessWidget {
                   if (snapshot.connectionState == ConnectionState.done) {
                     Map<String, dynamic> data =
                         snapshot.data.data() as Map<String, dynamic>;
-                    return Column(
+                    return Row(
                       children: [
                         data['hotLine'] == null || data['hotLine'] == ''
                             ? Container()
@@ -289,7 +276,7 @@ class RoomTitle extends StatelessWidget {
                                 data['linkMessenger'] == ''
                             ? Container()
                             : Container(
-                                margin: EdgeInsets.only(right: 20, top: 20),
+                                margin: EdgeInsets.only(right: 20),
                                 width: 50,
                                 height: 50,
                                 child: RawMaterialButton(
@@ -312,43 +299,6 @@ class RoomTitle extends StatelessWidget {
                   }
                   return Container();
                 })
-          ],
-        ),
-        Container(
-          height: 10,
-        ),
-        Row(
-          children: [
-            Container(
-              width: 24,
-            ),
-            Icon(
-              Icons.star,
-              color: Colors.yellow,
-            ),
-            Icon(
-              Icons.star,
-              color: Colors.yellow,
-            ),
-            Icon(
-              Icons.star,
-              color: Colors.yellow,
-            ),
-            Icon(
-              Icons.star,
-              color: Colors.yellow,
-            ),
-            Icon(
-              Icons.star_half,
-              color: Colors.yellow,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(
-                '4,5',
-                style: TextStyle(fontSize: 15),
-              ),
-            )
           ],
         ),
       ],

@@ -268,7 +268,7 @@ class _ListRoomViewState extends State<ListRoomView> {
                                                             fontWeight: FontWeight.bold),
                                                       ),
                                                       Container(
-                                                        color: Colors.blueGrey,
+                                                        // color: Colors.blueGrey,
                                                         child: Row(
                                                           mainAxisAlignment: MainAxisAlignment.end,
                                                           children: [
@@ -276,7 +276,7 @@ class _ListRoomViewState extends State<ListRoomView> {
                                                             Text(
                                                                 ' ${listRoomEmptys[index].maximumNumberOfPeople} người/phòng'),
                                                             Container(
-                                                              color: Colors.amber,
+                                                              // color: Colors.amber,
                                                               margin:
                                                                   EdgeInsets.only(
                                                                       left: 100),

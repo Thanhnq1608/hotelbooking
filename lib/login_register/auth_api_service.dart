@@ -85,10 +85,8 @@ class AuthApiService {
     );
 
     if (response.statusCode == 200) {
-      print('object' + response.body);
       yield StatusSuccessGet.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
     }
   }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hotelbooking/app/history/history.detail/history.detail.dart';
 import 'package:hotelbooking/app/history/history_items.dart';
 import 'package:hotelbooking/app/history/history_service.dart';
 import 'history.model.dart';
@@ -21,7 +23,8 @@ class History extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          print('object');
+                          Get.to(() => HistoryDetail(
+                              historyModel: snapshot.data[index]));
                         },
                         child: Container(
                           margin:

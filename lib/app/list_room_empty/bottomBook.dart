@@ -27,7 +27,6 @@ class BottomRoomBook extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(listsIdRoom);
     return new Container(
         height: 100,
         decoration: BoxDecoration(

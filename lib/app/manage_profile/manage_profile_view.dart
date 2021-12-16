@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/app/manage_profile/bottom_profile.dart';
 import 'package:hotelbooking/app/manage_profile/manage_profile_controller.dart';
-import 'package:hotelbooking/app/profile/profile_controller.dart';
 import 'package:intl/intl.dart';
 
 class ManageProfileView extends StatelessWidget {
@@ -15,7 +15,7 @@ class ManageProfileView extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: [
             Positioned(
-                top: context.height * 0.05,
+                top: 70,
                 child: Container(
                   width: context.width * 0.95,
                   padding: EdgeInsets.only(top: 40, left: 16, right: 16),
@@ -67,7 +67,7 @@ class ManageProfileView extends StatelessWidget {
             Container(
                 width: context.width * 0.2,
                 height: context.width * 0.2,
-                margin: EdgeInsets.only(top: context.height * 0.01),
+                margin: EdgeInsets.only(top:32),
                 child: Stack(
                   children: [
                     Obx(
@@ -114,35 +114,28 @@ class ManageProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () => Get.back(),
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Colors.white,
           ),
-          title: const Text(
-            'Tài khoản của bạn',
-            style: TextStyle(color: Colors.white),
-          ),
+          onPressed: () => Get.back(),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(child: _bodyManage(context)),
-            Container(
-              width: context.width,
-              height: context.height * 0.1,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-            )
-          ],
-        ));
+        title: const Text(
+          'Tài khoản của bạn',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(child: _bodyManage(context)),
+        ],
+      ),
+      bottomNavigationBar: BottomProfile(),
+    );
   }
 }

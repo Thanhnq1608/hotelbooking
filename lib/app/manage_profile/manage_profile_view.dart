@@ -11,8 +11,6 @@ class ManageProfileView extends StatelessWidget {
   Widget _bodyManage(BuildContext context) {
     return Container(
         width: context.width,
-        height: context.height * 0.9,
-        margin: EdgeInsets.only(top: context.height * 0.01),
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
@@ -20,19 +18,20 @@ class ManageProfileView extends StatelessWidget {
                 top: context.height * 0.05,
                 child: Container(
                   width: context.width * 0.95,
-                  height: context.height * 0.76,
-                  padding: EdgeInsets.only(top: 40, left: 10, right: 10),
+                  padding: EdgeInsets.only(top: 40, left: 16, right: 16),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   child: Column(
                     children: [
                       TextField(
-                        decoration: InputDecoration(labelText: 'Fullname'),
+                        decoration: InputDecoration(
+                          labelText: 'Họ và Tên',
+                        ),
                         controller: controller.fullnameController,
                       ),
                       TextField(
-                        decoration: InputDecoration(labelText: 'Phone Number'),
+                        decoration: InputDecoration(labelText: 'Số điện thoái'),
                         controller: controller.phoneNumberController,
                       ),
                       TextField(
@@ -41,7 +40,7 @@ class ManageProfileView extends StatelessWidget {
                       ),
                       TextField(
                         readOnly: true,
-                        decoration: InputDecoration(labelText: 'Date of birth'),
+                        decoration: InputDecoration(labelText: 'Ngày sinh'),
                         controller: controller.dateOfBirthController,
                         onTap: () {
                           Get.bottomSheet(CupertinoDatePicker(
@@ -59,7 +58,7 @@ class ManageProfileView extends StatelessWidget {
                         },
                       ),
                       TextField(
-                        decoration: InputDecoration(labelText: 'Address'),
+                        decoration: InputDecoration(labelText: 'Địa chỉ'),
                         controller: controller.addressController,
                       ),
                     ],
@@ -126,7 +125,7 @@ class ManageProfileView extends StatelessWidget {
             onPressed: () => Get.back(),
           ),
           title: const Text(
-            'Manage Profile',
+            'Tài khoản của bạn',
             style: TextStyle(color: Colors.white),
           ),
         ),

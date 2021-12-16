@@ -22,9 +22,7 @@ class ListRoomView extends StatefulWidget {
 
 class _ListRoomViewState extends State<ListRoomView> {
   var controller = Get.put(ListRoomController());
-
-  var _textEditingController = TextEditingController();
-
+  List<RoomDetailModel> listRoomEmptys;
   var color = Colors.white;
   var seclectRoom = false;
   var listsRoomId = <dynamic>[];
@@ -40,9 +38,15 @@ class _ListRoomViewState extends State<ListRoomView> {
         onPressed: () => Get.back(),
       ),
       title: const Text(
-        'Phòng',
+        'Danh sách phòng',
         style: TextStyle(color: Colors.white),
       ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.filter_list),
+          onPressed: () => _showBottomDialog(context),
+        ),
+      ],
     );
   }
 
@@ -70,14 +74,16 @@ class _ListRoomViewState extends State<ListRoomView> {
                   ),
                   Padding(padding: EdgeInsets.all(10)),
                   Text(
-                    'Sort by price',
+                    'Sắp xếp theo giá phòng',
                     style: TextStyle(fontSize: 20),
                   )
                 ],
               ),
               onTap: () {
                 controller.isSortByPrice.value = true;
-                controller.onClicktoSort();
+                controller.isSortByNumber.value = false;
+                controller.isSortByKindOfRoom.value = false;
+                controller.onClicktoSort(listRoomEmptys);
               },
             ),
             InkWell(
@@ -90,14 +96,16 @@ class _ListRoomViewState extends State<ListRoomView> {
                   ),
                   Padding(padding: EdgeInsets.all(10)),
                   Text(
-                    'Sort by kind of room',
+                    'Săp xếp theo loại phòng',
                     style: TextStyle(fontSize: 20),
                   )
                 ],
               ),
               onTap: () {
+                controller.isSortByPrice.value = false;
+                controller.isSortByNumber.value = false;
                 controller.isSortByKindOfRoom.value = true;
-                controller.onClicktoSort();
+                controller.onClicktoSort(listRoomEmptys);
               },
             ),
             InkWell(
@@ -110,14 +118,16 @@ class _ListRoomViewState extends State<ListRoomView> {
                   ),
                   Padding(padding: EdgeInsets.all(10)),
                   Text(
-                    'Sort by number of people',
+                    'Săp xếp theo số lượng người',
                     style: TextStyle(fontSize: 20),
                   )
                 ],
               ),
               onTap: () {
+                controller.isSortByPrice.value = false;
+                controller.isSortByKindOfRoom.value = false;
                 controller.isSortByNumber.value = true;
-                controller.onClicktoSort();
+                controller.onClicktoSort(listRoomEmptys);
               },
             ),
           ],
@@ -139,80 +149,19 @@ class _ListRoomViewState extends State<ListRoomView> {
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black54,
-                                    blurRadius: 10,
-                                    spreadRadius: 2,
-                                    offset: Offset(2, 2))
-                              ]),
-                          child: Row(
-                            children: [
-                              IconButton(
-                                  padding: EdgeInsets.zero,
-                                  icon: Icon(
-                                    Icons.youtube_searched_for_outlined,
-                                    size: 20,
-                                  ),
-                                  onPressed: () {}),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.55,
-                                alignment: Alignment.topLeft,
-                                child: TextField(
-                                  textAlignVertical: TextAlignVertical.top,
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(fontSize: 20),
-                                  controller: _textEditingController,
-                                  onChanged: ((val) {}),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        width: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black54,
-                                  spreadRadius: 1,
-                                  offset: Offset(2, 2),
-                                  blurRadius: 4)
-                            ]),
-                        child: IconButton(
-                            icon: Icon(Icons.format_line_spacing_rounded),
-                            onPressed: () {
-                              _showBottomDialog(context);
-                            }),
-                      )
-                    ],
-                  ),
                   Expanded(
                       child: FutureBuilder<List<RoomDetailModel>>(
                           future: getListRoom(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              List<RoomDetailModel> listRoomEmptys = snapshot
-                                  .data
+                              listRoomEmptys = snapshot.data
                                   .where((element) => element.roomStatus == 0)
-                                  .toList();
-                              return ListView.builder(
+                                  .toList().obs;
+                              return Obx(() => ListView.builder(
                                   itemCount: listRoomEmptys.length,
                                   itemBuilder: (context, index) {
-                                    final alreadySaved = listsRoomId.contains(
-                                        listRoomEmptys[index].id);
+                                    final alreadySaved = listsRoomId
+                                        .contains(listRoomEmptys[index].id);
                                     return Container(
                                       height: 300,
                                       padding: EdgeInsets.zero,
@@ -256,42 +205,49 @@ class _ListRoomViewState extends State<ListRoomView> {
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 10, vertical: 10),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         '${listRoomEmptys[index].roomName}',
                                                         style: TextStyle(
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.bold),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
                                                       Container(
-                                                        // color: Colors.blueGrey,
                                                         child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.end,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
                                                           children: [
                                                             Icon(Icons.person),
                                                             Text(
                                                                 ' ${listRoomEmptys[index].maximumNumberOfPeople} người/phòng'),
                                                             Container(
-                                                              // color: Colors.amber,
-                                                              margin:
-                                                                  EdgeInsets.only(
-                                                                      left: 100),
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left:
+                                                                          100),
                                                               alignment: Alignment
                                                                   .centerRight,
                                                               child: Text(
                                                                 '${MoneyUtility.formatCurrency(listRoomEmptys[index].roomPrice)}',
                                                                 style: TextStyle(
-                                                                    fontSize: 25,
+                                                                    fontSize:
+                                                                        25,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold),
                                                               ),
                                                             ),
-                                                            
                                                           ],
                                                         ),
                                                       ),
@@ -317,16 +273,14 @@ class _ListRoomViewState extends State<ListRoomView> {
                                             setState(() {
                                               if (alreadySaved) {
                                                 listsRoomId.remove(
-                                                    listRoomEmptys[index]
-                                                        .id);
+                                                    listRoomEmptys[index].id);
                                                 listsRoomPrice.remove(
                                                     listRoomEmptys[index]
                                                         .roomPrice
                                                         .toString());
                                               } else {
                                                 listsRoomId.add(
-                                                  listRoomEmptys[index]
-                                                      .id,
+                                                  listRoomEmptys[index].id,
                                                 );
                                                 listsRoomPrice.add(
                                                     listRoomEmptys[index]
@@ -348,7 +302,7 @@ class _ListRoomViewState extends State<ListRoomView> {
                                         },
                                       ),
                                     );
-                                  });
+                                  }));
                             }
                             return Container(
                                 child: Center(

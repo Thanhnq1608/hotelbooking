@@ -24,6 +24,7 @@ dependencies:
   shared_preferences: ^2.0.6
   currency_text_input_formatter: ^2.1.5
   fluttertoast: ^8.0.0
+  carousel_slider: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/list_room_empty/list_room_controller.dart';
 import 'package:hotelbooking/app/list_room_empty/list_room_service.dart';
+import 'package:hotelbooking/app/list_room_empty/picture.model.dart';
 import 'package:hotelbooking/app/views/room/views/bottom_room_booking.dart';
 import 'package:hotelbooking/app/views/room_detail/bindings/room_detail_binding.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
@@ -27,6 +30,7 @@ class _ListRoomViewState extends State<ListRoomView> {
   var seclectRoom = false;
   var listsRoomId = <dynamic>[];
   final listsRoomPrice = <dynamic>[];
+  var listsImage = <dynamic>[];
   Widget _appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).primaryColor,
@@ -156,7 +160,8 @@ class _ListRoomViewState extends State<ListRoomView> {
                             if (snapshot.hasData) {
                               listRoomEmptys = snapshot.data
                                   .where((element) => element.roomStatus == 0)
-                                  .toList().obs;
+                                  .toList()
+                                  .obs;
                               return Obx(() => ListView.builder(
                                   itemCount: listRoomEmptys.length,
                                   itemBuilder: (context, index) {
@@ -185,19 +190,57 @@ class _ListRoomViewState extends State<ListRoomView> {
                                         child: Column(
                                           children: [
                                             Expanded(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.only(
-                                                            topLeft: Radius
-                                                                .circular(20),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    20)),
-                                                    image: DecorationImage(
-                                                        image: controller
-                                                            .imageRoom.value,
-                                                        fit: BoxFit.fill)),
+                                              child: FutureBuilder<Picture>(
+                                                future: getPictureRoom(listRoomEmptys[index].roomPrice),
+                                                builder: (context, snapshot1) {
+                                                  if (snapshot1.connectionState != ConnectionState.done) {
+                                                    return Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          20),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          20)),
+                                                          image: DecorationImage(
+                                                              image: controller
+                                                                  .imageRoom
+                                                                  .value,
+                                                              fit:
+                                                                  BoxFit.fill)),
+                                                    );
+                                                  } else {
+                                                    if (snapshot1.hasError) {
+                                                      return Text('error');
+                                                    } else {
+                                                      if (snapshot1.hasData) {
+                                                        listsImage=snapshot1.data.data.picture;
+                                                        return Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          20),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          20)),
+                                                              image: DecorationImage(
+                                                                  image: NetworkImage(
+                                                                      snapshot1
+                                                                          .data
+                                                                          .data
+                                                                          .picture[0]
+                                                                          .toString()),
+                                                                  fit: BoxFit.cover)),
+                                                        );
+                                                      } else {
+                                                        return Text("No DAta");
+                                                      }
+                                                    }
+                                                  }
+                                                },
                                               ),
                                             ),
                                             Container(
@@ -289,8 +332,9 @@ class _ListRoomViewState extends State<ListRoomView> {
                                               }
                                             });
                                           } else {
-                                            Get.to(
+                                            Get.to(()=>
                                                 RoomDetailView(
+                                                  imageList: listsImage,
                                                   idRoom:
                                                       listRoomEmptys[index].id,
                                                   nameRoom:

@@ -1,13 +1,12 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hotelbooking/app/views/room/bindings/room_booking_binding.dart';
 import 'package:hotelbooking/app/views/room/views/room_booking.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.service.dart';
 import 'package:hotelbooking/app/views/room_detail/views/room_overview_view.dart';
-import 'package:hotelbooking/routes/app_routes.dart';
 import 'package:hotelbooking/tools/format.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controller/room_detail_controller.dart';
@@ -16,7 +15,12 @@ import 'room_amenties_view.dart';
 class RoomDetailView extends GetView<RoomDetailController> {
   final String idRoom;
   final String nameRoom;
-  RoomDetailView({this.idRoom, this.nameRoom});
+  final List<String> imageList;
+  RoomDetailView({
+    this.idRoom,
+    this.nameRoom,
+    this.imageList,
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,14 +35,28 @@ class RoomDetailView extends GetView<RoomDetailController> {
           title: Text("${nameRoom}"),
         ),
         body: Stack(children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              child: Image.asset(
-                'assets/images/room_photo.jpg',
-                width: double.infinity,
-                height: 380,
-                fit: BoxFit.fill,
+          Container(
+            margin: EdgeInsets.only(top: 32),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: true,
+                  autoPlay: true,
+                ),
+                items: imageList
+                    .map((e) => ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            child: Image.network(e,
+                              width: double.infinity,
+                              height: 300,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ))
+                    .toList(),
               ),
             ),
           ),
@@ -163,13 +181,13 @@ class RoomTitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 16, bottom: 10, top: 20,right: 8),
+                  margin:
+                      EdgeInsets.only(left: 16, bottom: 10, top: 20, right: 8),
                   child: Text(
                     '$roomName',
                     style: TextStyle(

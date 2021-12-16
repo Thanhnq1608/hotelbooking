@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/app/history/history.dart';
 import 'package:hotelbooking/app/views/room/controller/room_booking_controller.dart';
 import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
 import 'package:hotelbooking/app/views/room/service/orderroom.model.dart';
 import 'package:hotelbooking/tools/format.dart';
+import 'package:hotelbooking/tools/notify.service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:async/async.dart';
 
@@ -145,6 +147,7 @@ class BottomRoomBook extends StatelessWidget {
                                                   "roomStatus": 1,
                                                   "idBooking": '$id',
                                                 };
+
                                                 if (result.isValue) {
                                                   Get.defaultDialog(
                                                       title: "Xác nhận",
@@ -161,7 +164,8 @@ class BottomRoomBook extends StatelessWidget {
                                                       onCancel: () =>
                                                           Get.back(),
                                                       onConfirm: () async {
-                                                        indextRoom(payloadUpdate);
+                                                        await indextRoom(
+                                                            payloadUpdate);
                                                       });
                                                 } else if (result.isError) {
                                                   Get.snackbar("",
@@ -221,17 +225,26 @@ class BottomRoomBook extends StatelessWidget {
   }
 
   void indextRoom(payloadUpdate) async {
+    var payloadNotify = {
+      "data": {"title": "Thông Báo", "message": "Có đơn đặt phòng mới"},
+      "to":
+          "d2dqQvlSR2Wixcx8Xobrc_:APA91bHCjvrRX5_fTb_lG1OkYGp90dTJlqbL7f8RVXctlShqSZRbqA18TuAfa5v1XfI11goUlYzdBycO1D0P3QS5xsbcw4N8h50i9JBwXLncQROj0Dxg9hhVsjZyIg6w7j2Uc9fMRdOc"
+    };
     Result<bool> resultUpdate;
+    final prefs = await SharedPreferences.getInstance();
+    String phoneUser = prefs.getString('phone') ?? '';
     for (var i = 0; i < listsIdRoom.length; i++) {
       resultUpdate =
           await updateRoomStatus(payloadUpdate, idRoom: listsIdRoom[i]);
     }
     if (resultUpdate.isValue) {
       await Get.back();
+      await postNotify(payloadNotify);
       Get.snackbar("Thành cồng", 'Bạn đã đặt phòng thành công',
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.green,
           colorText: Colors.white);
+      Get.offAll(History(phone: phoneUser,));
     }
   }
 }

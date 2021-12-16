@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/tools/notify.model.dart';
+import 'package:hotelbooking/tools/notify.service.dart';
 import 'bottom_room_booking.dart';
 import 'bottom_room_empty.dart';
 import 'images_room_booking.dart';
@@ -34,10 +36,20 @@ class _RoomState extends State<Room> {
         ),
       ),
       bottomNavigationBar: (widget.idRoom != null && widget.priceRoom != null)
-          ? BottomRoom(
-              idRoom: widget.idRoom,
-              priceRoom: widget.priceRoom,
-            )
+          ? FutureBuilder<NotifyModel>(
+              future: getEmployee(),
+              builder: (context, snapshot) {
+                return snapshot.hasData
+                    ? BottomRoom(
+                      listTokenID: snapshot.data.data,
+                        idRoom: widget.idRoom,
+                        priceRoom: widget.priceRoom,
+                      )
+                    : BottomRoom(
+                        idRoom: widget.idRoom,
+                        priceRoom: widget.priceRoom,
+                      );
+              })
           : BottomRoomEmpty(),
     );
   }

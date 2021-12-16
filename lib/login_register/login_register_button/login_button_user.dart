@@ -26,7 +26,6 @@ class LoginButtonUser extends StatelessWidget {
         onPressed: () async {
           // obtain shared preferences
           final prefs = await SharedPreferences.getInstance();
-
           Result<StatusSuccess> result = await AuthApiService().SignIn(
             email: controllerEmail.text,
             password: controllPassword.text,

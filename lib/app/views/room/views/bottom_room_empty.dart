@@ -55,7 +55,7 @@ class BottomRoomEmpty extends StatelessWidget {
                   String email = prefs.getString('email') ?? '';
                   var payload = <String, String>{
                     "fullName": nameUser.replaceAll(' ', ''),
-                    'phone': '011345678',
+                    'phone': phoneUser,
                     'timeBookingStart':
                         '${controller.dateStart.value.hour}:${controller.dateStart.value.minute} ${controller.dateStart.value.day}/${controller.dateStart.value.month}/${controller.dateStart.value.year}',
                     'timeBookingEnd':

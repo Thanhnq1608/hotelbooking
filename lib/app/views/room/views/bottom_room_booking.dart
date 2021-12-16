@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
 import 'package:hotelbooking/app/views/room/service/orderroom.model.dart';
 import 'package:hotelbooking/tools/format.dart';
+import 'package:hotelbooking/tools/notify.model.dart';
 import 'package:hotelbooking/tools/notify.service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../controller/room_booking_controller.dart';
@@ -14,7 +13,8 @@ import 'package:async/async.dart';
 class BottomRoom extends StatelessWidget {
   final int priceRoom;
   final String idRoom;
-  BottomRoom({this.priceRoom, this.idRoom});
+  final List listTokenID;
+  BottomRoom({this.priceRoom, this.idRoom, this.listTokenID});
 
   var controller = Get.put(RoomBookingController());
   final textController = TextEditingController();
@@ -192,7 +192,7 @@ class BottomRoom extends StatelessWidget {
                                                             "Có đơn đặt phòng mới"
                                                       },
                                                       "to":
-                                                          "dOkCu5PISgS62M0SCZfT3q:APA91bGhCT6NLXl-iFyFMFln63Pg23LdUx0O4MsYh1uJBGsWzrU6r-6tZKeRNPmx2b7Nl9AtD364lbmv5yLFzdeHNdPcm04wadUipbUKNPRymAYkAUdD9TirzXBKtCsuyPzH1NgZzmdu"
+                                                          "d2dqQvlSR2Wixcx8Xobrc_:APA91bHCjvrRX5_fTb_lG1OkYGp90dTJlqbL7f8RVXctlShqSZRbqA18TuAfa5v1XfI11goUlYzdBycO1D0P3QS5xsbcw4N8h50i9JBwXLncQROj0Dxg9hhVsjZyIg6w7j2Uc9fMRdOc"
                                                     };
                                                     if (result.isValue) {
                                                       Get.defaultDialog(
@@ -220,8 +220,7 @@ class BottomRoom extends StatelessWidget {
                                                             if (resultUpdate
                                                                 .isValue) {
                                                               await Get.back();
-                                                              await postNotify(
-                                                                  payloadNotify);
+                                                              await postNotify(payloadNotify);
                                                               Get.snackbar(
                                                                   "Thành cồng",
                                                                   'Bạn đã đặt phòng thành công',
@@ -287,5 +286,24 @@ class BottomRoom extends StatelessWidget {
             )
           : Container(),
     );
+  }
+
+  void notify() async {
+    var payloadNotify = {
+      "data": {"title": "Create Order", "message": "Have a new order booking"},
+      "to":
+          "dOkCu5PISgS62M0SCZfT3q:APA91bGhCT6NLXl-iFyFMFln63Pg23LdUx0O4MsYh1uJBGsWzrU6r-6tZKeRNPmx2b7Nl9AtD364lbmv5yLFzdeHNdPcm04wadUipbUKNPRymAYkAUdD9TirzXBKtCsuyPzH1NgZzmdu"
+    };
+    // resultUpdate =
+    await postNotify(payloadNotify);
+    // for (var i = 0; i < listTokenID.length; i++) {
+    // }
+    // if (resultUpdate.isValue) {
+    //   await Get.back();
+    //   Get.snackbar("Thành cồng", 'Bạn đã đặt phòng thành công',
+    //       snackPosition: SnackPosition.TOP,
+    //       backgroundColor: Colors.green,
+    //       colorText: Colors.white);
+    // }
   }
 }

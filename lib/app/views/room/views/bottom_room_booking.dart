@@ -220,7 +220,8 @@ class BottomRoom extends StatelessWidget {
                                                             if (resultUpdate
                                                                 .isValue) {
                                                               await Get.back();
-                                                              await postNotify(payloadNotify);
+                                                              await postNotify(
+                                                                  payloadNotify);
                                                               Get.snackbar(
                                                                   "Thành cồng",
                                                                   'Bạn đã đặt phòng thành công',
@@ -278,8 +279,12 @@ class BottomRoom extends StatelessWidget {
                         // controller.checkTimeBookRoom();
                       },
                       child: Text(
-                        'Book Now',
-                        style: TextStyle(color: Colors.white),
+                        'Đặt phòng ngay',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
                       )),
                 )
               ],

@@ -6,88 +6,7 @@ import '../controller/room_booking_controller.dart';
 class MainRoom extends StatelessWidget {
   var controller = Get.put(RoomBookingController());
   Widget _bookingOption(BuildContext context) {
-    return new Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Obx(
-            () => Container(
-              decoration: BoxDecoration(
-                color: controller.isActiveHour.value
-                    ? Colors.pinkAccent
-                    : Colors.white,
-                border: Border.all(
-                  color: Colors.black,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: FlatButton(
-                onPressed: () {
-                  controller.isActiveHour.value = true;
-                  controller.isActiveDaily.value = false;
-                  controller.isActiveOvernight.value = false;
-                },
-                child: Text(
-                  'Hourly',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            ),
-          ),
-          Obx(
-            () => Container(
-              decoration: BoxDecoration(
-                color: controller.isActiveDaily.value
-                    ? Colors.pinkAccent
-                    : Colors.white,
-                border: Border.all(
-                  color: Colors.black,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: FlatButton(
-                onPressed: () {
-                  controller.isActiveHour.value = false;
-                  controller.isActiveDaily.value = true;
-                  controller.isActiveOvernight.value = false;
-                },
-                child: Text(
-                  'Daily',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            ),
-          ),
-          Obx(
-            () => Container(
-              decoration: BoxDecoration(
-                color: controller.isActiveOvernight.value
-                    ? Colors.pinkAccent
-                    : Colors.white,
-                border: Border.all(
-                  color: Colors.black,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: FlatButton(
-                onPressed: () {
-                  controller.isActiveHour.value = false;
-                  controller.isActiveDaily.value = false;
-                  controller.isActiveOvernight.value = true;
-                },
-                child: Text(
-                  'Overnight',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    return new Container(child: Text('Chọn thời gian sử dụng phòng'));
   }
 
   Widget _timePicker(BuildContext context) {
@@ -186,98 +105,23 @@ class MainRoom extends StatelessWidget {
     );
   }
 
-  Widget _quantiltRoom() {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 10),
-            alignment: Alignment.center,
-            child: Text(
-              'Number of rooms you want',
-              style: TextStyle(
-                  fontWeight: FontWeight.w700, fontSize: 14, height: 1.3),
-            ),
-          ),
-          Container(
-            width: 150,
-            height: 30,
-            padding: EdgeInsets.zero,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                border: Border.all(
-                    color: Colors.black, width: 1, style: BorderStyle.solid)),
-            child: Row(
-              children: [
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: Icon(
-                    Icons.remove,
-                    size: 15,
-                  ),
-                  onPressed: () {
-                    if (controller.quantilyRoom.value > 1) {
-                      controller.quantilyRoom.value--;
-                    }
-                  },
-                ),
-                Expanded(
-                  child: Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.zero,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              left: BorderSide(
-                                  color: Colors.black,
-                                  width: 1,
-                                  style: BorderStyle.solid),
-                              right: BorderSide(
-                                  color: Colors.black,
-                                  width: 1,
-                                  style: BorderStyle.solid))),
-                      child: Text('${controller.quantilyRoom.value}')),
-                ),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: Icon(
-                    Icons.add,
-                    size: 15,
-                  ),
-                  onPressed: () {
-                    controller.quantilyRoom.value++;
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Container(
-      margin: EdgeInsets.all(32),
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 64),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(color: Colors.grey, offset: Offset(0, 5), blurRadius: 7)
           ]),
-      child: Column(
-        children: [
-          Container(
-              margin: EdgeInsets.all(32),
-              child: _bookingOption(context)),
-          Container(
-            child: _timePicker(context),
-          ),
-          Container(
-              margin: EdgeInsets.all(32),
-              child: Obx(() => _quantiltRoom()))
-        ],
+      child: Container(
+        margin: EdgeInsets.all(32),
+        child: Column(
+          children: [
+            _timePicker(context),
+          ],
+        ),
       ),
     );
   }

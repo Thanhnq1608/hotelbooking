@@ -9,9 +9,10 @@ import 'images_room_booking.dart';
 import 'main_room_booking.dart';
 
 class Room extends StatefulWidget {
+  final List<String> imageList;
   final String idRoom;
   final int priceRoom;
-  Room({Key key, this.idRoom, this.priceRoom});
+  Room({Key key, this.idRoom, this.priceRoom,this.imageList});
   @override
   _RoomState createState() => _RoomState();
 }
@@ -30,7 +31,7 @@ class _RoomState extends State<Room> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ImagesRoom(),
+            ImagesRoom(imageList: widget.imageList,),
             MainRoom(),
           ],
         ),

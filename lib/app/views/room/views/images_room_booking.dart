@@ -1,16 +1,37 @@
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class ImagesRoom extends StatelessWidget {
-  const ImagesRoom({Key key}) : super(key: key);
+  final List<String> imageList;
+  ImagesRoom({this.imageList});
 
   @override
   Widget build(BuildContext context) {
     return new Container(
-        width: MediaQuery.of(context).size.width,
-        height: 210,
-        child: Image.network(
-          'https://vnn-imgs-f.vgcloud.vn/2020/06/09/11/phong-khach-san-1.jpg',
-          fit: BoxFit.cover,
-        ));
+      margin: EdgeInsets.only(top: 16),
+      width: MediaQuery.of(context).size.width,
+      height: 300,
+      child: CarouselSlider(
+        options: CarouselOptions(
+          enlargeCenterPage: true,
+          enableInfiniteScroll: true,
+          autoPlay: true,
+        ),
+        items: imageList
+            .map((e) => ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    child: Image.network(
+                      e,
+                      width: double.infinity,
+                      height: 300,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ))
+            .toList(),
+      ),
+    );
   }
 }

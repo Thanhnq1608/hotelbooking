@@ -30,7 +30,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
               Icons.arrow_back,
               color: Colors.white,
             ),
-            onPressed: null,
+            onPressed: () => Get.back(),
           ),
           title: Text("${nameRoom}"),
         ),
@@ -49,7 +49,8 @@ class RoomDetailView extends GetView<RoomDetailController> {
                     .map((e) => ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
-                            child: Image.network(e,
+                            child: Image.network(
+                              e,
                               width: double.infinity,
                               height: 300,
                               fit: BoxFit.cover,
@@ -151,6 +152,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                           ),
                                           onTap: () {
                                             Get.to(Room(
+                                              imageList: imageList,
                                               idRoom: snapshot.data.id,
                                               priceRoom:
                                                   snapshot.data.roomPrice,

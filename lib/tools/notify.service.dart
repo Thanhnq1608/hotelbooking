@@ -35,7 +35,6 @@ Future<NotifyModel> getEmployee() async {
         'https://datphongkhachsan.herokuapp.com/api/v1/auth/getEmployees';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('object ${response.body}');
       return NotifyModel.fromJson(jsonDecode(response.body));
     } else if (response.statusCode == 400) {
       print('err');

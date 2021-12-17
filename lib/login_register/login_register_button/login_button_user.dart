@@ -24,7 +24,6 @@ class LoginButtonUser extends StatelessWidget {
     return FlatButton(
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () async {
-          // obtain shared preferences
           final prefs = await SharedPreferences.getInstance();
           Result<StatusSuccess> result = await AuthApiService().SignIn(
             email: controllerEmail.text,
@@ -32,14 +31,11 @@ class LoginButtonUser extends StatelessWidget {
           );
           if (result.isValue) {
             prefs.setString('name', result.asValue.value.data.customer.name);
-            prefs.setString(
-                'phone', result.asValue.value.data.customer.phoneNumber);
+            prefs.setString('phone', result.asValue.value.data.customer.phoneNumber);
             prefs.setString('id', result.asValue.value.data.customer.id);
+            prefs.setString('token', result.asValue.value.data.token);
             prefs.setString('email', result.asValue.value.data.customer.email);
-            Get.off(App(
-              id: result.asValue.value.data.customer.id,
-              token: result.asValue.value.data.token,
-            ));
+            Get.off(()=>App());
           } else if (result.isError) {
             Fluttertoast.showToast(
                 msg: result.asError.error,

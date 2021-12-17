@@ -85,6 +85,8 @@ class ProfileView extends StatelessWidget {
   }
 
   Widget _topProfile(BuildContext context, {StatusSuccessGet snapshot}) {
+    controller.fullname = snapshot.data.customer.name.obs;
+    controller.email = snapshot.data.customer.email.obs;
     return Container(
       height: 225,
       margin: EdgeInsets.only(bottom: 10),
@@ -104,53 +106,48 @@ class ProfileView extends StatelessWidget {
                 child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: 225,
-                    child: Obx(
-                      () => Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black45,
-                                      blurRadius: 10,
-                                      offset: Offset(0, 2),
-                                      spreadRadius: 1)
-                                ],
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        controller.networkImage.value),
-                                    fit: BoxFit.fill)),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 8),
-                            child: (snapshot.data == null)
-                                ? Text('csc')
-                                : Text(
-                                    snapshot.data.customer.name,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 8),
-                            child: (snapshot.data == null)
-                                ? Text('csc')
-                                : Text(
-                                    snapshot.data.customer.email,
+                    child: Obx(() => Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black45,
+                                        blurRadius: 10,
+                                        offset: Offset(0, 2),
+                                        spreadRadius: 1)
+                                  ],
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                          controller.networkImage.value),
+                                      fit: BoxFit.fill)),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 8),
+                              child: Text(
+                                controller.fullname.value,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            Container(
+                                margin: EdgeInsets.symmetric(vertical: 8),
+                                child: Obx(
+                                  () => Text(
+                                    controller.email.value,
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 15),
                                   ),
-                          ),
-                        ],
-                      ),
-                    )))
+                                )),
+                          ],
+                        ))))
           ],
         ),
       ),
@@ -184,7 +181,7 @@ class ProfileView extends StatelessWidget {
                   onTap: () {
                     var user = User(
                         username: snashot.data.customer.name,
-                        email: snashot.data.customer.email,
+                        email: controller.email.value,
                         fullname: snashot.data.customer.name,
                         phone: snashot.data.customer.phoneNumber,
                         dateOfBirth: snashot.data.customer.dateOfBirth
@@ -235,7 +232,9 @@ class ProfileView extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.05,
                 margin: EdgeInsets.only(top: 10),
                 child: InkWell(
-                  onTap: (){print('object');},
+                  onTap: () {
+                    print('object');
+                  },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -256,8 +255,8 @@ class ProfileView extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             'Đổi mật khẩu',
-                            style:
-                                TextStyle(color: Color(0xFF161722), fontSize: 19),
+                            style: TextStyle(
+                                color: Color(0xFF161722), fontSize: 19),
                           ),
                         ),
                       ),
@@ -279,6 +278,7 @@ class ProfileView extends StatelessWidget {
                 margin: EdgeInsets.only(top: 10),
                 child: InkWell(
                   onTap: () => Get.to(() => History(
+                        from: 'toProfile',
                         phone: snashot.data.customer.phoneNumber,
                       )),
                   child: Row(
@@ -401,7 +401,7 @@ class ProfileView extends StatelessWidget {
           Align(
               alignment: Alignment.topCenter,
               child: StreamBuilder(
-                  stream: AuthApiService().GetInforUser(id: id, token: token),
+                  stream: AuthApiService().GetInforUser(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState != ConnectionState.done) {
                       return _topProfileEmpty(context);
@@ -410,9 +410,10 @@ class ProfileView extends StatelessWidget {
                         return Text('error');
                       } else {
                         if (snapshot.hasData) {
-                          return _topProfile(context, snapshot: snapshot?.data);
+                          var data = snapshot.data;
+                          return _topProfile(context, snapshot: data);
                         } else {
-                          return Text("No DAta");
+                          return Text("No Data");
                         }
                       }
                     }
@@ -427,8 +428,7 @@ class ProfileView extends StatelessWidget {
                     return SingleChildScrollView(
                       controller: scrollController,
                       child: StreamBuilder<StatusSuccessGet>(
-                          stream: AuthApiService()
-                              .GetInforUser(id: id, token: token),
+                          stream: AuthApiService().GetInforUser(),
                           builder: (context, snapshot) {
                             return snapshot.hasData
                                 ? _bodyProfileScreen(context,

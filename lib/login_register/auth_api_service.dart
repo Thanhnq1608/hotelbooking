@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:hotelbooking/login_register/model_auth/customer.dart';
+import 'package:hotelbooking/app/manage_profile/user.update.model.dart';
 import 'package:hotelbooking/login_register/model_auth/status_success.dart';
 import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthApiService {
   Future<Result<StatusSuccess>> SignIn({
@@ -71,11 +72,14 @@ class AuthApiService {
     }
   }
 
-  Stream<StatusSuccessGet> GetInforUser({String id, String token}) async* {
+  Stream<StatusSuccessGet> GetInforUser() async* {
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getString('id');
+    final token = prefs.getString('token');
+
     final url =
         "https://datphongkhachsan.herokuapp.com/api/v1/auth/getUser/$id";
     final http.Client client = http.Client();
-    print(id);
     final response = await client.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -83,13 +87,36 @@ class AuthApiService {
         'Authorization': 'bearer $token'
       },
     );
-
-    if (response.statusCode == 200) {
-      yield StatusSuccessGet.fromJson(jsonDecode(response.body));
-    } else {
-    }
+    try {
+      if (response.statusCode == 200) {
+        yield StatusSuccessGet.fromJson(jsonDecode(response.body));
+      } else {}
+    } catch (e) {}
   }
 
+  Future<Result<UserUpdateModel>> UpdateUser(payload) async {
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getString('id');
+    final token = prefs.getString('token');
+    final url =
+        "https://datphongkhachsan.herokuapp.com/api/v1/auth/updateUser/$id";
+    final http.Client client = http.Client();
+    final response = await client.put(Uri.parse(url),
+        headers: <String, String>{
+          'Accept': 'application/json,',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'bearer $token'
+        },
+        body: jsonEncode(payload));
+    try {
+      if (response.statusCode == 200) {
+        return Result.value(
+            UserUpdateModel.fromJson(jsonDecode(response.body)));
+      } else {
+        print('1111111111111111');
+      }
+    } catch (e) {}
+  }
   // Future<void> SignOut() async {
   //   final url = "https://api.ssm.suplo.vn/v1/auth/customer/signout";
   //   final http.Client client = http.Client();

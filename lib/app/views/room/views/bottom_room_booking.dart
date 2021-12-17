@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/app/history/history.dart';
 import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
 import 'package:hotelbooking/app/views/room/service/orderroom.model.dart';
+import 'package:hotelbooking/app/views/room/views/dilog_success.dart';
 import 'package:hotelbooking/tools/format.dart';
 import 'package:hotelbooking/tools/notify.model.dart';
 import 'package:hotelbooking/tools/notify.service.dart';
@@ -211,30 +213,53 @@ class BottomRoom extends StatelessWidget {
                                                           onCancel: () =>
                                                               Get.back(),
                                                           onConfirm: () async {
-                                                            Result<bool>
-                                                                resultUpdate =
-                                                                await updateRoomStatus(
-                                                                    payloadUpdate,
-                                                                    idRoom:
-                                                                        idRoom);
-                                                            if (resultUpdate
-                                                                .isValue) {
-                                                              await Get.back();
-                                                              await postNotify(
-                                                                  payloadNotify);
-                                                              Get.snackbar(
-                                                                  "Thành cồng",
-                                                                  'Bạn đã đặt phòng thành công',
-                                                                  snackPosition:
-                                                                      SnackPosition
-                                                                          .TOP,
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .green,
-                                                                  colorText:
-                                                                      Colors
-                                                                          .white);
-                                                            }
+                                                            Get.defaultDialog(
+                                                                title:
+                                                                    "Xác nhận",
+                                                                middleText:
+                                                                    "Bạn vui lòng chuyển khoản đến STK: 999999 với nôi dung: Họ tên-Sdt-chuyển tiền đặt phòng",
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                                titleStyle: TextStyle(
+                                                                    color: Colors
+                                                                        .pink),
+                                                                middleTextStyle:
+                                                                    TextStyle(
+                                                                        color: Colors
+                                                                            .pink),
+                                                                onCancel: () =>
+                                                                    Get.back(),
+                                                                onConfirm:
+                                                                    () async {
+                                                                  Result<bool>
+                                                                      resultUpdate =
+                                                                      await updateRoomStatus(
+                                                                          payloadUpdate,
+                                                                          idRoom:
+                                                                              idRoom);
+                                                                  if (resultUpdate
+                                                                      .isValue) {
+                                                                    await postNotify(
+                                                                        payloadNotify);
+                                                                    Get.snackbar(
+                                                                        "Thành cồng",
+                                                                        'Bạn đã đặt phòng thành công',
+                                                                        snackPosition:
+                                                                            SnackPosition
+                                                                                .TOP,
+                                                                        backgroundColor:
+                                                                            Colors
+                                                                                .green,
+                                                                        colorText:
+                                                                            Colors.white);
+                                                                    Get.offAll(
+                                                                        History(
+                                                                      phone:
+                                                                          phoneUser,
+                                                                    ));
+                                                                  }
+                                                                });
                                                           });
                                                     } else if (result.isError) {
                                                       Get.snackbar("",

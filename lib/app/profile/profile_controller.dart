@@ -1,8 +1,7 @@
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileController extends GetxController {
-  var username = 'thanhnq1608@gmail.com'.obs;
+  var email = 'thanhnq1608@gmail.com'.obs;
   var fullname = 'Quang Thanh'.obs;
   var dateOfBirrth = DateTime.now().obs;
   var address = 'Hải Phòng';

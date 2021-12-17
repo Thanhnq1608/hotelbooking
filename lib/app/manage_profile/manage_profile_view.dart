@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/manage_profile/bottom_profile.dart';
 import 'package:hotelbooking/app/manage_profile/manage_profile_controller.dart';
+import 'package:hotelbooking/app/profile/profile_views.dart';
 import 'package:intl/intl.dart';
 
 class ManageProfileView extends StatelessWidget {
@@ -135,7 +136,7 @@ class ManageProfileView extends StatelessWidget {
           Expanded(child: _bodyManage(context)),
         ],
       ),
-      bottomNavigationBar: BottomProfile(),
+      bottomNavigationBar: BottomProfile(controller: controller,),
     );
   }
 }

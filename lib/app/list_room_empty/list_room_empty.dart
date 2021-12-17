@@ -34,13 +34,6 @@ class _ListRoomViewState extends State<ListRoomView> {
   Widget _appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).primaryColor,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back,
-          color: Colors.white,
-        ),
-        onPressed: () => Get.back(),
-      ),
       title: const Text(
         'Danh sách phòng',
         style: TextStyle(color: Colors.white),

@@ -41,3 +41,32 @@ class HistoryModel {
     iV = json['__v'];
   }
 }
+
+class HistoryRoom {
+  String sId;
+  String idBooking;
+  String idRoom;
+  String createdAt;
+  int iV;
+
+  HistoryRoom({this.sId, this.idBooking, this.idRoom, this.createdAt, this.iV});
+
+  HistoryRoom.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    idBooking = json['idBooking'];
+    idRoom = json['idRoom'];
+    createdAt = json['createdAt'];
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['idBooking'] = this.idBooking;
+    data['idRoom'] = this.idRoom;
+    data['createdAt'] = this.createdAt;
+    data['__v'] = this.iV;
+    return data;
+  }
+}
+

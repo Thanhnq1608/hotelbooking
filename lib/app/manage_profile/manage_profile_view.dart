@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/app.dart';
 import 'package:hotelbooking/app/manage_profile/bottom_profile.dart';
 import 'package:hotelbooking/app/manage_profile/manage_profile_controller.dart';
 import 'package:hotelbooking/app/profile/profile_views.dart';
@@ -123,7 +124,7 @@ class ManageProfileView extends StatelessWidget {
             Icons.arrow_back_ios_rounded,
             color: Colors.white,
           ),
-          onPressed: () => Get.back(),
+          onPressed: () => Get.off(()=>App(selectedIndex: 1,)),
         ),
         title: const Text(
           'Tài khoản của bạn',

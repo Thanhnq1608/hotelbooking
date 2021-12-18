@@ -17,15 +17,15 @@ class RoomBookingController extends GetxController
 
   bool checkTimeBookRoom() {
     if (dateEnd.value.isAfter(dateStart.value)) {
-      Get.snackbar("", 'You have successfully booked your room',
+      Get.snackbar("Thông báo", 'You have successfully booked your room',
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.pink,
           colorText: Colors.white);
       return true;
     } else {
-      Get.snackbar("", 'The date you choose must be after the current date',
+      Get.snackbar("", 'Ngày bạn chọn phải sau ngày hiện tại',
           snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.pink,
+          backgroundColor: Colors.red,
           colorText: Colors.white);
       return false;
     }

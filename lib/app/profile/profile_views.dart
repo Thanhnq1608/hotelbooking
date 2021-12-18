@@ -188,7 +188,7 @@ class ProfileView extends StatelessWidget {
                             .replaceAll('T00:00:00.000Z', ''),
                         address: snashot.data.customer.address,
                         avatarURL: controller.networkImage.value);
-                    Get.toNamed(AppRoute.manageProfile, arguments: user);
+                    Get.offNamed(AppRoute.manageProfile, arguments: user);
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

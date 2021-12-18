@@ -151,7 +151,7 @@ class RoomDetailView extends GetView<RoomDetailController> {
                                             ),
                                           ),
                                           onTap: () {
-                                            Get.to(Room(
+                                            Get.to(()=>Room(
                                               imageList: imageList,
                                               idRoom: snapshot.data.id,
                                               priceRoom:

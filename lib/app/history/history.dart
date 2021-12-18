@@ -19,7 +19,9 @@ class History extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              from == 'toProfile' ? Get.back() : Get.offAll(() => App());
+              from == 'toProfile'
+                  ? Get.back()
+                  : Get.offAll(() => App(selectedIndex: 0));
             },
           ),
           title: Text('Lịch Sử')),
@@ -30,16 +32,18 @@ class History extends StatelessWidget {
                 ? ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
+                      final List<HistoryModel> listHistory =
+                          snapshot.data.reversed.toList();
+                      print(listHistory.first.totalRoomRate);
                       return GestureDetector(
                         onTap: () {
-                          Get.to(() => HistoryDetail(
-                              historyModel: snapshot.data[index]));
+                          Get.to(() =>
+                              HistoryDetail(historyModel: listHistory[index]));
                         },
                         child: Container(
                           margin:
                               EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          child:
-                              HistoryItems(historyModel: snapshot.data[index]),
+                          child: HistoryItems(historyModel: listHistory[index]),
                         ),
                       );
                     })

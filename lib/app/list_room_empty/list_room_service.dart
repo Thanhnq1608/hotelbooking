@@ -9,8 +9,10 @@ Future<List<RoomDetailModel>> getListRoom() async {
   final http.Client client = http.Client();
   final response = await client.get(Uri.parse(url));
   try {
-    if ((response.statusCode - 200) < 100) {
+    if ((response.statusCode ==200)) {
       return compute(parseListRoom, response.body);
+    }else{
+      print('object');
     }
   } catch (e) {}
 }

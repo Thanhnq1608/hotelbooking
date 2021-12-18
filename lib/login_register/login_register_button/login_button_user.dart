@@ -35,7 +35,7 @@ class LoginButtonUser extends StatelessWidget {
             prefs.setString('id', result.asValue.value.data.customer.id);
             prefs.setString('token', result.asValue.value.data.token);
             prefs.setString('email', result.asValue.value.data.customer.email);
-            Get.off(()=>App());
+            Get.offAll(()=>App(selectedIndex: 0,));
           } else if (result.isError) {
             Fluttertoast.showToast(
                 msg: result.asError.error,

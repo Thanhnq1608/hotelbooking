@@ -1,29 +1,56 @@
 class RoomDetailModel {
-  final String id;
-  final String roomName;
-  final int maximumNumberOfPeople;
-  final int roomStatus;
-  final int roomPrice;
-  final String createdAt;
-  final String updateAt;
+  String id;
+  String idRoom;
+  String roomName;
+  int maximumNumberOfPeople;
+  int roomStatus;
+  int idKindOfRoom;
+  int roomPrice;
+  String createdAt;
+  String updatedAt;
+  int iV;
+  String idBooking;
 
   RoomDetailModel(
       {this.id,
+      this.idRoom,
       this.roomName,
       this.maximumNumberOfPeople,
       this.roomStatus,
+      this.idKindOfRoom,
       this.roomPrice,
       this.createdAt,
-      this.updateAt});
+      this.updatedAt,
+      this.iV,
+      this.idBooking});
 
-  factory RoomDetailModel.fromJson(Map<String, dynamic> json) {
-    return RoomDetailModel(
-        id: json['_id'],
-        roomName: json['roomName'],
-        maximumNumberOfPeople: json['maximumNumberOfPeople'],
-        roomStatus: json['roomStatus'],
-        roomPrice: json['roomPrice'],
-        createdAt: json['created_at'],
-        updateAt: json['updatedAt']);
+  RoomDetailModel.fromJson(Map<String, dynamic> json) {
+    id = json['_id'];
+    idRoom = json['idRoom'];
+    roomName = json['roomName'];
+    maximumNumberOfPeople = json['maximumNumberOfPeople'];
+    roomStatus = json['roomStatus'];
+    idKindOfRoom = json['idKindOfRoom'];
+    roomPrice = json['roomPrice'];
+    createdAt = json['created_at'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
+    idBooking = json['idBooking'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['idRoom'] = this.idRoom;
+    data['roomName'] = this.roomName;
+    data['maximumNumberOfPeople'] = this.maximumNumberOfPeople;
+    data['roomStatus'] = this.roomStatus;
+    data['idKindOfRoom'] = this.idKindOfRoom;
+    data['roomPrice'] = this.roomPrice;
+    data['created_at'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    data['idBooking'] = this.idBooking;
+    return data;
   }
 }

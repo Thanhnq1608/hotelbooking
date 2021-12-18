@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/login_register/auth_api_service.dart';
 import 'package:async/async.dart';
 
 class RegisterButton extends StatelessWidget {
   var formKeyName;
+  var isCheckBox;
   final emailUserController;
   final phoneUserController;
   final passwordUserController;
@@ -13,6 +15,7 @@ class RegisterButton extends StatelessWidget {
   final addressUserController;
   RegisterButton(
       {this.formKeyName,
+      this.isCheckBox,
       this.emailUserController,
       this.phoneUserController,
       this.passwordUserController,
@@ -25,16 +28,26 @@ class RegisterButton extends StatelessWidget {
     return FlatButton(
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () async {
-          Result<bool> result = await AuthApiService().SignUp(
-            name: fullNameController.text,
-            email: emailUserController.text,
-            phone: phoneUserController.text,
-            password: passwordUserController.text,
-            address: addressUserController.text,
-          );
-          if (result.isValue) {
-            Get.back();
-          } else {}
+          if (isCheckBox == true) {
+            Result<bool> result = await AuthApiService().SignUp(
+              name: fullNameController.text,
+              email: emailUserController.text,
+              phone: phoneUserController.text,
+              password: passwordUserController.text,
+              address: addressUserController.text,
+            );
+            if (result.isValue) {
+              Get.back();
+            } else {
+              Fluttertoast.showToast(
+                  msg: 'Đăng kí thất bại. Vui lòng thử lại',
+                  backgroundColor: Colors.red);
+            }
+          } else {
+            Fluttertoast.showToast(
+                msg: 'Bạn phải đồng ý điều khoản dịch vụ',
+                backgroundColor: Colors.red);
+          }
         },
         child: Text(
           "Đăng ký",

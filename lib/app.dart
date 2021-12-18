@@ -6,17 +6,14 @@ import 'package:hotelbooking/app/profile/profile_views.dart';
 import 'app/views/room/views/room_booking.dart';
 
 class App extends StatefulWidget {
-  final String id;
-  final String token;
-  App({this.id, this.token});
+  var selectedIndex=0;
+  App({this.selectedIndex});
 
   @override
   _MyApp createState() => _MyApp();
 }
 
 class _MyApp extends State<App> {
-  int _selectedIndex = 0;
-
   @override
   void initState() {
     super.initState();
@@ -26,20 +23,17 @@ class _MyApp extends State<App> {
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
       ListRoomView(),
-      ProfileView(
-        id: widget.id,
-        token: widget.token,
-      ),
+      ProfileView(),
     ];
     void _onItemTapped(int index) {
       setState(() {
-        _selectedIndex = index;
+        widget.selectedIndex = index;
       });
     }
 
     return Scaffold(
         body: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
+          child: _widgetOptions.elementAt(widget.selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
@@ -52,14 +46,14 @@ class _MyApp extends State<App> {
               label: 'Thông tin',
             ),
           ],
-          currentIndex: _selectedIndex,
+          currentIndex: widget.selectedIndex,
           selectedItemColor: Color(0xFFFF6666),
           onTap: _onItemTapped,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.to(Room());
+            Get.to(() => Room());
           },
           backgroundColor: Color(0xFFFF6666),
           child: Container(

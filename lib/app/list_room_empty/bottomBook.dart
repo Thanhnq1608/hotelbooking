@@ -163,8 +163,29 @@ class BottomRoomBook extends StatelessWidget {
                                                       onCancel: () =>
                                                           Get.back(),
                                                       onConfirm: () async {
-                                                        await indextRoom(
-                                                            payloadUpdate);
+                                                        Get.defaultDialog(
+                                                            title: "Xác nhận",
+                                                            middleText:
+                                                                "Bạn vui lòng chuyển khoản đến STK: 999999 với nôi dung: Họ tên-Sdt-chuyển tiền đặt phòng",
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            titleStyle:
+                                                                TextStyle(
+                                                                    color: Colors
+                                                                        .pink),
+                                                            middleTextStyle:
+                                                                TextStyle(
+                                                                    color: Colors
+                                                                        .pink),
+                                                            onCancel: () =>
+                                                                Get.back(),
+                                                            onConfirm:
+                                                                () async {
+                                                              await indextRoom(
+                                                                  payloadUpdate);
+                                                            });
+
+                                                        //
                                                       });
                                                 } else if (result.isError) {
                                                   Get.snackbar("",
@@ -207,8 +228,11 @@ class BottomRoomBook extends StatelessWidget {
                     // controller.checkTimeBookRoom();
                   },
                   child: Text(
-                    'Book Now',
-                    style: TextStyle(color: Colors.white),
+                    'Đặt phòng ngay',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                        color: Colors.white),
                   )),
             )
           ],
@@ -237,13 +261,15 @@ class BottomRoomBook extends StatelessWidget {
           await updateRoomStatus(payloadUpdate, idRoom: listsIdRoom[i]);
     }
     if (resultUpdate.isValue) {
-      await Get.back();
+      
       await postNotify(payloadNotify);
-      Get.snackbar("Thành cồng", 'Bạn đã đặt phòng thành công',
+      await Get.snackbar("Thành cồng", 'Bạn đã đặt phòng thành công',
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.green,
           colorText: Colors.white);
-      Get.offAll(History(phone: phoneUser,));
+      Get.offAll(History(
+        phone: phoneUser,
+      ));
     }
   }
 }

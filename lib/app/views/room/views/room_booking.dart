@@ -12,7 +12,7 @@ class Room extends StatefulWidget {
   final List<String> imageList;
   final String idRoom;
   final int priceRoom;
-  Room({Key key, this.idRoom, this.priceRoom,this.imageList});
+  Room({Key key, this.idRoom, this.priceRoom, this.imageList});
   @override
   _RoomState createState() => _RoomState();
 }
@@ -31,7 +31,10 @@ class _RoomState extends State<Room> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ImagesRoom(imageList: widget.imageList,),
+            ImagesRoom(
+              imageList: widget.imageList,
+              type: 'book multiple rooms',
+            ),
             MainRoom(),
           ],
         ),
@@ -42,7 +45,7 @@ class _RoomState extends State<Room> {
               builder: (context, snapshot) {
                 return snapshot.hasData
                     ? BottomRoom(
-                      listTokenID: snapshot.data.data,
+                        listTokenID: snapshot.data.data,
                         idRoom: widget.idRoom,
                         priceRoom: widget.priceRoom,
                       )

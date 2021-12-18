@@ -87,6 +87,7 @@ class _RegisterState extends State<Register> {
                           color: Color(0xffE84D4E),
                           borderRadius: BorderRadius.circular(8)),
                       child: RegisterButton(
+                        isCheckBox: isCheckBox,
                         addressUserController: addressController,
                         formKeyName: _fromKeyRegisterName,
                         emailUserController: emailUserController,

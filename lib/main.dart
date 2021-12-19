@@ -12,6 +12,7 @@ import 'package:hotelbooking/routes/app_pages.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // Notification
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   await flutterLocalNotificationsPlugin

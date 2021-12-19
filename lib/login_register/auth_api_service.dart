@@ -28,7 +28,6 @@ class AuthApiService {
           response.body is Map ? response.body : jsonDecode(response.body);
       return Result.value(StatusSuccess.fromJson(data));
     } else {
-      print(jsonDecode(response.body)['message']);
       return Result.error(jsonDecode(response.body)['message']);
     }
   }
@@ -65,18 +64,16 @@ class AuthApiService {
       }),
     );
     if (response.statusCode == 200) {
-      print('object');
       return Result.value(true);
     } else {
       print(response.body);
     }
   }
 
-  Stream<StatusSuccessGet> GetInforUser() async* {
+  Future<StatusSuccessGet> getInforUser() async {
     final prefs = await SharedPreferences.getInstance();
     final id = prefs.getString('id');
     final token = prefs.getString('token');
-
     final url =
         "https://datphongkhachsan.herokuapp.com/api/v1/auth/getUser/$id";
     final http.Client client = http.Client();
@@ -89,7 +86,7 @@ class AuthApiService {
     );
     try {
       if (response.statusCode == 200) {
-        yield StatusSuccessGet.fromJson(jsonDecode(response.body));
+        return StatusSuccessGet.fromJson(jsonDecode(response.body));
       } else {}
     } catch (e) {}
   }
@@ -113,7 +110,30 @@ class AuthApiService {
         return Result.value(
             UserUpdateModel.fromJson(jsonDecode(response.body)));
       } else {
-        print('1111111111111111');
+        print('error');
+      }
+    } catch (e) {}
+  }
+
+   Future<Result<UserUpdateModel>> UpdateTokenIdUser(payload) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final url =
+        "https://datphongkhachsan.herokuapp.com/api/v1/auth/updateTokenId";
+    final http.Client client = http.Client();
+    final response = await client.put(Uri.parse(url),
+        headers: <String, String>{
+          'Accept': 'application/json,',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'bearer $token'
+        },
+        body: jsonEncode(payload));
+    try {
+      if (response.statusCode == 200) {
+        return Result.value(
+            UserUpdateModel.fromJson(jsonDecode(response.body)));
+      } else {
+        print('error');
       }
     } catch (e) {}
   }

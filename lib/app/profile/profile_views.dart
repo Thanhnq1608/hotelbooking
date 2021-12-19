@@ -85,8 +85,7 @@ class ProfileView extends StatelessWidget {
   }
 
   Widget _topProfile(BuildContext context, {StatusSuccessGet snapshot}) {
-    controller.fullname = snapshot.data.customer.name.obs;
-    controller.email = snapshot.data.customer.email.obs;
+  
     return Container(
       height: 225,
       margin: EdgeInsets.only(bottom: 10),
@@ -106,7 +105,7 @@ class ProfileView extends StatelessWidget {
                 child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: 225,
-                    child: Obx(() => Column(
+                    child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -130,7 +129,7 @@ class ProfileView extends StatelessWidget {
                             Container(
                               margin: EdgeInsets.only(top: 8),
                               child: Text(
-                                controller.fullname.value,
+                                snapshot.data.customer.name,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
@@ -139,15 +138,14 @@ class ProfileView extends StatelessWidget {
                             ),
                             Container(
                                 margin: EdgeInsets.symmetric(vertical: 8),
-                                child: Obx(
-                                  () => Text(
-                                    controller.email.value,
+                                child:Text(
+                                    snapshot.data.customer.email,
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 15),
                                   ),
-                                )),
+                                ),
                           ],
-                        ))))
+                        )))
           ],
         ),
       ),
@@ -181,7 +179,7 @@ class ProfileView extends StatelessWidget {
                   onTap: () {
                     var user = User(
                         username: snashot.data.customer.name,
-                        email: controller.email.value,
+                        email: snashot.data.customer.email,
                         fullname: snashot.data.customer.name,
                         phone: snashot.data.customer.phoneNumber,
                         dateOfBirth: snashot.data.customer.dateOfBirth
@@ -400,8 +398,8 @@ class ProfileView extends StatelessWidget {
         children: [
           Align(
               alignment: Alignment.topCenter,
-              child: StreamBuilder(
-                  stream: AuthApiService().GetInforUser(),
+              child: FutureBuilder(
+                  future: AuthApiService().getInforUser(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState != ConnectionState.done) {
                       return _topProfileEmpty(context);
@@ -427,8 +425,8 @@ class ProfileView extends StatelessWidget {
                   builder: (context, ScrollController scrollController) {
                     return SingleChildScrollView(
                       controller: scrollController,
-                      child: StreamBuilder<StatusSuccessGet>(
-                          stream: AuthApiService().GetInforUser(),
+                      child: FutureBuilder<StatusSuccessGet>(
+                          future: AuthApiService().getInforUser(),
                           builder: (context, snapshot) {
                             return snapshot.hasData
                                 ? _bodyProfileScreen(context,

@@ -53,7 +53,7 @@ class HistoryDetailItems extends StatelessWidget {
                                   width: 10,
                                 ),
                                 Text(
-                                  'Vip1',
+                                  '${snapshot.data.idKindOfRoom}',
                                   style: TextStyle(
                                     color: Colors.black87,
                                     fontSize: 20,

@@ -5,7 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/app/list_room_empty/list_room_empty.dart';
 import 'package:hotelbooking/app/profile/profile_views.dart';
-
+import 'package:hotelbooking/login_register/auth_api_service.dart';
 import 'app/views/room/views/room_booking.dart';
 
 class App extends StatefulWidget {
@@ -17,9 +17,19 @@ class App extends StatefulWidget {
 }
 
 class _MyApp extends State<App> {
+  String tokenId;
   @override
   void initState() {
     super.initState();
+    AuthApiService().getInforUser().then((value) async {
+      if (value.data.customer.tokenID.isEmpty ||
+          value.data.customer.tokenID != tokenId) {
+        var payload = {'tokenId': tokenId};
+        print('different TokenID');
+        await AuthApiService().UpdateTokenIdUser(payload);
+      }
+    });
+    // notification
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
@@ -42,7 +52,6 @@ class _MyApp extends State<App> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
       if (notification != null && android != null) {
@@ -61,9 +70,10 @@ class _MyApp extends State<App> {
             });
       }
     });
+    // Get TokenId from Firebase
     FirebaseMessaging.instance.getToken().then((String token) {
       assert(token != null);
-      print("Push Messaging token: $token");
+      tokenId = token;
     });
   }
 
@@ -110,7 +120,7 @@ class _MyApp extends State<App> {
         ));
   }
 }
-
+// Notification
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
@@ -123,5 +133,4 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('A bg message just showed up :  ${message.messageId}');
 }

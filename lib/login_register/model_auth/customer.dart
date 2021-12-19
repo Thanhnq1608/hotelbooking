@@ -12,6 +12,7 @@ class Customer {
     );
   }
 }
+
 class CustomerGet {
   final Customerdetail customer;
   final String token;
@@ -26,6 +27,7 @@ class CustomerGet {
     );
   }
 }
+
 class Customerdetail {
   final String id;
   final String createdAt;
@@ -36,18 +38,18 @@ class Customerdetail {
   final String avatar;
   final String address;
   final String dateOfBirth;
-
-  Customerdetail({
-    this.id,
-    this.createdAt,
-    this.updatedAt,
-    this.email,
-    this.phoneNumber,
-    this.name,
-    this.address,
-    this.avatar,
-    this.dateOfBirth,
-  });
+  final String tokenID;
+  Customerdetail(
+      {this.id,
+      this.createdAt,
+      this.updatedAt,
+      this.email,
+      this.phoneNumber,
+      this.name,
+      this.address,
+      this.avatar,
+      this.dateOfBirth,
+      this.tokenID});
 
   factory Customerdetail.fromJson(Map<String, dynamic> json) {
     return Customerdetail(
@@ -59,6 +61,7 @@ class Customerdetail {
         name: json['fullName'],
         avatar: json['avatar'],
         address: json['address'],
-        dateOfBirth: json['DateOfBirth']);
+        dateOfBirth: json['DateOfBirth'],
+        tokenID: json['tokenId']);
   }
 }

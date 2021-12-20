@@ -154,7 +154,7 @@ class ForgetPasswordPage extends GetView<ForgetPassController> {
       leading: IconButton(
         padding: EdgeInsets.zero,
         icon: Icon(
-          Icons.arrow_back_ios_new_rounded,
+          Icons.arrow_back,
           color: Colors.black,
         ),
         onPressed: () {

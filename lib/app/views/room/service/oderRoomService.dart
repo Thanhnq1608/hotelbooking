@@ -20,6 +20,7 @@ Future<Result<OrderRoomBooked>> postOderRoom(
         },
         body: jsonEncode(payload));
     if (response.statusCode == 200) {
+      print(response.body);
       var data =
           response.body is Map ? response.body : json.decode(response.body);
       return Result.value(OrderRoomBooked.fromJson(data));

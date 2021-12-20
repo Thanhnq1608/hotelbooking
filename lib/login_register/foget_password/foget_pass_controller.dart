@@ -4,9 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/login_register/auth_api_service.dart';
 import 'package:hotelbooking/login_register/foget_password/type_otp_page.dart';
 import 'package:hotelbooking/login_register/login/login_user.dart';
+import 'package:hotelbooking/login_register/model_auth/status_success.dart';
 import 'package:hotelbooking/routes/app_routes.dart';
+import 'package:async/async.dart';
 
 class ForgetPassController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -67,7 +70,13 @@ class ForgetPassController extends GetxController {
         smsCode: OTPController.text,
       );
       if (credential != null) {
-        _verifySuccess();
+        var payload = {
+          "phone": "0972683051",
+          "passWord": "123456789",
+        };
+        Result<StatusSuccessGet> result =
+            await AuthApiService().resetPassword(payload);
+        // _verifySuccess();
       } else {
         Get.snackbar("Code Invalid", "Mã OTP không chính xác!");
       }

@@ -115,7 +115,7 @@ class AuthApiService {
     } catch (e) {}
   }
 
-   Future<Result<UserUpdateModel>> UpdateTokenIdUser(payload) async {
+  Future<Result<UserUpdateModel>> UpdateTokenIdUser(payload) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     final url =
@@ -134,6 +134,27 @@ class AuthApiService {
             UserUpdateModel.fromJson(jsonDecode(response.body)));
       } else {
         print('error');
+      }
+    } catch (e) {}
+  }
+
+  Future<Result<StatusSuccessGet>> resetPassword(payload) async {
+    final url =
+        "https://datphongkhachsan.herokuapp.com/api/v1/auth/ResetPassWord";
+    final http.Client client = http.Client();
+    print(payload);
+    final response = await client.post(Uri.parse(url),
+        headers: <String, String>{
+          'Accept': 'application/json,',
+        },
+        body: jsonEncode(payload));
+    try {
+      if (response.statusCode == 200) {
+        print('object');
+        return Result.value(
+            StatusSuccessGet.fromJson(jsonDecode(response.body)));
+      } else {
+        print(response.body);
       }
     } catch (e) {}
   }

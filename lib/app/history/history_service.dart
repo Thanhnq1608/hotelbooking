@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'history.model.dart';
 import 'package:async/async.dart';
-Future<List<HistoryModel>> getHistoryRoom(String phone) async {
+Future<List<HistoryModel>> getHistoryRoom() async {
+  final prefs = await SharedPreferences.getInstance();
+    final phone = prefs.getString('phone');
   final url =
       "https://datphongkhachsan.herokuapp.com/orderRoomBooked/phone/$phone";
   final http.Client client = http.Client();
@@ -66,6 +69,7 @@ Future<Result<bool>> deleteOrder({String id}) async {
   final http.Client client = http.Client();
   final response = await client.post(Uri.parse(url));
   try {
+    print('object');
     if ((response.statusCode - 200) < 100) {
       return Result.value(true);
     }

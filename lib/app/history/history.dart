@@ -44,7 +44,7 @@ class _HistoryState extends State<History> {
           });
         },
         child: FutureBuilder<List<HistoryModel>>(
-            future: getHistoryRoom(widget.phone),
+            future: getHistoryRoom(),
             builder: (context, snapshot) {
               return snapshot.hasData
                   ? ListView.builder(

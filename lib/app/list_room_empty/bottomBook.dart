@@ -150,45 +150,58 @@ class BottomRoomBook extends StatelessWidget {
                                                 };
 
                                                 if (result.isValue) {
-                                                  Get.defaultDialog(
-                                                      title: "Xác nhận",
-                                                      middleText:
-                                                          "Số tiền đặt cọc của bạn: ${textController.text}. Bạn có muốn tiếp tục",
-                                                      backgroundColor:
-                                                          Colors.white,
-                                                      titleStyle: TextStyle(
-                                                          color: Colors.pink),
-                                                      middleTextStyle:
-                                                          TextStyle(
+                                                  int.parse(textController
+                                                              .text) <
+                                                          caculatorPayment(0) *
+                                                              (30 / 100)
+                                                      ? Get.snackbar(
+                                                          "Thông báo",
+                                                          'Số tiền đặt cọc tối thiểu 30% giá trị đơn hàng',
+                                                          snackPosition:
+                                                              SnackPosition.TOP,
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          colorText:
+                                                              Colors.white)
+                                                      : Get.defaultDialog(
+                                                          title: "Xác nhận",
+                                                          middleText:
+                                                              "Số tiền đặt cọc của bạn: ${textController.text}. Bạn có muốn tiếp tục",
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          titleStyle: TextStyle(
                                                               color:
                                                                   Colors.pink),
-                                                      onCancel: () =>
-                                                          Get.back(),
-                                                      onConfirm: () async {
-                                                        Get.defaultDialog(
-                                                            title: "Xác nhận",
-                                                            middleText:
-                                                                "Bạn vui lòng chuyển khoản đến STK: 999999 với nôi dung: Họ tên-Sdt-chuyển tiền đặt phòng",
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            titleStyle:
-                                                                TextStyle(
+                                                          middleTextStyle:
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .pink),
+                                                          onCancel: () {},
+                                                          onConfirm: () async {
+                                                            Get.defaultDialog(
+                                                                title:
+                                                                    "Xác nhận",
+                                                                middleText:
+                                                                    "Bạn vui lòng chuyển khoản đến STK: 999999 với nôi dung: Họ tên-Sdt-chuyển tiền đặt phòng",
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                                titleStyle: TextStyle(
                                                                     color: Colors
                                                                         .pink),
-                                                            middleTextStyle:
-                                                                TextStyle(
-                                                                    color: Colors
-                                                                        .pink),
-                                                            onCancel: () =>
-                                                                Get.back(),
-                                                            onConfirm:
-                                                                () async {
-                                                              await indextRoom(
-                                                                  payloadUpdate);
-                                                            });
+                                                                middleTextStyle:
+                                                                    TextStyle(
+                                                                        color: Colors
+                                                                            .pink),
+                                                                onCancel: () {},
+                                                                onConfirm:
+                                                                    () async {
+                                                                  await indextRoom(
+                                                                      payloadUpdate);
+                                                                });
 
-                                                        //
-                                                      });
+                                                            //
+                                                          });
                                                 } else if (result.isError) {
                                                   Get.snackbar("",
                                                       'Đã xảy ra lỗi vui lòng thử lại',

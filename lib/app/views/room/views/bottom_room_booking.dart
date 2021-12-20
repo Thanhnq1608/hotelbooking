@@ -6,10 +6,8 @@ import 'package:hotelbooking/app/history/history.model.dart';
 import 'package:hotelbooking/app/history/history_service.dart';
 import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
 import 'package:hotelbooking/app/views/room/service/orderroom.model.dart';
-import 'package:hotelbooking/app/views/room/views/dilog_success.dart';
 import 'package:hotelbooking/login_register/auth_api_service.dart';
 import 'package:hotelbooking/tools/format.dart';
-import 'package:hotelbooking/tools/notify.model.dart';
 import 'package:hotelbooking/tools/notify.service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../controller/room_booking_controller.dart';
@@ -70,7 +68,7 @@ class BottomRoom extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: FutureBuilder<List<HistoryModel>>(
-                      future: getHistoryRoom('0972683051'),
+                      future: getHistoryRoom(),
                       builder: (context, snapshot) {
                         return snapshot.hasData
                             ? TextButton(
@@ -228,17 +226,6 @@ class BottomRoom extends StatelessWidget {
                                                                     "idBooking":
                                                                         '${result.asValue.value.id}',
                                                                   };
-                                                                  var payloadNotify =
-                                                                      {
-                                                                    "data": {
-                                                                      "title":
-                                                                          "Thông Báo",
-                                                                      "message":
-                                                                          "Có đơn đặt phòng mới"
-                                                                    },
-                                                                    "to":
-                                                                        "clul0k_4SUm7mDvD7udo8C:APA91bG2o1RxHqMry8te3R9o6WNIhwoL2QjLlFR9jOD584IZ4D9BOFLiszzB-n-8QIrR3M6g-SApftNtOZxpuUnHqop8oJ0xqPCWUim_iEsSDNOTSoU0gZS7G9F-ukUZlI9m5oCb2D0-"
-                                                                  };
                                                                   if (result
                                                                       .isValue) {
                                                                     Get.defaultDialog(
@@ -247,25 +234,30 @@ class BottomRoom extends StatelessWidget {
                                                                         backgroundColor: Colors.white,
                                                                         titleStyle: TextStyle(color: Colors.pink),
                                                                         middleTextStyle: TextStyle(color: Colors.pink),
-                                                                        onCancel: () => Get.back(),
+                                                                        onCancel: ()async {
+                                                                          await deleteOrder(id:result.asValue.value.id );
+                                                                          Get.back();
+                                                                        },
                                                                         onConfirm: () async {
-                                                                          Get.defaultDialog(
-                                                                              title: "Xác nhận",
-                                                                              middleText: "Bạn vui lòng chuyển khoản đến STK: 999999 với nôi dung: Họ tên-Sdt-chuyển tiền đặt phòng",
-                                                                              backgroundColor: Colors.white,
-                                                                              titleStyle: TextStyle(color: Colors.pink),
-                                                                              middleTextStyle: TextStyle(color: Colors.pink),
-                                                                              onCancel: () => Get.back(),
-                                                                              onConfirm: () async {
-                                                                                Result<bool> resultUpdate = await updateRoomStatus(payloadUpdate, idRoom: idRoom);
-                                                                                if (resultUpdate.isValue) {
-                                                                                  await notify();
-                                                                                  Get.snackbar("Thành cồng", 'Bạn đã đặt phòng thành công', snackPosition: SnackPosition.TOP, backgroundColor: Colors.green, colorText: Colors.white);
-                                                                                  Get.offAll(History(
-                                                                                    phone: phoneUser,
-                                                                                  ));
-                                                                                }
-                                                                              });
+                                                                          int.parse(textController.text) < (priceRoom * controller.quantilyRoom.value) * (30 / 100)
+                                                                              ? Get.snackbar("Thông báo", 'Số tiền đặt cọc tối thiểu 30% giá trị đơn hàng', snackPosition: SnackPosition.TOP, backgroundColor: Colors.red, colorText: Colors.white)
+                                                                              : Get.defaultDialog(
+                                                                                  title: "Xác nhận",
+                                                                                  middleText: "Bạn vui lòng chuyển khoản đến STK: 999999 với nôi dung: Họ tên-Sdt-chuyển tiền đặt phòng",
+                                                                                  backgroundColor: Colors.white,
+                                                                                  titleStyle: TextStyle(color: Colors.pink),
+                                                                                  middleTextStyle: TextStyle(color: Colors.pink),
+                                                                                  onCancel: () {},
+                                                                                  onConfirm: () async {
+                                                                                    Result<bool> resultUpdate = await updateRoomStatus(payloadUpdate, idRoom: idRoom);
+                                                                                    if (resultUpdate.isValue) {
+                                                                                      await notify();
+                                                                                      Get.snackbar("Thành cồng", 'Bạn đã đặt phòng thành công', snackPosition: SnackPosition.TOP, backgroundColor: Colors.green, colorText: Colors.white);
+                                                                                      Get.offAll(History(
+                                                                                        phone: phoneUser,
+                                                                                      ));
+                                                                                    }
+                                                                                  });
                                                                         });
                                                                   } else if (result
                                                                       .isError) {
@@ -361,8 +353,7 @@ class BottomRoom extends StatelessWidget {
           "title": "Create Order",
           "message": "Have a new order booking"
         },
-        "to":
-            "$element"
+        "to": "$element"
       };
       await postNotify(payloadNotify);
     });

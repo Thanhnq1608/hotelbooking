@@ -50,7 +50,7 @@ class BottomRoomEmpty extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: FutureBuilder<List<HistoryModel>>(
-                future: getHistoryRoom('0972683051'),
+                future: getHistoryRoom(),
                 builder: (context, snapshot) {
                   return snapshot.hasData
                       ? TextButton(

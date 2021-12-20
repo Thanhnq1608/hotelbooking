@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:hotelbooking/login_register/login_register_button/register_button.dart';
 import 'package:hotelbooking/login_register/register/address_register.dart';
@@ -41,67 +40,73 @@ class _RegisterState extends State<Register> {
         ),
       ),
       body: SingleChildScrollView(
-            child: Column(children: [
-              Container(
-                margin: EdgeInsets.only(left: 16, top: 16, right: 16),
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                        child: ProfileRegister(
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 16, top: 16, right: 16),
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                      child: ProfileRegister(
+                    formKeyName: _fromKeyRegisterName,
+                    fullNameController: fullNameController,
+                    emailUserController: emailUserController,
+                    phoneUserController: phonelUserController,
+                    passwordUserController: passwordUserController,
+                  )),
+                  Container(
+                    child: AddressRegister(
+                      addressController: addressController,
+                    ),
+                  ),
+                  Container(
+                    child: Row(
+                      children: [
+                        Checkbox(
+                            value: isCheckBox,
+                            onChanged: (Value) {
+                              setState(() {
+                                isCheckBox = Value;
+                              });
+                            }),
+                        Text(
+                          'Tôi đồng ý với điều khoản dịch vụ',
+                          style: TextStyle(
+                              fontSize: 12,
+                              height: 1.3,
+                              fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xffE84D4E),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: RegisterButton(
+                      isCheckBox: isCheckBox,
+                      addressUserController: addressController,
                       formKeyName: _fromKeyRegisterName,
-                      fullNameController: fullNameController,
                       emailUserController: emailUserController,
                       phoneUserController: phonelUserController,
                       passwordUserController: passwordUserController,
-                    )),
-                    Container(
-                      child: AddressRegister(addressController: addressController,),
+                      fullNameController: fullNameController,
                     ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Checkbox(
-                              value: isCheckBox,
-                              onChanged: (Value) {
-                                setState(() {
-                                  isCheckBox = Value;
-                                });
-                              }),
-                          Text(
-                            'Tôi đồng ý với điều khoản dịch vụ',
-                            style: TextStyle(
-                                fontSize: 12,
-                                height: 1.3,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color(0xffE84D4E),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: RegisterButton(
-                        isCheckBox: isCheckBox,
-                        addressUserController: addressController,
-                        formKeyName: _fromKeyRegisterName,
-                        emailUserController: emailUserController,
-                        phoneUserController: phonelUserController,
-                        passwordUserController: passwordUserController,
-                        fullNameController: fullNameController,
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
-              Container(child: FootterRegister()),
-            ]),
-          ));}
-        }
-   
- 
+            ),
+            Container(
+              child: FootterRegister(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

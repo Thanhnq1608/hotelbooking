@@ -66,7 +66,7 @@ class ForgetPassController extends GetxController {
         verificationId: id.value,
         smsCode: OTPController.text,
       );
-      if (credential.token != null) {
+      if (credential != null) {
         _verifySuccess();
       } else {
         Get.snackbar("Code Invalid", "Mã OTP không chính xác!");
@@ -75,7 +75,7 @@ class ForgetPassController extends GetxController {
   }
 
   void _verifySuccess() {
-    Get.off(() => LoginUser());
+    Get.offAll(() => LoginUser());
     Get.snackbar("Success", "Bạn đã đổi mật khẩu thành công!");
   }
 }

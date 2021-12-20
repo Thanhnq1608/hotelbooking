@@ -18,6 +18,11 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
   @override
+    void didChangeDependencies() {
+      super.didChangeDependencies();
+      History();
+    }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

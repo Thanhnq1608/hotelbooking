@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 import 'package:http/http.dart' as http;
 import 'history.model.dart';
-
+import 'package:async/async.dart';
 Future<List<HistoryModel>> getHistoryRoom(String phone) async {
   final url =
       "https://datphongkhachsan.herokuapp.com/orderRoomBooked/phone/$phone";
@@ -57,4 +57,17 @@ List<RoomDetailModel> parseIdRoomBooking(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
   return parsed.map<RoomDetailModel>((json) => RoomDetailModel.fromJson(json)).toList();
+}
+
+
+Future<Result<bool>> deleteOrder({String id}) async {
+  final url =
+      "https://datphongkhachsan.herokuapp.com/orderRoomBooked/delete/$id";
+  final http.Client client = http.Client();
+  final response = await client.post(Uri.parse(url));
+  try {
+    if ((response.statusCode - 200) < 100) {
+      return Result.value(true);
+    }
+  } catch (e) {}
 }

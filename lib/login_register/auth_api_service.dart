@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'employee.model.dart';
+
 class AuthApiService {
   Future<Result<StatusSuccess>> SignIn({
     String email,
@@ -67,6 +69,7 @@ class AuthApiService {
       return Result.value(true);
     } else {
       print(response.body);
+      return Result.error(true);
     }
   }
 
@@ -144,9 +147,9 @@ class AuthApiService {
     final http.Client client = http.Client();
     print(payload);
     final response = await client.post(Uri.parse(url),
-        headers: <String, String>{
-          'Accept': 'application/json,',
-        },
+        // headers: <String, String>{
+        //   'Accept': 'application/json,',
+        // },
         body: jsonEncode(payload));
     try {
       if (response.statusCode == 200) {
@@ -156,6 +159,28 @@ class AuthApiService {
       } else {
         print(response.body);
       }
+    } catch (e) {}
+  }
+
+
+    Future<Employee> getEmployee() async {
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getString('id');
+    final token = prefs.getString('token');
+    final url =
+        "https://datphongkhachsan.herokuapp.com/api/v1/auth/getEmployees";
+    final http.Client client = http.Client();
+    final response = await client.get(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Accept': 'application/json',
+        'Authorization': 'bearer $token'
+      },
+    );
+    try {
+      if (response.statusCode == 200) {
+        return Employee.fromJson(jsonDecode(response.body));
+      } else {}
     } catch (e) {}
   }
   // Future<void> SignOut() async {

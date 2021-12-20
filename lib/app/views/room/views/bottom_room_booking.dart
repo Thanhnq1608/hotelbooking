@@ -7,6 +7,7 @@ import 'package:hotelbooking/app/history/history_service.dart';
 import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
 import 'package:hotelbooking/app/views/room/service/orderroom.model.dart';
 import 'package:hotelbooking/app/views/room/views/dilog_success.dart';
+import 'package:hotelbooking/login_register/auth_api_service.dart';
 import 'package:hotelbooking/tools/format.dart';
 import 'package:hotelbooking/tools/notify.model.dart';
 import 'package:hotelbooking/tools/notify.service.dart';
@@ -258,7 +259,7 @@ class BottomRoom extends StatelessWidget {
                                                                               onConfirm: () async {
                                                                                 Result<bool> resultUpdate = await updateRoomStatus(payloadUpdate, idRoom: idRoom);
                                                                                 if (resultUpdate.isValue) {
-                                                                                  await postNotify(payloadNotify);
+                                                                                  await notify();
                                                                                   Get.snackbar("Thành cồng", 'Bạn đã đặt phòng thành công', snackPosition: SnackPosition.TOP, backgroundColor: Colors.green, colorText: Colors.white);
                                                                                   Get.offAll(History(
                                                                                     phone: phoneUser,
@@ -347,21 +348,23 @@ class BottomRoom extends StatelessWidget {
   }
 
   void notify() async {
-    var payloadNotify = {
-      "data": {"title": "Create Order", "message": "Have a new order booking"},
-      "to":
-          "dOkCu5PISgS62M0SCZfT3q:APA91bGhCT6NLXl-iFyFMFln63Pg23LdUx0O4MsYh1uJBGsWzrU6r-6tZKeRNPmx2b7Nl9AtD364lbmv5yLFzdeHNdPcm04wadUipbUKNPRymAYkAUdD9TirzXBKtCsuyPzH1NgZzmdu"
-    };
-    // resultUpdate =
-    await postNotify(payloadNotify);
-    // for (var i = 0; i < listTokenID.length; i++) {
-    // }
-    // if (resultUpdate.isValue) {
-    //   await Get.back();
-    //   Get.snackbar("Thành cồng", 'Bạn đã đặt phòng thành công',
-    //       snackPosition: SnackPosition.TOP,
-    //       backgroundColor: Colors.green,
-    //       colorText: Colors.white);
-    // }
+    List<String> tokenId = [];
+    await AuthApiService().getEmployee().then((value) {
+      for (var i = 0; i < value.data.length; i++) {
+        tokenId.add(value.data[i].tokenId);
+      }
+    });
+
+    tokenId.forEach((element) async {
+      var payloadNotify = {
+        "data": {
+          "title": "Create Order",
+          "message": "Have a new order booking"
+        },
+        "to":
+            "$element"
+      };
+      await postNotify(payloadNotify);
+    });
   }
 }

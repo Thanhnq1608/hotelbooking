@@ -24,25 +24,31 @@ class LoginButtonUser extends StatelessWidget {
     return FlatButton(
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () async {
-          final prefs = await SharedPreferences.getInstance();
-          Result<StatusSuccess> result = await AuthApiService().SignIn(
-            email: controllerEmail.text,
-            password: controllPassword.text,
-          );
-          if (result.isValue) {
-            prefs.setString('name', result.asValue.value.data.customer.name);
-            prefs.setString('phone', result.asValue.value.data.customer.phoneNumber);
-            prefs.setString('id', result.asValue.value.data.customer.id);
-            prefs.setString('token', result.asValue.value.data.token);
-            prefs.setString('email', result.asValue.value.data.customer.email);
-            Get.offAll(()=>App(selectedIndex: 0,));
-          } else if (result.isError) {
-            Fluttertoast.showToast(
-                msg: result.asError.error,
-                toastLength: Toast.LENGTH_LONG,
-                backgroundColor: Colors.pink,
-                fontSize: 18);
-          }
+          // if (fromKey.currentState.validate()) {
+            final prefs = await SharedPreferences.getInstance();
+            Result<StatusSuccess> result = await AuthApiService().SignIn(
+              email: controllerEmail.text,
+              password: controllPassword.text,
+            );
+            if (result.isValue) {
+              prefs.setString('name', result.asValue.value.data.customer.name);
+              prefs.setString(
+                  'phone', result.asValue.value.data.customer.phoneNumber);
+              prefs.setString('id', result.asValue.value.data.customer.id);
+              prefs.setString('token', result.asValue.value.data.token);
+              prefs.setString(
+                  'email', result.asValue.value.data.customer.email);
+              Get.offAll(() => App(
+                    selectedIndex: 0,
+                  ));
+            } else if (result.isError) {
+              Fluttertoast.showToast(
+                  msg: result.asError.error,
+                  toastLength: Toast.LENGTH_LONG,
+                  backgroundColor: Colors.pink,
+                  fontSize: 18);
+            }
+          // }
         },
         child: Text(
           "Đăng nhập",

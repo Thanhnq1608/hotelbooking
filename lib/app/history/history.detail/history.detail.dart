@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hotelbooking/app/history/history.dart';
 import 'package:hotelbooking/app/history/history.detail/history.detail.items.dart';
 import 'package:hotelbooking/app/history/history.detail/history.infor.dart';
 import 'package:hotelbooking/app/history/history_service.dart';
 import 'package:hotelbooking/app/views/room_detail/service/room.detail.model.dart';
 
 import '../history.model.dart';
+import 'bottom.history.dart';
 import 'history.detail.item2.dart';
 
 class HistoryDetail extends StatelessWidget {
   final HistoryModel historyModel;
+
   HistoryDetail({
     this.historyModel,
   });
@@ -96,6 +100,11 @@ class HistoryDetail extends StatelessWidget {
                   }),
         ],
       ),
+      bottomNavigationBar: historyModel.bookingStatus == 0
+          ? BottomHistory(
+              idBooking: historyModel.sId,
+            )
+          : null,
     );
   }
 }

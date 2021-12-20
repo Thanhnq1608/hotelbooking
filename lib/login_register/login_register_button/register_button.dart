@@ -3,8 +3,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/login_register/auth_api_service.dart';
 import 'package:async/async.dart';
+import 'package:hotelbooking/login_register/foget_password/foget_pass_controller.dart';
 
 class RegisterButton extends StatelessWidget {
+  var controller = Get.put(ForgetPassController());
   var formKeyName;
   var isCheckBox;
   final emailUserController;
@@ -37,7 +39,8 @@ class RegisterButton extends StatelessWidget {
               address: addressUserController.text,
             );
             if (result.isValue) {
-              Get.back();
+              controller.sendOTP(phoneUserController.text);
+              // Get.back();
             } else {
               Fluttertoast.showToast(
                   msg: 'Đăng kí thất bại. Vui lòng thử lại',

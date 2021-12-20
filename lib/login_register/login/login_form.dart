@@ -41,8 +41,13 @@ class _LoginFormState extends State<LoginForm> {
             controller: widget.controllerEmail,
             decoration: InputDecoration(
                 border: OutlineInputBorder(), hintText: 'Nhập số điện thoại'),
-            validator: (_) {
-              return widget.loginState ? null : 'Invalid email format';
+            validator: (value) {
+              if (value == null ||
+                 value.length < 10) {
+                return 'Vui lòng nhập đúng định dạng';
+              } else {
+                return null;
+              }
             },
             keyboardType: TextInputType.emailAddress,
           ),

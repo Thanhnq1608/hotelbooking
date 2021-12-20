@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hotelbooking/app/change_password/change_password_page.dart';
 import 'package:hotelbooking/app/history/history.dart';
 import 'package:hotelbooking/login_register/auth_api_service.dart';
+import 'package:hotelbooking/login_register/login/login_user.dart';
 import 'dart:async';
 import 'package:hotelbooking/login_register/model_auth/status_success.dart';
 import 'package:hotelbooking/model/user.dart';
@@ -86,7 +87,6 @@ class ProfileView extends StatelessWidget {
   }
 
   Widget _topProfile(BuildContext context, {StatusSuccessGet snapshot}) {
-  
     return Container(
       height: 225,
       margin: EdgeInsets.only(bottom: 10),
@@ -107,46 +107,45 @@ class ProfileView extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     height: 225,
                     child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black45,
-                                        blurRadius: 10,
-                                        offset: Offset(0, 2),
-                                        spreadRadius: 1)
-                                  ],
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          controller.networkImage.value),
-                                      fit: BoxFit.fill)),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 8),
-                              child: Text(
-                                snapshot.data.customer.name,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.symmetric(vertical: 8),
-                                child:Text(
-                                    snapshot.data.customer.email,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 15),
-                                  ),
-                                ),
-                          ],
-                        )))
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black45,
+                                    blurRadius: 10,
+                                    offset: Offset(0, 2),
+                                    spreadRadius: 1)
+                              ],
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      controller.networkImage.value),
+                                  fit: BoxFit.fill)),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 8),
+                          child: Text(
+                            snapshot.data.customer.name,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            snapshot.data.customer.email,
+                            style: TextStyle(color: Colors.black, fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    )))
           ],
         ),
       ),
@@ -341,40 +340,52 @@ class ProfileView extends StatelessWidget {
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.05,
                 margin: EdgeInsets.only(top: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.height * 0.025,
-                      height: MediaQuery.of(context).size.height * 0.025,
-                      child: Icon(
-                        Icons.logout,
-                        color: Color(0xFF161722),
-                      ),
-                    ),
-                    Container(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Đăng xuất',
-                          style:
-                              TextStyle(color: Color(0xFF161722), fontSize: 19),
+                child: InkWell(
+                  onTap: () {
+                    Get.defaultDialog(
+                        title: "Xác nhận",
+                        middleText: 'Banjc có muốn đăng xuất không?',
+                        backgroundColor: Colors.white,
+                        titleStyle: TextStyle(color: Colors.pink),
+                        middleTextStyle: TextStyle(color: Colors.red),
+                        onCancel: () => Get.back(),
+                        onConfirm: () => Get.offAll(() => LoginUser()));
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.height * 0.025,
+                        height: MediaQuery.of(context).size.height * 0.025,
+                        child: Icon(
+                          Icons.logout,
+                          color: Color(0xFF161722),
                         ),
                       ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.height * 0.025,
-                      height: MediaQuery.of(context).size.height * 0.025,
-                      child: Icon(
-                        Icons.keyboard_arrow_right_rounded,
-                        color: Color(0xFF161722),
+                      Container(
+                        width: 20,
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Đăng xuất',
+                            style: TextStyle(
+                                color: Color(0xFF161722), fontSize: 19),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.height * 0.025,
+                        height: MediaQuery.of(context).size.height * 0.025,
+                        child: Icon(
+                          Icons.keyboard_arrow_right_rounded,
+                          color: Color(0xFF161722),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

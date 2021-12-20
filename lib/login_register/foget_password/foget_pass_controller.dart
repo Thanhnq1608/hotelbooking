@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/login_register/auth_api_service.dart';
 import 'package:hotelbooking/login_register/foget_password/type_otp_page.dart';
 import 'package:hotelbooking/login_register/login/login_user.dart';
 import 'package:hotelbooking/login_register/model_auth/status_success.dart';
-import 'package:hotelbooking/routes/app_routes.dart';
 import 'package:async/async.dart';
 
 class ForgetPassController extends GetxController {
@@ -28,14 +26,14 @@ class ForgetPassController extends GetxController {
     } else if (rePasswordController.text != passwordController.text) {
       Get.snackbar("Error", "Mật khẩu nhập lại không chính xác");
     } else {
-      await sendOTP();
+      await sendOTP(phoneController.text);
     }
   }
 
-  Future<void> sendOTP() async {
+  Future<void> sendOTP(String phone) async {
     auth.setLanguageCode("vi");
     String phonenumber =
-        "+84" + phoneController.text.substring(1, phoneController.text.length);
+        "+84" + phone.substring(1, phone.length);
     print(phonenumber);
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phonenumber,
@@ -72,7 +70,7 @@ class ForgetPassController extends GetxController {
       if (credential != null) {
         var payload = {
           "phone": "0972683051",
-          "passWord": "123456789",
+          "password": "123456789",
         };
         Result<StatusSuccessGet> result =
             await AuthApiService().resetPassword(payload);
@@ -85,6 +83,6 @@ class ForgetPassController extends GetxController {
 
   void _verifySuccess() {
     Get.offAll(() => LoginUser());
-    Get.snackbar("Success", "Bạn đã đổi mật khẩu thành công!");
+    // Get.snackbar("Success", "Bạn đã đổi mật khẩu thành công!");
   }
 }

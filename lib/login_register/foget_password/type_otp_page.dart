@@ -84,7 +84,7 @@ class TypeOTPPage extends GetView<ForgetPassController> {
                     child: controller.isCheckTimeOut.value
                         ? InkWell(
                             onTap: () {
-                              controller.sendOTP();
+                              controller.sendOTP(controller.phoneController.text);
                               controller.isCheckTimeOut.value = false;
                             },
                             child: Text(

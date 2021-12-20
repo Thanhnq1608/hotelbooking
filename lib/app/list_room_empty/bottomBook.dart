@@ -7,6 +7,8 @@ import 'package:hotelbooking/app/history/history.dart';
 import 'package:hotelbooking/app/views/room/controller/room_booking_controller.dart';
 import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
 import 'package:hotelbooking/app/views/room/service/orderroom.model.dart';
+import 'package:hotelbooking/login_register/auth_api_service.dart';
+import 'package:hotelbooking/login_register/employee.model.dart';
 import 'package:hotelbooking/tools/format.dart';
 import 'package:hotelbooking/tools/notify.service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -248,11 +250,13 @@ class BottomRoomBook extends StatelessWidget {
   }
 
   void indextRoom(payloadUpdate) async {
-    var payloadNotify = {
-      "data": {"title": "Thông Báo", "message": "Có đơn đặt phòng mới"},
-      "to":
-          "clul0k_4SUm7mDvD7udo8C:APA91bG2o1RxHqMry8te3R9o6WNIhwoL2QjLlFR9jOD584IZ4D9BOFLiszzB-n-8QIrR3M6g-SApftNtOZxpuUnHqop8oJ0xqPCWUim_iEsSDNOTSoU0gZS7G9F-ukUZlI9m5oCb2D0-"
-    };
+    List<String> tokenId = [];
+    await AuthApiService().getEmployee().then((value) {
+      for (var i = 0; i < value.data.length; i++) {
+        tokenId.add(value.data[i].tokenId);
+      }
+    });
+
     Result<bool> resultUpdate;
     final prefs = await SharedPreferences.getInstance();
     String phoneUser = prefs.getString('phone') ?? '';
@@ -261,11 +265,13 @@ class BottomRoomBook extends StatelessWidget {
           await updateRoomStatus(payloadUpdate, idRoom: listsIdRoom[i]);
     }
     if (resultUpdate.isValue) {
-      await postNotify(payloadNotify);
-      await Get.snackbar("Thành cồng", 'Bạn đã đặt phòng thành công',
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.green,
-          colorText: Colors.white);
+      tokenId.forEach((element) async {
+        var payloadNotify = {
+          "data": {"title": "Thông Báo", "message": "Có đơn đặt phòng mới"},
+          "to": "$element"
+        };
+        await postNotify(payloadNotify);
+      });
       Get.offAll(History(
         phone: phoneUser,
       ));

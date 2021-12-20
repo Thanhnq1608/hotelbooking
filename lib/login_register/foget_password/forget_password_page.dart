@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/login_register/foget_password/foget_pass_controller.dart';
 
@@ -140,7 +141,7 @@ class ForgetPasswordPage extends GetView<ForgetPassController> {
               ),
             ),
             onTap: () {
-              controller.onClickConfirmForget();
+               controller.onClickConfirmForget();
             },
           )
         ],

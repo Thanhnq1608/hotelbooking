@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/login_register/auth_api_service.dart';
 
 class ChangePasswordPage extends StatelessWidget {
   var isObscureText = true.obs;
@@ -155,7 +157,22 @@ class ChangePasswordPage extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            onTap: () {},
+            onTap: () async {
+              var payload = {"password": reNewPasswordController.text};
+              if (newPasswordController.text != reNewPasswordController.text) {
+                Fluttertoast.showToast(
+                    msg: "Mật khẩu không trùng nhau",
+                    backgroundColor: Colors.red,
+                    fontSize: 20);
+              } else {
+                await AuthApiService().UpdateUser(payload);
+                Fluttertoast.showToast(
+                    msg: "Bạn đã đổi mật khẩu thành công",
+                    backgroundColor: Colors.green,
+                    fontSize: 12);
+                Get.back();
+              }
+            },
           )
         ],
       ),

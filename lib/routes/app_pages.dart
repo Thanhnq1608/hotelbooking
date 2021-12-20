@@ -8,6 +8,9 @@ import 'package:hotelbooking/app/views/room/bindings/room_booking_binding.dart';
 import 'package:hotelbooking/app/views/room/views/room_booking.dart';
 import 'package:hotelbooking/app/views/room_detail/bindings/room_detail_binding.dart';
 import 'package:hotelbooking/app/views/room_detail/views/room_detail_view.dart';
+import 'package:hotelbooking/login_register/foget_password/foget_pass_controller.dart';
+import 'package:hotelbooking/login_register/foget_password/forget_pass_binding.dart';
+import 'package:hotelbooking/login_register/foget_password/forget_password_page.dart';
 import 'app_routes.dart';
 
 class AppPage {
@@ -34,5 +37,9 @@ class AppPage {
         name: AppRoute.listRoomEmpty,
         page: () => ListRoomView(),
         binding: ListRoomBindings()),
+    GetPage(
+        name: AppRoute.forgetPassword,
+        page: () => ForgetPasswordPage(),
+        binding: ForgetPassBinding())
   ];
 }

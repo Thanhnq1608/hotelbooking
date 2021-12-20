@@ -1,12 +1,14 @@
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hotelbooking/login_register/login/login_form.dart';
 import 'package:hotelbooking/login_register/login_register_button/login_button_user.dart';
 import 'package:hotelbooking/login_register/register/register.dart';
+import 'package:hotelbooking/routes/app_routes.dart';
 
 class LoginUser extends StatefulWidget {
-
-  LoginUser({Key key,});
+  LoginUser({
+    Key key,
+  });
   @override
   _LoginUserState createState() => _LoginUserState();
 }
@@ -19,26 +21,24 @@ class _LoginUserState extends State<LoginUser> {
   @override
   void initState() {
     super.initState();
-  
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        title: Text(
-          'Đăng Nhập',
-          style: TextStyle(
-              fontSize: 17,
-              height: 1.3,
-              fontWeight: FontWeight.w700,
-              color: Color(0xff233142)),
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          title: Text(
+            'Đăng Nhập',
+            style: TextStyle(
+                fontSize: 17,
+                height: 1.3,
+                fontWeight: FontWeight.w700,
+                color: Color(0xff233142)),
+          ),
         ),
-      ),
-      body:
-         SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Column(
             children: [
               Container(
@@ -63,6 +63,7 @@ class _LoginUserState extends State<LoginUser> {
                           // await AuthApiService().SignIn(
                           //     email: 'viettiennguyen267@gmail.com',
                           //     password: '"Test123@"');
+                          Get.toNamed(AppRoute.forgetPassword);
                         },
                         child: Text(
                           'Quên mật khẩu?',
@@ -107,9 +108,7 @@ class _LoginUserState extends State<LoginUser> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return Register(
-                              );
-                            
+                            return Register();
                           }));
                         },
                         child: Text(
@@ -128,8 +127,6 @@ class _LoginUserState extends State<LoginUser> {
               ),
             ],
           ),
-        )
-      );
-  
+        ));
   }
 }

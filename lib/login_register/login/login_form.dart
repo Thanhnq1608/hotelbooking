@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
@@ -66,19 +65,21 @@ class _LoginFormState extends State<LoginForm> {
             controller: widget.controllerPassword,
             obscureText: isObscureText,
             decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Nhập mật khẩu',
-                suffixIcon: IconButton(
-                    icon: Icon(Icons.remove_red_eye),
-                    onPressed: () {
-                      setState(() {
-                        if (isObscureText == true) {
-                          isObscureText = false;
-                        } else {
-                          isObscureText = true;
-                        }
-                      });
-                    })),
+              border: OutlineInputBorder(),
+              hintText: 'Nhập mật khẩu',
+              suffixIcon: IconButton(
+                icon: Icon(Icons.remove_red_eye),
+                onPressed: () {
+                  setState(() {
+                    if (isObscureText == true) {
+                      isObscureText = false;
+                    } else {
+                      isObscureText = true;
+                    }
+                  });
+                },
+              ),
+            ),
             validator: (_) {
               return widget.loginState ? null : 'Invalid password format';
             },

@@ -4,4 +4,5 @@ abstract class AppRoute {
   static const booking = "/booking";
   static const profile = "/profile";
   static const manageProfile = "/manage_profile";
+  static const forgetPassword = "/forget_password";
 }

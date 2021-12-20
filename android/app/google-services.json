@@ -14,6 +14,51 @@
       },
       "oauth_client": [
         {
+          "client_id": "19211460116-e6imi8v5427tp0j9jrjralgh6a4fg4u1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fpoly.hotelbooking",
+            "certificate_hash": "fa269c07340fb24bee34c168d07af0fcf7d10685"
+          }
+        },
+        {
+          "client_id": "19211460116-oj7gofd79am052elib2jf4mntd6sfova.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRr7g2FGHjRuaz2zW7HlygEtZowdNtiLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19211460116-oj7gofd79am052elib2jf4mntd6sfova.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19211460116:android:c9fbec1d1fbcd069701101",
+        "android_client_info": {
+          "package_name": "com.fpoly.managebookings"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19211460116-8ubls5jkeim26n3g159likhiqu3pom3q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fpoly.managebookings",
+            "certificate_hash": "fa269c07340fb24bee34c168d07af0fcf7d10685"
+          }
+        },
+        {
           "client_id": "19211460116-oj7gofd79am052elib2jf4mntd6sfova.apps.googleusercontent.com",
           "client_type": 3
         }

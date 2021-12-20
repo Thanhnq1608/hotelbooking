@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/app/change_password/change_password_page.dart';
 import 'package:hotelbooking/app/history/history.dart';
 import 'package:hotelbooking/login_register/auth_api_service.dart';
 import 'dart:async';
@@ -233,7 +234,7 @@ class ProfileView extends StatelessWidget {
                 margin: EdgeInsets.only(top: 10),
                 child: InkWell(
                   onTap: () {
-                    print('object');
+                    Get.to(() => ChangePasswordPage());
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

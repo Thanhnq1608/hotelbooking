@@ -23,7 +23,7 @@ class RoomBookingController extends GetxController
           colorText: Colors.white);
       return true;
     } else {
-      Get.snackbar("", 'Ngày bạn chọn phải sau ngày hiện tại',
+      Get.snackbar("Thông báo", 'Ngày bạn chọn phải sau ngày hiện tại',
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.red,
           colorText: Colors.white);

@@ -69,12 +69,12 @@ class ForgetPassController extends GetxController {
       );
       if (credential != null) {
         var payload = {
-          "phone": "0972683051",
+          "phone": "0332751701",
           "password": "123456789",
         };
-        Result<StatusSuccessGet> result =
-            await AuthApiService().resetPassword(payload);
-        // _verifySuccess();
+        // Result<StatusSuccessGet> result =
+        //     await AuthApiService().resetPassword(payload);
+        _verifySuccess();
       } else {
         Get.snackbar("Code Invalid", "Mã OTP không chính xác!");
       }

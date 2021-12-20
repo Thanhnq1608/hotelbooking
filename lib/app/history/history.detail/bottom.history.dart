@@ -6,10 +6,12 @@ import 'package:get/get.dart';
 import 'package:hotelbooking/app/history/history.dart';
 import 'package:hotelbooking/app/history/history_service.dart';
 import 'package:hotelbooking/app/views/room/service/oderRoomService.dart';
+import 'package:hotelbooking/login_register/auth_api_service.dart';
+import 'package:hotelbooking/tools/notify.service.dart';
 
 class BottomHistory extends StatelessWidget {
   final String idBooking;
-  List idRoom =[];
+  List idRoom = [];
   BottomHistory({
     this.idBooking,
   });
@@ -19,7 +21,6 @@ class BottomHistory extends StatelessWidget {
   };
   @override
   Widget build(BuildContext context) {
-   
     return new Container(
       height: 100,
       decoration: BoxDecoration(
@@ -65,6 +66,24 @@ class BottomHistory extends StatelessWidget {
                               payloadUpdate,
                               idRoom: idRoom[i]);
                           if (result2.isValue) {
+                            List<String> tokenId = [];
+                            await AuthApiService().getEmployee().then((value) {
+                              for (var i = 0; i < value.data.length; i++) {
+                                tokenId.add(value.data[i].tokenId);
+                              }
+                            });
+
+                            tokenId.forEach((element) async {
+                              var payloadNotify = {
+                                "data": {
+                                  "title": "Delete Order",
+                                  "message": "đơn đặt phòng đã bị hủy"
+                                },
+                                "to": "$element"
+                              };
+                              await postNotify(payloadNotify);
+                            });
+
                             Fluttertoast.showToast(
                                 msg: "Bạn đã hủy đơn thành công");
                             Get.back();
